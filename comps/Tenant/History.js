@@ -79,7 +79,7 @@ function History(props){
                   
                   return (
                 
-                  <Animated.View style={[styles.card, DropShadows.shadow]}>
+                  <Animated.View style={[styles.card, DropShadows.shadow,{opacity:cardOp}]}>
                     <TouchableOpacity onPress={()=>{
                       console.log('pin/unpin a visitor unit', props.unit,'id',obj.id);
                       // do if else statement to pin or unpined
