@@ -695,8 +695,8 @@ function Popup(props){
 
 
   if (props.pop == 'UnitProfile'){
-    title = 'Unit';
-    btnTxt = 'Close';
+    title = 'Edit License Plate';
+    btnTxt = 'Done';
 
     button = (
       <TouchableOpacity 
@@ -712,7 +712,18 @@ function Popup(props){
       )
     content = (
       <View>
-  <Text style={[Texts.Body,{marginBottom: 30}]}>un</Text>
+  <Text style={[Texts.Body,{marginBottom: 10}]}>Tenants plate number:</Text>
+  <TextInput 
+          placeholder = "Plate Number"
+          
+          style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
+          clearButtonMode = 'always'
+          maxLength = {6}
+          onFocus = {()=>{setStrk1(2)}}
+          onBlur = {()=>{setStrk1(0)}}
+          onChangeText = {(txt)=>{(txt)}}
+        />
+  
       </View>
     );
   }

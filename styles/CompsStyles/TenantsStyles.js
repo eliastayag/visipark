@@ -89,6 +89,9 @@ var styles = StyleSheet.create({
         alignItems: 'flex-start',
         paddingLeft: 20
 
+    },
+    plateEmpty:{
+        color: Colors.Purple
     }     
     
 });

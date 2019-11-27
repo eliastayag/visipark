@@ -5,21 +5,19 @@ import Texts from '../../styles/Texts';
 import styles from '../../styles/CompsStyles/ReportsStyles';
 import DropShadows from '../../styles/DropShadows';
 
-
-function ReportCard(){
+function ReportCard(props){
 
   return(
      <TouchableOpacity onPress={() => {props.showPop('Reports')}}>
           <View style={[styles.card, DropShadows.shadow]}>
-          <Text style={[Texts.HeadS,]}>{item.reportSubject}</Text>
-          <Text style={[Texts.Body,]}>{item.reportDate}</Text>
-         <Text style={[Texts.BodyLight,{marginBottom:5, marginTop:10}]} numberOfLines={2}>{item.reportBody}</Text>
+          <Text style={[Texts.HeadS,]}>{props.item.reportSubject}</Text>
+          <Text style={[Texts.Body,]}>{props.item.reportDate}</Text>
+         <Text style={[Texts.BodyLight,{marginBottom:5, marginTop:10}]} numberOfLines={2}>{props.item.reportBody}</Text>
           <Text style={Texts.Link}>Read More >>></Text>
           </View>  
           </TouchableOpacity> 
   )
 }
-
 
 function Reports(props){
 
@@ -44,8 +42,7 @@ function Reports(props){
 <ScrollView style={{marginBottom:72}}>
                 {filteredData.map((item, index)=>{
                   return (
-                <ReportCard />
-                              
+                <ReportCard item={item} pop={props.pop} showPop={props.showPop}/>
                   )
                 })}
              </ScrollView>  
