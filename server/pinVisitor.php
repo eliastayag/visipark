@@ -21,6 +21,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 // ---- data receiving from client ----
 
         //     data: {
+        //          unit_num: 201
         //         id: 4
         //     }
         // }
@@ -34,17 +35,18 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 $visitor = $_POST['data'];
 $id = $visitor['id'];
+$unit = $visitor['unit_num'];
 
-function pinVisitor($id){
+function pinVisitor($unit,$id){
     $sql = "
     UPDATE visitors  
     SET pin=1, pin_time = now()
-    WHERE id=$id
+    WHERE unit_num = $unit AND id=$id
     ";
     runQuery($sql);
 }
 
-pinVisitor($id);
+pinVisitor($unit,$id);
 
 
 $json = json_encode($visitor);

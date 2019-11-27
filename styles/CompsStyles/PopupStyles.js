@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
     },
     title:{
         alignItems:'center',
-        marginBottom: 10
+        marginBottom: 20
     },
     button:{
         width: "100%",
@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25,
-        marginTop: 20
+        marginTop: 40
     },
     input:{
         width:"100%",

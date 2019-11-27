@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Visitors from '../comps/Tenant/Visitors';
 import History from '../comps/Tenant/History';
@@ -9,8 +9,8 @@ import {Colors} from '../styles/Colors';
 
 
 
-function Tenant(props){
- 
+
+function Tenant(props){ 
   // img src variables
   var visitorimg = null;
   var historyimg = null;
@@ -58,6 +58,7 @@ function Tenant(props){
     console.log("setup history ")
     console.log(props.UnpinnedVisitors)
     Content = <History 
+    unit = {props.unit}
     pop={props.pop} 
     showPop={props.showPop}
     card1 = {props.card1}
@@ -85,6 +86,10 @@ function Tenant(props){
     reportimg = require('../img/report-purp.png');
   }
 
+
+  useEffect(()=>{
+    props.getUnit();
+  },[]);
 
   return(
     <View style={styles.container}>

@@ -51,23 +51,18 @@ var styles = StyleSheet.create({
     },
 
     activeBox:{
-        shadowColor: Colors.Purple,
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 0.13,
-        shadowRadius: 13,
         alignItems: "center",
         justifyContent: "center",
         height: 180,
         borderRadius: 23,
+        backgroundColor: "#fff",
         borderColor: "#CAB2E8",
         borderWidth: .2,
     },
 
     activeBox2:{
-        shadowColor: Colors.Purple,
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 0.13,
-        shadowRadius: 13,
+
+        backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
         height: 180,

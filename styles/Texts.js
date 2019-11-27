@@ -10,7 +10,7 @@ import {Colors} from './Colors'
 var Texts = StyleSheet.create({
     // Section Heading
     SecHead:{
-        fontFamily:'Poppins-SemiBold',
+        fontFamily:'Poppins-Medium',
         fontSize:40,
         letterSpacing: 0.2,
         color: Colors.Black
@@ -34,10 +34,10 @@ var Texts = StyleSheet.create({
 
     // Link
     Link:{
-        fontFamily:'OpenSans-Bold',
+        fontFamily:'OpenSans-SemiBold',
         fontSize:16,
         color: Colors.Purple,
-        letterSpacing: 1
+        letterSpacing: 0.3
 
     },
 
@@ -61,10 +61,10 @@ var Texts = StyleSheet.create({
 
     // Body light
     BodyLight:{
-        fontFamily:'OpenSans-Regular',
+        fontFamily:'OpenSans-Semibold',
         fontSize:16,
         color: Colors.Darkgrey,
-        letterSpacing: 0.3,
+        letterSpacing: 0.4,
         lineHeight: 23
     },
     // history date

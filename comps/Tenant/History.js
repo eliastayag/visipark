@@ -7,7 +7,8 @@ import {
   TouchableOpacity, 
   ScrollView,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Animated
 } from 'react-native';
 import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
@@ -17,6 +18,8 @@ import styles from '../../styles/CompsStyles/HistoryStyles';
 
 
 function History(props){
+
+
 
     const [searchKey, setSearchKey] = useState('');
     //const [searchResult, setSearchResult] = useState('');
@@ -70,12 +73,17 @@ function History(props){
               { filteredData.length>0 ?
                 (filteredData.map((obj, index)=>{
                   var pin = parseInt(obj.pin);
+                  
+                 
+                  
+                  
                   return (
                 
-                  <View style={[styles.card, DropShadows.shadow]}>
+                  <Animated.View style={[styles.card, DropShadows.shadow,{opacity:cardOp}]}>
                     <TouchableOpacity onPress={()=>{
+                      console.log('pin/unpin a visitor unit', props.unit,'id',obj.id);
                       // do if else statement to pin or unpined
-                      pin===0 ? props.dbPinVisitor(obj.id) : props.dbUnpinVisitor(obj.id);
+                      pin===0 ? props.dbPinVisitor(props.unit,obj.id) : props.dbUnpinVisitor(props.unit,obj.id);
                     }}>
                       
                     <Image
@@ -117,7 +125,7 @@ function History(props){
                    </TouchableOpacity>
                   
 
-                  </View>               
+                  </Animated.View>               
                   )
               
                 })) : 

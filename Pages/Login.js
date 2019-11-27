@@ -17,7 +17,7 @@ import BMform from '../comps/Manager/BMform';
 
 function Login(props){
   
-
+   
   // functions created for login page
   const [showTenantPage, setShowTenantPage] = useState(false);
   const [showBMPage, setShowBMPage] = useState(false);
@@ -31,6 +31,7 @@ function Login(props){
       unit = {props.unit}
       setUnit = {props.setUnit}
       showTenantPage = {showTenantPage}
+      getUnit = {props.getUnit}
       />);
   } else {
     TenantPage = null;
@@ -57,8 +58,10 @@ function Login(props){
   }
 
   // Animation 
-  const [op] = useState(new Animated.Value(0));
+  const [op, setOp] = useState(new Animated.Value(0));
   useEffect(()=>{
+    // setOp(new Animated.Value(0));
+    // console.log('op',op);
     Animated.timing(
       op,
       {
@@ -106,7 +109,9 @@ function Login(props){
             <View style={[styles.Buttons,{display:showBMPage ? "none" : ""}]}>
           <TouchableOpacity
             style={[styles.BMBtn,{display:showBMPage ? "none" : ""},{display:showTenantPage ? "none" : ""}]}
-            onPress={()=>{setShowBMPage(!showBMPage)}}>
+            onPress={()=>{
+              setShowBMPage(!showBMPage);
+              }}>
             <Text
             style={styles.BMText}>
             Building Manager

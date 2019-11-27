@@ -29,14 +29,17 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 //---- Function to get current visitors of an apartment unit ----
 // front end shouldn't allow tenant to put in same plate numb
-
+// SELECT DISTINCT plate, name, TIME_FORMAT(TIMEDIFF(NOW(),end_time)),"%H:%i") as time_left, TIMESTAMPDIFF(HOUR,start_time,end_time) as regtime, id 
+// FROM visitors 
+// WHERE unit_num = $unit_num and removed = 0
+// ORDER BY id
 
 $visitors = $_POST['data'];
 $unit_num = $visitors['unit_num'];
 
 function getCurrentVisitors($unit_num){
     $sql = "
-    SELECT DISTINCT plate, name, TIMESTAMPDIFF(MINUTE,NOW(),end_time) as time_left, TIMESTAMPDIFF(HOUR,start_time,end_time) as regtime, id 
+    SELECT DISTINCT plate, name, TIME_FORMAT(TIMEDIFF(end_time,NOW()),'%H:%i') as time_left, TIMESTAMPDIFF(HOUR,start_time,end_time) as regtime, id 
     FROM visitors 
     WHERE unit_num = $unit_num and removed = 0
     ORDER BY id

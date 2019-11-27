@@ -128,13 +128,10 @@ function Main(props){
     // Get History function 
     const [PinnedVisitors, setPinnedVisitors] = useState([]);
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
-    const dbGetHistory = async()=>{
-        var visitor = {
-            // the following is an exmaple of what to put in the obj "data" to send to the server for getting all pinned and not pinned visitors in History page 
+    const dbGetHistory = async(unit)=>{
+        var visitor = { 
             data: {
-                unit_num: 101
-
-                // here add your own data, make sure use the same property name and same data type for value 
+                unit_num: unit
             }
         }
         var data = await fetch('http://localhost:8888/visipark/getHistory.php',{
@@ -155,10 +152,11 @@ function Main(props){
     }
 
     // Pin Visitor function 
-    const dbPinVisitor = async(id)=>{
+    const dbPinVisitor = async(unit,id)=>{
         var visitor = {
             // the following is an exmaple of what to put in the obj "data" to send to the server for pinning a visitor in History page 
             data: {
+                unit_num: unit,
                 id: id
                 // here add your own data, make sure use the same property name and same data type for value 
             }
@@ -173,17 +171,16 @@ function Main(props){
         })
         let visitordata = await data.text();
         console.log("Data sent to server to pin a visitor",JSON.parse(visitordata)); 
-        await dbGetHistory();
-        await dbGetData();
+        await dbGetHistory(unit);
+        // await dbGetData();
     }
 
     // Unpin Visitor function 
-    const dbUnpinVisitor = async(id)=>{
+    const dbUnpinVisitor = async(unit,id)=>{
         var visitor = {
-            // the following is an exmaple of what to put in the obj "data" to send to the server for pinning a visitor in History page 
             data: {
+                unit_num: unit,
                 id: id
-                // here add your own data, make sure use the same property name and same data type for value 
             }
         }
         var data = await fetch('http://localhost:8888/visipark/unpinVisitor.php',{
@@ -196,8 +193,8 @@ function Main(props){
         })
         let visitordata = await data.text();
         console.log("Data sent to server to Unpin a visitor",JSON.parse(visitordata)); 
-        await dbGetHistory();
-        await dbGetData();
+        await dbGetHistory(unit);
+        // await dbGetData();
     }
 
     // get spots left function 
@@ -239,16 +236,19 @@ function Main(props){
    const [unit, setUnit] = useState();
    var getUnit = async()=>{
        var localunit = await AsyncStorage.getItem('unit');
-       console.log('your unit', localunit);
-       
        if(localunit !== null && localunit !==''){
            // if there IS unit number stored in local storage
-           // run get current visitor
+           // run get current visitor 
+           console.log(localunit);
            await dbGetCurrentVisitors(localunit);
+           await dbGetHistory(localunit);
            setUnit(localunit);
            setShowpage('Tenant');
+           console.log('Logged in unit', localunit);
          } else {
-           setShowpage('Login');
+            // if there ISN'T unit number stored in local storage
+            setShowpage('Login');
+            console.log('Unit has not logged in');
          }
      }
     
@@ -304,6 +304,8 @@ function Main(props){
                  id2 = {id2}
                  // spots
                  spots = {spots}
+                 // async function 
+                 getUnit = {getUnit}
                  // History Page
                  UnpinnedVisitors = {UnpinnedVisitors}
                  PinnedVisitors = {PinnedVisitors}
@@ -369,15 +371,8 @@ function Main(props){
 
     useEffect(()=>{
         getUnit();
-        dbGetHistory();
         dbGetSpots();
-
-        //dbUnpinVisitor();
-        //dbPinVisitor();
-        // dbExtendVisitor();
-        // dbRemoveVisitor();
-        // dbAddVisitor();
-
+        
 
         // timer for auto remove
 

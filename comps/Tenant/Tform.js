@@ -28,8 +28,8 @@ function Tform(props){
 
   // function for storing unit num locally
   // called when button is pressed
-  var storeunit = async() =>{
-    await AsyncStorage.setItem('unit',props.unit);
+  var storeunit = async(unit) =>{
+    await AsyncStorage.setItem('unit',unit);
   }
 
   return(
@@ -48,8 +48,8 @@ function Tform(props){
       <TouchableOpacity
         style={styles.Tform}
         onPress={()=>{
-          storeunit();
-          props.setShowpage('Tenant')
+          storeunit(props.unit);
+          props.setShowpage('Tenant');
           }}>
         <Text style={{color:"#863AE8", fontFamily:"Poppins-SemiBold", fontSize:20}}>
         Login as Tenant

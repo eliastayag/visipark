@@ -52,13 +52,13 @@ var styles = StyleSheet.create({
         justifyContent: "center",
         height: 180,
         borderRadius: 23,
-        backgroundColor: "#fafafa",
+        // backgroundColor: "#fafafa",
         borderColor: "#CAB2E8",
         borderWidth: .2,
     },
     Img:{
         width: 60,
-        height: "55%",
+        // height: "55%",
         justifyContent: "center",
         alignItems: "center"
         
