@@ -39,6 +39,6 @@ function removeVisitor($id){
 
 removeVisitor($id);
 
-$json = json_encode($visitor);
+$json = json_encode($_POST);
 
 echo $json;
