@@ -98,6 +98,11 @@ function History(props) {
 
 const HistoryCard = (props) => {
   const {pin, obj, i} = props;
+
+  
+
+
+
   return (
     <View style={[styles.card, DropShadows.shadow]}>
       <TouchableOpacity onPress={() => {
