@@ -278,12 +278,12 @@ function Main(props){
         // update every second
         if(timer === null){
             timer = setInterval(()=>{
-                // console.log("timer");
-                //auto remove 
-                // Fetch('autoRemove',null,null);
-                // setCurrentVisitors(unit);
-                // getSpots();
-                // setHistory(unit);
+                console.log("timer");
+                // auto remove 
+                Fetch('autoRemove',null,null);
+                setCurrentVisitors(unit);
+                getSpots();
+                setHistory(unit);
 
             }, 1000)
         }
