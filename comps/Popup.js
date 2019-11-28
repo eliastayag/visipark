@@ -614,7 +614,7 @@ function Popup(props){
 
   if (props.pop == 'UnitProfile'){
     title = 'Edit License Plate';
-    btnTxt = 'Done';
+    btnTxt = 'Set Plate';
 
     button = (
       <TouchableOpacity 
