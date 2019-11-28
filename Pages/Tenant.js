@@ -18,9 +18,9 @@ function Tenant(props){
 
 // Content is everything above tab bar
   var Content = null;
-
 // conditions updating Content and tabbar
   if(props.cont == 'Visitors'){
+
     Content = <Visitors 
           // popup
           pop={props.pop} 
