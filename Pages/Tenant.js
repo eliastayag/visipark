@@ -18,9 +18,9 @@ function Tenant(props){
 
 // Content is everything above tab bar
   var Content = null;
-
 // conditions updating Content and tabbar
   if(props.cont == 'Visitors'){
+
     Content = <Visitors 
           // popup
           pop={props.pop} 
@@ -55,24 +55,21 @@ function Tenant(props){
     reportimg = require('../img/report-grey.png');
   }
   if(props.cont =='History'){
-    console.log("setup history ")
-    console.log(props.UnpinnedVisitors)
     Content = <History 
-    unit = {props.unit}
-    pop={props.pop} 
-    showPop={props.showPop}
-    card1 = {props.card1}
-    card2 = {props.card2}
-    setName1 ={props.setName1}
-    setName2 ={props.setName2}
-    setPlate1 ={props.setPlate1}
-    setPlate2 ={props.setPlate2}
-    // pass value//
-    PinnedVisitors={props.PinnedVisitors}
-    UnpinnedVisitors={props.UnpinnedVisitors}
-    dbPinVisitor={props.dbPinVisitor}
-    dbUnpinVisitor={props.dbUnpinVisitor}
-    setUnpinnedVisitors={props.setunpinnedVisitors}
+            unit = {props.unit}
+            pop={props.pop} 
+            showPop={props.showPop}
+            card1 = {props.card1}
+            card2 = {props.card2}
+            setName1 ={props.setName1}
+            setName2 ={props.setName2}
+            setPlate1 ={props.setPlate1}
+            setPlate2 ={props.setPlate2}
+            // pass value //
+            PinnedVisitors={props.PinnedVisitors}
+            UnpinnedVisitors={props.UnpinnedVisitors}
+            setHistory = {props.setHistory}
+            setUnpinnedVisitors={props.setunpinnedVisitors}
 
     />
     visitorimg = require('../img/ppl-grey.png');

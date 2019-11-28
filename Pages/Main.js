@@ -1,55 +1,105 @@
+
 import React,{useState,useEffect} from 'react';
-import {View, Text, SafeAreaView,AsyncStorage} from 'react-native';
+import {View, Text, AsyncStorage} from 'react-native';
 import styles from '../styles/PagesStyles/MainStyles';
 import Tenant from '../Pages/Tenant';
 import Login from '../Pages/Login';
 import Popup from '../comps/Popup';
 import Manager from '../Pages/Manager';
-import Colors from '../styles/Colors';
+import Fetch from '../comps/Fetch';
+
 
 var timer = null;
 function Main(props){
-// --------------- Communicate with DB ----------------
-    // getData Function
-    const [dbUnits, setDbUnits] = useState([]);
-    const [dbVisitors, setDbVisitors] = useState([]);
-    const [dbReports, setDbReports] = useState([]);
-    var dbGetData = async()=>{
-        var resp = await fetch('http://localhost:8888/visipark/getData.php');
-        var data = await resp.json();
-        setDbUnits(data.data.units);
-        setDbVisitors(data.data.visitors);
-        setDbReports(data.data.reports);
+    // --------- Variables ------------
+    // Across the app
+    var mpopup = null;
+    var page = null;
+    const [showpage, setShowpage] = useState('Login'); 
+    const [pop, showPop] = useState(''); 
+    const [cont, setCont] = useState('Visitors');
+    // Tenant - Visitors
+    const [unit, setUnit] = useState();
+    const [spots,setSpots] = useState();
+    const [card1, setCard1] = useState(false);     
+    const [card2, setCard2] = useState(false);
+    const [name1, setName1] = useState('');
+    const [name2, setName2] = useState('');
+    const [plate1, setPlate1] = useState('');
+    const [plate2, setPlate2] = useState('');
+    const [dur1, setDur1] = useState(1); // time left in UI
+    const [dur2, setDur2] = useState(1);
+    const [reg1, setReg1] = useState();
+    const [reg2, setReg2] = useState();
+    const [id1,setId1] = useState();
+    const [id2,setId2] = useState();
+    // Tenant - History  
+    const [PinnedVisitors, setPinnedVisitors] = useState([]);
+    const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
+
+    // --------------- Communicate with DB ----------------
+    
+    // Fetch() for getting and posting
+    // Variable = await Fetch("filename", data, "console_log_message");
+    // write "null" instead of "data" for GET 
+
+    // Show all tables 
+            // Fetch('getData',null,'get all tables');
+
+    // Auto-remove expired visitors 
+            // Fetch('autoRemove',null,null);
+
+    // Get History data
+            // Fetch('getHistory',{unit_num:unit},'Data for History');
+
+    // Get Spots
+            // Fetch('getSpots',null,'Spots left');
+
+    // Get Current Visitor 
+            // Fetch('getCurrentVisitors',{unit_num:unit},'Fetch Current Visitors');
+
+    // Add a visitor
+            // Fetch('addVisitor',{unit_num:unit, name:name,plate:plate, duration:duration},"Added a visitor");
+
+    // Remove a visitor
+            // Fetch('removeVisitor',{id: id},'Removed a visitor');
+
+    // Extend a visitor
+            // Fetch('extendVisitor',{id: id, extendhour: extendhour},'Extended a visitor');
+
+    // Pin a visitor 
+            // Fetch('pinVisitor',{unit_num:unit,id:id},'Pinned a visitor');
+
+    // Unpin a visitor 
+            // Fetch('unpinVisitor',{unit_num:unit,id:id},'Unpinned a visitor');
+
+    const getSpots = async()=>{
+        var spotnum = await Fetch('getSpots',null,null);
+        setSpots(spotnum);
     }
 
-    // Auto Remove expired visitors
-    var dbAutoRemove = async()=>{
-        var resp = await fetch('http://localhost:8888/visipark/autoRemove.php');
-        // console.log('timer');
-    }
-
-     // Get Current Visitor Function
-     const dbGetCurrentVisitors = async(unit)=>{
-        var visitor = {
-            data: {
-                unit_num: unit
-            }
+    const getUnit = async()=>{ 
+        console.log(props.unit);
+        var localunit = parseInt(await AsyncStorage.getItem('unit'),10);
+        if(localunit !== null && localunit !==''){
+            // if there IS unit number stored in local storage
+            // run get current visitor 
+            console.log('You are in unit',localunit);
+            setUnit(localunit);
+            getSpots();
+            setCurrentVisitors(localunit);
+            setHistory(localunit);
+            setShowpage('Tenant');
+            console.log('Logged in unit', localunit);
+        } else {
+            // if there ISN'T unit number stored in local storage
+            setShowpage('Login');
+            console.log('Unit has not logged in');
         }
-        var data = await fetch('http://localhost:8888/visipark/getCurrentVisitors.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(visitor)
-        })
-        let visitordata = await data.text();
-        console.log("Data received from server for showing current visitors of a unit",JSON.parse(visitordata)); 
+    }
 
-        // set current visitors
-        // console.log('parsed',JSON.parse(visitordata));
-        var currentVisitors = JSON.parse(visitordata);
-        
+    const setCurrentVisitors = async(unit)=>{
+        var currentVisitors = await Fetch('getCurrentVisitors',{unit_num:unit},null);
         // set visitor1 and visitor2 with current visitors info
         if (currentVisitors.length == 1){
             // console.log('there is 1 current visitor');
@@ -68,7 +118,6 @@ function Main(props){
             setReg1(currentVisitors[0].regtime);
             setId1(currentVisitors[0].id);
             setCard1(true);
-
             setName2(currentVisitors[1].name);
             setPlate2(currentVisitors[1].plate);
             setDur2(currentVisitors[1].time_left);
@@ -77,187 +126,14 @@ function Main(props){
             setCard2(true);
         }
     }
-   
-    // Remove visitor function 
-    const dbRemoveVisitor = async()=>{
-        var visitor = {
-            // the following is an exmaple of what to put in the obj "data" to send to the server for removing a visitor 
-            data: {
-                // id: 5
 
-                // here add your own data, make sure use the same property name and same data type for value 
-            }
-        }
-        var data = await fetch('http://localhost:8888/visipark/removeVisitor.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(visitor)
-        })
-        let visitordata = await data.text();
-        console.log("Data that server received for removing visitor",visitordata); 
-        await dbGetData();
+    const setHistory = async(unit)=>{
+        var History = await Fetch('getHistory',{unit_num:unit},null);
+        setPinnedVisitors(History.pinned);
+        setUnpinnedVisitors(History.notpinned);
     }
+  
 
-    // Extend visitor function 
-    const dbExtendVisitor = async()=>{
-        var visitor = {
-            // the following is an exmaple of what to put in the obj "data" to send to the server for extending a visitor 
-            data: {
-                // id: 8,
-                // extendhour: "3:00:00"
-
-                // here add your own data, make sure use the same property name and same data type for value 
-            }
-        }
-        var data = await fetch('http://localhost:8888/visipark/extendVisitor.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(visitor)
-        })
-        let visitordata = await data.text();
-        console.log("Data that server received for extending visitor",visitordata); 
-        await dbGetData();
-    }
-
-    // Get History function 
-    const [PinnedVisitors, setPinnedVisitors] = useState([]);
-    const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
-    const dbGetHistory = async(unit)=>{
-        var visitor = { 
-            data: {
-                unit_num: unit
-            }
-        }
-        var data = await fetch('http://localhost:8888/visipark/getHistory.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(visitor)
-        })
-        let visitordata = await data.text();
-        console.log("Data received from server for History page",JSON.parse(visitordata)); 
-        console.log('pinned',JSON.parse(visitordata).pinned);
-        console.log('Unpinned',JSON.parse(visitordata).notpinned);
-        // set Pinned Visitors
-        setPinnedVisitors(JSON.parse(visitordata).pinned);
-        setUnpinnedVisitors(JSON.parse(visitordata).notpinned);
-    }
-
-    // Pin Visitor function 
-    const dbPinVisitor = async(unit,id)=>{
-        var visitor = {
-            // the following is an exmaple of what to put in the obj "data" to send to the server for pinning a visitor in History page 
-            data: {
-                unit_num: unit,
-                id: id
-                // here add your own data, make sure use the same property name and same data type for value 
-            }
-        }
-        var data = await fetch('http://localhost:8888/visipark/pinVisitor.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(visitor)
-        })
-        let visitordata = await data.text();
-        console.log("Data sent to server to pin a visitor",JSON.parse(visitordata)); 
-        await dbGetHistory(unit);
-        // await dbGetData();
-    }
-
-    // Unpin Visitor function 
-    const dbUnpinVisitor = async(unit,id)=>{
-        var visitor = {
-            data: {
-                unit_num: unit,
-                id: id
-            }
-        }
-        var data = await fetch('http://localhost:8888/visipark/unpinVisitor.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(visitor)
-        })
-        let visitordata = await data.text();
-        console.log("Data sent to server to Unpin a visitor",JSON.parse(visitordata)); 
-        await dbGetHistory(unit);
-        // await dbGetData();
-    }
-
-    // get spots left function 
-    const [spots,setSpots] = useState();
-    var dbGetSpots = async()=>{
-    var resp = await fetch('http://localhost:8888/visipark/getSpots.php');
-    var data = await resp.json();
-    setSpots(data);
-}
-
-// ------------------- Pop up ----------------------
-    // Function for Popup
-    // Call showPop('YourPopupTitle') in your button to show the corresponding Popup.
-    // Example: Your Popup title is 'Add Visitor', call showPop('AddVisitor') in your onPress.
-    // !! IMPORTANT !! To close Popup, call showPop('')
-
-    // Variable to show and hide popup
-    const [pop, showPop] = useState(''); 
-
-
-// ----------------- Unit and Visitors info ----------------
-    // state variables for setting Tenant page content
-    const [cont, setCont] = useState('Visitors');
-    // state variables for visitor info
-    const [card1, setCard1] = useState(false);  // card1={true} means cardtop in <Visitors /> is shown and holding a visitor's info   
-    const [card2, setCard2] = useState(false);
-    const [name1, setName1] = useState('');
-    const [name2, setName2] = useState('');
-    const [plate1, setPlate1] = useState('');
-    const [plate2, setPlate2] = useState('');
-    const [dur1, setDur1] = useState(1); // time left in UI
-    const [dur2, setDur2] = useState(1);
-    const [reg1, setReg1] = useState();
-    const [reg2, setReg2] = useState();
-    const [id1,setId1] = useState();
-    const [id2,setId2] = useState();
-
-   // function to get unit number from local storage 
-   const [unit, setUnit] = useState();
-   var getUnit = async()=>{
-       var localunit = await AsyncStorage.getItem('unit');
-       if(localunit !== null && localunit !==''){
-           // if there IS unit number stored in local storage
-           // run get current visitor 
-           console.log(localunit);
-           await dbGetCurrentVisitors(localunit);
-           await dbGetHistory(localunit);
-           setUnit(localunit);
-           setShowpage('Tenant');
-           console.log('Logged in unit', localunit);
-         } else {
-            // if there ISN'T unit number stored in local storage
-            setShowpage('Login');
-            console.log('Unit has not logged in');
-         }
-     }
-    
-// ------------------ Pages ---------------------
-    // state variable to show and hide pages and variables hold pages. 
-    const [showpage, setShowpage] = useState('');   
-    var mpopup = null;
-    var page = null;
-    
     // conditions to show and hide pages
     if(showpage == 'Login'){
         page = <Login 
@@ -267,25 +143,21 @@ function Main(props){
                 // unit info
                 unit = {unit}
                 setUnit = {setUnit}
+                getUnit = {getUnit}
                 />;
+            props.setSafebg(false);
     }
     if(showpage == 'Tenant'){
-        props.setSafebg("#fff");
         page = <Tenant 
-                // pop up
+                 unit = {unit}
+                 cont={cont}
+                 setCont={setCont}
                  pop = {pop} 
                  showPop = {showPop}
-                // content 
-                cont = {cont}
-                setCont = {setCont}
-                 // cards
                  card1 = {card1}
                  setCard1 = {setCard1}
                  card2 = {card2}
                  setCard2 = {setCard2}
-                 // unit info
-                 unit = {unit}
-                 // visitors info
                  name1 = {name1}
                  setName1 ={setName1}
                  name2 = {name2}
@@ -307,17 +179,24 @@ function Main(props){
                  // async function 
                  getUnit = {getUnit}
                  // History Page
+                 setHistory = {setHistory}
                  UnpinnedVisitors = {UnpinnedVisitors}
                  PinnedVisitors = {PinnedVisitors}
-                 dbPinVisitor={dbPinVisitor}
-                 dbUnpinVisitor={dbUnpinVisitor}
                 />;
+        props.setSafebg(true);
     }
     if(showpage == 'Manager'){
         page = <Manager 
                  pop = {pop} 
                  showPop = {showPop}
+                 visiName = {visiName}
+                 setVisiName = {setVisiName}
+                 visiPlate ={visiPlate} 
+                 setVisiPlate = {setVisiPlate}
+                 visiDur = {visiDur} 
+                 setVisiDur = {setVisiDur}
                 />;
+        props.setSafebg(true);
     }
 
      // Conditions to show Popup
@@ -357,55 +236,52 @@ function Main(props){
                      reg2 = {reg2}
                      id1 = {id1}
                      id2 = {id2}
-                     // functions
-                     dbGetCurrentVisitors = {dbGetCurrentVisitors}
-                 />;                 
+                    // fetch 
+                    setCurrentVisitors = {setCurrentVisitors}
+                     />;                 
              }
 
 
 
-// ----------- functions that run when the app loads ----------------
+// Fetch data when the app loads and update every second
     
-    
-    
-
     useEffect(()=>{
+        // when the app loads
+        // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
+        // Fetch('getHistory',{unit_num:101},'Data for History');
+        Fetch('getSpots',null,'Spots left');
         getUnit();
-        dbGetSpots();
         
-
-        // timer for auto remove
-
-        // if(timer === null){
-        //     timer = setInterval(()=>{
-        //         dbAutoRemove();
-        //         dbGetCurrentVisitors();
-        //         dbGetHistory();
-        //     },1000);
-        // }
-        // return ()=>{
-        //     if(timer){
-        //         clearInterval(timer);
-        //         timer = null;
-        //     }
-        // }
-
-
-
+        // update every second
+        if(timer === null){
+            timer = setInterval(()=>{
+                console.log("timer");
+                //auto remove 
+                Fetch('autoRemove',null,null);
+                // console.log(unit);
+                // setCurrentVisitors(unit);
+                // getSpots();
+                // setHistory(unit);
+            }, 1000)
+        }
+        return ()=>{
+            if(timer){
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+        
     },[]);
-    
-
-
-
       
+
+
     // -------------- UI ------------------
 return (
-    <SafeAreaView style={[styles.container, {backgroundColor: props.safebg, opacity: 1}]}>
         <View style={styles.container}>
            {mpopup} 
            {page}
         </View>
-    </SafeAreaView>
+
     )
 }
 

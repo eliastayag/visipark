@@ -16,8 +16,7 @@ import BMform from '../comps/Manager/BMform';
 
 
 function Login(props){
-  
-   
+    
   // functions created for login page
   const [showTenantPage, setShowTenantPage] = useState(false);
   const [showBMPage, setShowBMPage] = useState(false);
@@ -32,6 +31,7 @@ function Login(props){
       setUnit = {props.setUnit}
       showTenantPage = {showTenantPage}
       getUnit = {props.getUnit}
+      
       />);
   } else {
     TenantPage = null;
@@ -57,20 +57,6 @@ function Login(props){
     Title = 'Login as';
   }
 
-  // Animation 
-  const [op, setOp] = useState(new Animated.Value(0));
-  useEffect(()=>{
-    // setOp(new Animated.Value(0));
-    // console.log('op',op);
-    Animated.timing(
-      op,
-      {
-        toValue:1,
-        duration:300
-      }
-    ).start();
-  },[showBMPage, showTenantPage]);
-
   return(
     <TouchableWithoutFeedback onPress = {Keyboard.dismiss}> 
       <View style={styles.container}>
@@ -86,7 +72,7 @@ function Login(props){
 
       {/* Bottom Part */}
         <KeyboardAvoidingView behavior="position">
-          <Animated.View style={[{opacity: op},styles.Bottom]}>
+          <Animated.View style={[styles.Bottom]}>
             {/* Title */}
             <View style={styles.title}>
                 {/* Back button */}

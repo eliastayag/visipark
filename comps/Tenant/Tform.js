@@ -49,7 +49,7 @@ function Tform(props){
         style={styles.Tform}
         onPress={()=>{
           storeunit(props.unit);
-          props.setShowpage('Tenant');
+          props.getUnit();
           }}>
         <Text style={{color:"#863AE8", fontFamily:"Poppins-SemiBold", fontSize:20}}>
         Login as Tenant

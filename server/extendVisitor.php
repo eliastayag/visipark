@@ -26,10 +26,8 @@ $_POST = json_decode(file_get_contents("php://input"), true);
         //     }
         // }
         
-$visitor = $_POST['data'];
-
-$id = $visitor['id'];
-$extendhour = $visitor['extendhour'];
+$id = $_POST['id'];
+$extendhour = $_POST['extendhour'];
 
 
 

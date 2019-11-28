@@ -4,22 +4,8 @@ import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
 import DropShadows from '../../styles/DropShadows';
 import styles from '../../styles/CompsStyles/VisitorStyles';
-import DropShadows from '../../styles/DropShadows';
 
 function Visitors(props){
-
-  //Function 1
-  // time left = start + duration - now
-  // count time in mili seconds
-//  useEffect(()=>{
-//    var stime = new Date('2019-11-13 12:00:00');
-//    var now = new Date();
-//    console.log("miliseconds passed", Date.parse(stime),Date.parse(now));
-//    console.log("time passed since start time",   Date.parse(now)-Date.parse(stime));
-//    var parkingseconds = 3600;
-//   var timepassed = Date.parse(now)-Date.parse(stime);
- //   console.log(parkingseconds, timepassed/1000);
-//  },[]);
 
   // UI Variables
   var cardtop = null;
@@ -27,15 +13,6 @@ function Visitors(props){
   var cardbot2 = null;
   var button1 = null;
   var button2 = null;
-
-  //hours converted to hours + minutes
-  let time1= props.dur1
-  var Hours1 = Math.floor(time1 /60)
-  var minutes1 = time1 % 60
-
- let time2= props.dur2
- var Hours2 = Math.floor(time2 /60)
- var minutes2 = time2 % 60
 
 
 //Conditions to disable Extend button 

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Texts from '../styles/Texts';
 import styles from '../styles/CompsStyles/PopupStyles';
-import Visitors from './Tenant/Visitors';
+import Fetch from '../comps/Fetch';
 
 
 function Popup(props){
@@ -22,28 +22,9 @@ function Popup(props){
   var content = null;
   var btnTxt = '';
   var button = null;
-
+  // change stroke when Input is onFocuse
   const [strk1, setStrk1] = useState(0);
   const [strk2, setStrk2] = useState(0);
-
-
-
-  let time1= props.dur1
-  var Hours1 = Math.floor(time1 /60)
-  var minutes1 = time1 % 60
-
- let time2= props.dur2
- var Hours2 = Math.floor(time2 /60)
- var minutes2 = time2 % 60
-
-
-  var dbGetData = async()=>{
-    var resp = await fetch('http://localhost:8888/visipark/getData.php');
-    var data = await resp.json();
-    setDbUnits(data.data.units);
-    setDbVisitors(data.data.visitors);
-    setDbReports(data.data.reports);
-  }
   
   // Conditions for deciding what to show in popup 
 
@@ -75,30 +56,7 @@ function Popup(props){
     );
   }
 
-  // ------- Card 1 Add Visitor ---------
-  // Add visitor to database Function
-  const dbAddVisitor = async(unit, name, plate, duration)=>{
-    var visitor = {
-        data: {
-            unit_num: unit,
-            name: name,
-            plate: plate,
-            duration: duration
-        }
-    }
-    var data = await fetch('http://localhost:8888/visipark/addVisitor.php',{
-        method:'POST',
-        headers:{
-            'Accept':'application/json',
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify(visitor)
-    })
-    let visitordata = await data.text();
-    console.log("Data that server received for adding visitor",visitordata); 
-    // dbGetData();
-    props.dbGetCurrentVisitors(props.unit);
-}
+  // ------- Card 1 Add Visitor --------
   
   // generating picker item
   var addhr = [];
@@ -126,9 +84,18 @@ function Popup(props){
             button = (
             <TouchableOpacity style={styles.button}
             onPress={()=>{
-              //add visitor to database
-              dbAddVisitor(props.unit, props.name1, props.plate1, props.dur1);
+              // add visitor to database
+              Fetch('addVisitor',{
+                unit_num: props.unit, 
+                name: props.name1, 
+                plate: props.plate1, 
+                duration: props.dur1
+              },'Added a visitor');
+              // set Current visitor
+              props.setCurrentVisitors(props.unit);
+              // Show card 1
               props.setCard1(true);
+              // Close popup
               props.showPop('');
               // go back to Visitor page if on History page
               props.setCont('Visitors');
@@ -214,12 +181,20 @@ function Popup(props){
               button = (
               <TouchableOpacity style={styles.button}
               onPress={()=>{
-                // activate card1, close popup
-                dbAddVisitor(props.unit, props.name2, props.plate2, props.dur2);
-                props.setCard2(true);
-                props.showPop('');
-                props.setCont('Visitors');
-                // after adding a second visitor show limit reached 
+                // add visitor to database
+              Fetch('addVisitor',{
+                unit_num: props.unit, 
+                name: props.name2, 
+                plate: props.plate2, 
+                duration: props.dur2
+              },'Added a visitor');
+              // Show card 2
+              props.setCard2(true);
+              // Close popup
+              props.showPop('');
+              // go back to Visitor page if on History page
+              props.setCont('Visitors');
+              // after adding a second visitor show limit reached 
                 if(props.card1 == true && props.card2==true){
                   props.showPop('Max');
                 }
@@ -276,37 +251,18 @@ function Popup(props){
    } 
 
 
-  //Extend Parking Card 1
+  //Extend Parking 
 
-    // Extend visitor function (Backend)
-    const dbExtendVisitor = async(id, extendhour)=>{
-      var visitor = {
-          data: {
-              id: id,
-              extendhour: extendhour
-          }
-      }
-      var data = await fetch('http://localhost:8888/visipark/extendVisitor.php',{
-          method:'POST',
-          headers:{
-              'Accept':'application/json',
-              'Content-Type':'application/json'
-          },
-          body: JSON.stringify(visitor)
-      })
-      let visitordata = await data.text();
-      console.log("Data that server received for extending visitor",visitordata); 
-      props.dbGetCurrentVisitors(props.unit);
-  }
-
-  // Extend Parking Care 1
+  // Generate Picker
   var exthr = [];
   for(var i=1;i<=(24-props.reg1);i++){
     exthr.push(
     <Picker.Item key={i} label={i.toString()} value={i} />
     );
   }
-  const [extendhr1, setExtendhr1] = useState(1);
+
+  // Extend Parking Card 1
+  const [extendhr1, setExtendhr1] = useState(1);  
   if (props.pop == 'ExtendParking1'){
     title = 'Extend Parking';
     btnTxt = 'Extend';
@@ -314,9 +270,11 @@ function Popup(props){
     button = (
       <TouchableOpacity 
       style = {styles.button}
-      onPress = {()=>{props.showPop('');
-      //props.setDur1(extendhr1+props.dur1);
-      dbExtendVisitor(props.id1, extendhr1);
+      onPress = {()=>{
+        // Extend a visitor in database
+        Fetch('extendVisitor',{id: props.id1, extendhour: extendhr1},'Extended a visitor');
+        // Close popup
+        props.showPop('');
       }}>
       <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
     </TouchableOpacity>
@@ -329,8 +287,6 @@ function Popup(props){
         <Text style={Texts.Body}>You've registered: 
         <Text style={{fontWeight:"bold"}}> {props.reg1}hr</Text>
         </Text>
-
-        {/* <Text style={Texts.Body}>You've registered: {Hours1}:{minutes1}hr(s)</Text> */}
 
         <Text style={[Texts.BodyBold,{marginTop: 20}]}>You would like to extend:</Text>
         <View style={{flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
@@ -365,9 +321,11 @@ function Popup(props){
     button = (
       <TouchableOpacity 
       style = {styles.button}
-      onPress = {()=>{props.showPop('');
-      props.setDur2 (extendhr2+props.dur2);
-      dbExtendVisitor(props.id2, extendhr2);
+      onPress = {()=>{
+        // Extend a visitor in database
+        Fetch('extendVisitor',{id: props.id2, extendhour: extendhr2},'Extended a visitor');
+        // Close popup
+        props.showPop('');
       }}>
       <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
     </TouchableOpacity>
@@ -402,25 +360,6 @@ function Popup(props){
   // ---- Remove ---- 
   //if card2 is false (if theres no 2nd visitor it will remove card1 which is the first slot)
 
-    // Remove visitor function (backend)
-    const dbRemoveVisitor = async(id)=>{
-      var visitor = {
-        data: {
-               id: id              
-          }
-      }
-      var data = await fetch('http://localhost:8888/visipark/removeVisitor.php',{
-          method:'POST',
-          headers:{
-              'Accept':'application/json',
-              'Content-Type':'application/json'
-          },
-          body: JSON.stringify(visitor)
-      })
-      let visitordata = await data.text();
-      console.log("Data that server received for removing visitor",visitordata); 
-  }
-
   // Remove card 1
   if (props.pop == 'Remove1'){
     title = 'Remove';
@@ -437,8 +376,8 @@ function Popup(props){
                 props.setCard1(false);
                 props.setName1('');
                 props.setPlate1('');
-                props.setDur1(1);
-                dbRemoveVisitor(props.id1);             
+                props.setDur1(1);  
+                Fetch('removeVisitor',{id: props.id1},'Removed a visitor');          
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
@@ -470,8 +409,7 @@ function Popup(props){
                 props.setName2('');
                 props.setPlate2('');
                 props.setDur2(1)
-                dbRemoveVisitor(props.id2);
-                dbGetData();
+                Fetch('removeVisitor',{id: props.id2},'Removed a visitor');
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
@@ -637,6 +575,73 @@ function Popup(props){
       <View>
         <Text style={[Texts.Body,{paddingBottom: 20}]}>Please fill in both Subject and Message fields.
         </Text>
+      </View>
+    );
+  }
+
+
+
+  // Building Manager Reports Popup
+  if (props.pop == 'Reports'){
+    title = ' Parking Sideways!!';
+    btnTxt = 'Close';
+
+    button = (
+      <TouchableOpacity 
+              style={styles.button}
+              onPress={()=>{
+
+                // always turns off the second card slot (card2)
+                props.showPop('');
+
+              }}>
+              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
+            </TouchableOpacity>
+      )
+    content = ( 
+      <View>
+  <Text style={[Texts.Body]}>Date: August 23, 2019</Text>
+  <Text style={[Texts.Body,{marginBottom: 30}]}>Reported By: Unit 201</Text>
+  <Text style={[Texts.BodyBold]}>Message:</Text>
+  <Text style={[Texts.Body]}>omg someone is parking in the visitor parkign lot bad guy ohh noo stranger dangerrrrOMG... o__o</Text>
+      </View>
+    );
+  }
+
+
+
+ 
+
+  if (props.pop == 'UnitProfile'){
+    title = 'Edit License Plate';
+    btnTxt = 'Done';
+
+    button = (
+      <TouchableOpacity 
+              style={styles.button}
+              onPress={()=>{
+
+                // always turns off the second card slot (card2)
+                props.showPop('');
+
+              }}>
+              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
+            </TouchableOpacity>
+      )
+    content = (
+      <View>
+  <Text style={[Texts.Body,{marginBottom: 10}]}>Tenants plate number:</Text>
+  <TextInput 
+          placeholder = "Plate Number"
+          
+          style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
+          clearButtonMode = 'always'
+          maxLength = {6}
+          onFocus = {()=>{setStrk1(2)}}
+          onBlur = {()=>{setStrk1(0)}}
+          onChangeText = {(txt)=>{(txt)}}
+        />
+  
       </View>
     );
   }
