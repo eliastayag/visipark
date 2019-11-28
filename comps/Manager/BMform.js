@@ -36,7 +36,7 @@ function BMform(props){
       <TouchableOpacity
         style={styles.BMForm }
         onPress={()=>{props.setShowpage('Manager')}}>
-        <Text style={{color:"#863AE8", fontFamily:"Poppins-SemiBold", fontSize:20}}>
+        <Text style={{color:"#863AE8", fontFamily:"Poppins-Regular", fontSize:18}}>
         Login as Manager
         </Text>
        </TouchableOpacity>

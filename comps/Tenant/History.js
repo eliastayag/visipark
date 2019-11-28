@@ -46,6 +46,8 @@ function History(props) {
             Your recent visitors. You can pin a visitor to keep the profile on the top.
               </Text>
 
+
+
           {/*  SearchBar */}
           <View style={styles.SectionStyle}>
             <TextInput

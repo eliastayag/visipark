@@ -85,7 +85,7 @@ function Main(props){
             // Fetch('addTenantPlate',{unit_num: num, plate: plate},'add tenant plate');
 
     // Get all current visitor plates and all tenant plates
-            // Fetch('getCurrentPlate', null, 'Manager searching result');
+            // Fetch('getCurrentPlates', null, 'Manager searching result');
 
     // Get all reports
             // Fetch('getReports', null, 'All reports');
