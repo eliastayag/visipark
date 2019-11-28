@@ -79,8 +79,7 @@ function Main(props){
     }
 
     const getUnit = async()=>{ 
-        console.log(props.unit);
-        var localunit = parseInt(await AsyncStorage.getItem('unit'),10);
+        var localunit = await AsyncStorage.getItem('unit');
         if(localunit !== null && localunit !==''){
             // if there IS unit number stored in local storage
             // run get current visitor 
@@ -92,6 +91,7 @@ function Main(props){
             setShowpage('Tenant');
             console.log('Logged in unit', localunit);
         } else {
+            console.log('lalala unit');
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
             console.log('Unit has not logged in');
@@ -128,6 +128,7 @@ function Main(props){
     }
 
     const setHistory = async(unit)=>{
+        
         var History = await Fetch('getHistory',{unit_num:unit},null);
         setPinnedVisitors(History.pinned);
         setUnpinnedVisitors(History.notpinned);
@@ -189,12 +190,12 @@ function Main(props){
         page = <Manager 
                  pop = {pop} 
                  showPop = {showPop}
-                 visiName = {visiName}
-                 setVisiName = {setVisiName}
-                 visiPlate ={visiPlate} 
-                 setVisiPlate = {setVisiPlate}
-                 visiDur = {visiDur} 
-                 setVisiDur = {setVisiDur}
+                //  visiName = {visiName}
+                //  setVisiName = {setVisiName}
+                //  visiPlate ={visiPlate} 
+                //  setVisiPlate = {setVisiPlate}
+                //  visiDur = {visiDur} 
+                //  setVisiDur = {setVisiDur}
                 />;
         props.setSafebg(true);
     }
@@ -244,7 +245,8 @@ function Main(props){
 
 
 // Fetch data when the app loads and update every second
-    
+             
+
     useEffect(()=>{
         // when the app loads
         // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
@@ -258,10 +260,10 @@ function Main(props){
                 console.log("timer");
                 //auto remove 
                 Fetch('autoRemove',null,null);
-                // console.log(unit);
-                // setCurrentVisitors(unit);
-                // getSpots();
-                // setHistory(unit);
+                setCurrentVisitors(unit);
+                getSpots();
+                setHistory(unit);
+
             }, 1000)
         }
         return ()=>{
