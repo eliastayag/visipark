@@ -80,7 +80,7 @@ function Main(props){
 
     const getUnit = async()=>{ 
         console.log(props.unit);
-        var localunit = parseInt(await AsyncStorage.getItem('unit'),10);
+        var localunit = await AsyncStorage.getItem('unit');
         if(localunit !== null && localunit !==''){
             // if there IS unit number stored in local storage
             // run get current visitor 
@@ -128,6 +128,7 @@ function Main(props){
     }
 
     const setHistory = async(unit)=>{
+        
         var History = await Fetch('getHistory',{unit_num:unit},null);
         setPinnedVisitors(History.pinned);
         setUnpinnedVisitors(History.notpinned);
@@ -258,10 +259,9 @@ function Main(props){
                 console.log("timer");
                 //auto remove 
                 Fetch('autoRemove',null,null);
-                // console.log(unit);
-                // setCurrentVisitors(unit);
-                // getSpots();
-                // setHistory(unit);
+                setCurrentVisitors(unit);
+                getSpots();
+                setHistory(unit);
             }, 1000)
         }
         return ()=>{
