@@ -44,7 +44,7 @@ var styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         height: 180,
-        borderRadius: 23,
+        borderRadius: 23,  
         borderStyle: "dashed",
         borderColor: "#CAB2E8",
         borderWidth: 3.1,
@@ -73,11 +73,15 @@ var styles = StyleSheet.create({
     },
 
     Img:{
-        width: 60,
+        width: 75,
         height: "55%",
         justifyContent: "center",
         alignItems: "center"
         
+    },
+    add:{
+        //borderWidth:1,
+        marginTop:-10
     },
     carIcon:{
         position: "absolute",

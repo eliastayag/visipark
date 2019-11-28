@@ -26,7 +26,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderWidth:2, 
         borderColor:Colors.Purple,
-        height: 45,
+        height: 40,
         borderRadius: 25 ,
         marginTop: 40,
         marginBottom: 20

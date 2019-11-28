@@ -4,7 +4,7 @@ import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
 import DropShadows from '../../styles/DropShadows';
 import styles from '../../styles/CompsStyles/VisitorStyles';
-import DropShadows from '../../styles/DropShadows';
+
 
 function Visitors(props){
 
@@ -74,7 +74,7 @@ function Visitors(props){
     cardbot2 = 
          <TouchableOpacity style={styles.Box} onPress={() => {props.showPop('AddVisitor'); }} >
        <Image resizeMode='contain' source={require('../../img/add-visi.png')} style={styles.Img}/>
-       <Text style={Texts.BodyLight}>Add Visitor</Text>
+       <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
      </TouchableOpacity> 
   }
 
@@ -102,7 +102,7 @@ function Visitors(props){
     cardbot =
     <TouchableOpacity style={styles.Box2} onPress={() => {props.showPop('AddVisitor') }}>
       <Image resizeMode='contain' source={require('../../img/add-visi.png')} style={styles.Img}/>
-      <Text style={Texts.BodyLight}>Add Visitor</Text>
+      <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
     </TouchableOpacity> 
   } 
 
