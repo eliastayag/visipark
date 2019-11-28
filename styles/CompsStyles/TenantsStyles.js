@@ -92,8 +92,18 @@ var styles = StyleSheet.create({
     },
     plateEmpty:{
         color: Colors.Purple
-    }     
-    
+    }    ,  
+    plateEmptyGrey:{
+        color: 'lightgrey'
+    },
+    plateActive: {
+        fontFamily:'OpenSans-Bold',
+        fontSize:16,
+        color: Colors.Purple,
+        letterSpacing: 0.3,
+        lineHeight: 23
+
+    }   
 });
 
 export default styles;

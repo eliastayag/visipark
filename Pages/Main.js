@@ -85,7 +85,7 @@ function Main(props){
             // Fetch('addTenantPlate',{unit_num: num, plate: plate},'add tenant plate');
 
     // Get all current visitor plates and all tenant plates
-            // Fetch('getCurrentPlate', null, 'Manager searching result');
+            // Fetch('getCurrentPlates', null, 'Manager searching result');
 
     // Get all reports
             // Fetch('getReports', null, 'All reports');
@@ -268,33 +268,33 @@ function Main(props){
 // Fetch data when the app loads and update every second
              
 
-    useEffect(()=>{
-        // when the app loads
-        // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
-        // Fetch('getHistory',{unit_num:101},'Data for History');
-        // Fetch('getSpots',null,'Spots left');
-        getUnit();
+    // useEffect(()=>{
+    //     // when the app loads
+    //     // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
+    //     // Fetch('getHistory',{unit_num:101},'Data for History');
+    //     // Fetch('getSpots',null,'Spots left');
+    //     getUnit();
         
-        // update every second
-        if(timer === null){
-            timer = setInterval(()=>{
-                console.log("timer");
-                // auto remove 
-                Fetch('autoRemove',null,null);
-                setCurrentVisitors(unit);
-                getSpots();
-                setHistory(unit);
+    //     // update every second
+    //     if(timer === null){
+    //         timer = setInterval(()=>{
+    //             console.log("timer");
+    //             // auto remove 
+    //             Fetch('autoRemove',null,null);
+    //             setCurrentVisitors(unit);
+    //             getSpots();
+    //             setHistory(unit);
 
-            }, 1000)
-        }
-        return ()=>{
-            if(timer){
-                clearInterval(timer);
-                timer = null;
-            }
-        }
+    //         }, 1000)
+    //     }
+    //     return ()=>{
+    //         if(timer){
+    //             clearInterval(timer);
+    //             timer = null;
+    //         }
+    //     }
         
-    },[]);
+    // },[]);
       
 
 

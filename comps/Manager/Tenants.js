@@ -15,21 +15,31 @@ function TenantCard(props){
   const [val, setVal] = useState(props.item.active);
   var plate = null;
 
+if (val == false){
+  props.item.plate = "";
+  plate = 
+  <Text style={[Texts.BodyBold,styles.plateEmptyGrey]}>Add Plate</Text>
+} else{
   if (props.item.plate == ""){
     plate = 
-    <Text style={[Texts.BodyBold,styles.plateEmpty]}>Add Plate</Text>
-  } else { 
-    plate =
-    <Text style={[Texts.BodyBold]}>{props.item.plate}</Text>
+    <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
+
+       <Text style={[Texts.BodyBold,styles.plateEmpty]}>Add Plate</Text>
+       </TouchableOpacity>
+  } else {
+    plate = 
+    <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
+
+    <Text style={styles.plateActive}>{props.item.plate}</Text>
+    </TouchableOpacity>
   }
+}
 
   return(
 
     <View style={[styles.card, DropShadows.shadow]}>
       <Text style={[Texts.BodyBold, styles.tenantUnit]}>{props.item.unit}</Text>
-      <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
       {plate}
-      </TouchableOpacity>
       <Switch style={styles.tenantSwitch} 
         onValueChange={(val, ind) => {
         setVal(val);
@@ -46,11 +56,11 @@ function Tenants(props){
 
   var data = [
     {plate:"", unit:"101", active: true},
-    {plate:"aa234", unit:"102", active: false},
+    {plate:"", unit:"102", active: false},
     {plate:"cc789", unit:"103", active: true},
     {plate:"dd456", unit:"104", active: false},
-    {plate:"ee789", unit:"105", active: false},
-    {plate:"ee789", unit:"106", active: false},
+    {plate:"ee789", unit:"105", active: true},
+    {plate:"ee789", unit:"106", active: true},
     {plate:"ee789", unit:"107", active: true},
     {plate:"ee789", unit:"108", active: true},
     {plate:"ee789", unit:"109", active: false},
