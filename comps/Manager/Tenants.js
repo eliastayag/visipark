@@ -11,38 +11,41 @@ import Texts from '../../styles/Texts';
 import styles from '../../styles/CompsStyles/TenantsStyles';
 import DropShadows from '../../styles/DropShadows';
 
-function tenantCard(){
+function TenantCard(props){
+  const [val, setVal] = useState(props.item.active);
+  var plate = null;
 
-  const [val, setVal] = useState(item.active);
+  if (props.item.plate == ""){
+    plate = 
+    <Text style={[Texts.BodyBold,styles.plateEmpty]}>Add Plate</Text>
+  } else { 
+    plate =
+    <Text style={[Texts.BodyBold]}>{props.item.plate}</Text>
+  }
 
   return(
 
-    <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
     <View style={[styles.card, DropShadows.shadow]}>
-
-      <Text style={[Texts.BodyBold, styles.tenantUnit]}>{item.unit}</Text>
-      <Text style={[Texts.BodyBold,styles.tenantPlate]}>{item.plate}</Text>
-      
+      <Text style={[Texts.BodyBold, styles.tenantUnit]}>{props.item.unit}</Text>
+      <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
+      {plate}
+      </TouchableOpacity>
       <Switch style={styles.tenantSwitch} 
         onValueChange={(val, ind) => {
         setVal(val);
       }}
     trackColor={{true: Colors.Purple, false: 'grey'}}
     value={val}>
-
     </Switch>
     </View> 
-    </TouchableOpacity> 
-
   )
-
-  
 }
+
 
 function Tenants(props){
 
   var data = [
-    {plate:"kk123", unit:"101", active: true},
+    {plate:"", unit:"101", active: true},
     {plate:"aa234", unit:"102", active: false},
     {plate:"cc789", unit:"103", active: true},
     {plate:"dd456", unit:"104", active: false},
@@ -56,8 +59,7 @@ function Tenants(props){
 
 const [searchKey, setSearchKey] = useState('');
 const filteredData = data.filter((obj)=>{
-  return obj.unit.indexOf(searchKey) >= 0 
-
+  return obj.unit.indexOf(searchKey) >= 0
 })
 
     return(
@@ -97,16 +99,11 @@ const filteredData = data.filter((obj)=>{
         {filteredData.map((item, index)=>{
 
         return (
-          <tenantCard />
+          <TenantCard item={item} pop={props.pop} showPop={props.showPop}/>
         )
       })}
-
-          </ScrollView>
- 
-
-            
+          </ScrollView>            
     </View>
     )
 }
-
 export default Tenants;

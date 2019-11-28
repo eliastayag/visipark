@@ -17,11 +17,13 @@ var styles = StyleSheet.create({
         justifyContent:'space-around',
         alignItems:'center',
         backgroundColor: 'white',
+        borderTopColor: Colors.Lightgrey,
+        borderTopWidth: 2.5
         // drop shadow
-        shadowColor: Colors.Purple,
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 0.13,
-        shadowRadius: 13
+        // shadowColor: Colors.Purple,
+        // shadowOffset: {width: 0, height: 0},
+        // shadowOpacity: 0.13,
+        // shadowRadius: 13
     },
     tabcont:{
         flex:1,
