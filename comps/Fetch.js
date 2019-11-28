@@ -15,7 +15,7 @@ export async function Fetch(filename, data, conslog){
             },
             body: JSON.stringify(data)
         }) 
-    }
+        }
     var json = await resp.json();
     if(conslog !== null){
         console.log(conslog,json);

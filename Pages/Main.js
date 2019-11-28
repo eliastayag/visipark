@@ -1,6 +1,6 @@
 
 import React,{useState,useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, AsyncStorage} from 'react-native';
 import styles from '../styles/PagesStyles/MainStyles';
 import Tenant from '../Pages/Tenant';
 import Login from '../Pages/Login';
@@ -9,12 +9,13 @@ import Manager from '../Pages/Manager';
 import Fetch from '../comps/Fetch';
 
 
+var timer = null;
 function Main(props){
     // --------- Variables ------------
     // Across the app
     var mpopup = null;
     var page = null;
-    const [showpage, setShowpage] = useState(''); 
+    const [showpage, setShowpage] = useState('Login'); 
     const [pop, showPop] = useState(''); 
     const [cont, setCont] = useState('Visitors');
     // Tenant - Visitors
@@ -78,6 +79,7 @@ function Main(props){
     }
 
     const getUnit = async()=>{ 
+        console.log(props.unit);
         var localunit = parseInt(await AsyncStorage.getItem('unit'),10);
         if(localunit !== null && localunit !==''){
             // if there IS unit number stored in local storage
@@ -123,13 +125,14 @@ function Main(props){
             setId2(currentVisitors[1].id);
             setCard2(true);
         }
-        
+    }
+
     const setHistory = async(unit)=>{
         var History = await Fetch('getHistory',{unit_num:unit},null);
         setPinnedVisitors(History.pinned);
         setUnpinnedVisitors(History.notpinned);
     }
-    
+  
 
     // conditions to show and hide pages
     if(showpage == 'Login'){
@@ -142,9 +145,13 @@ function Main(props){
                 setUnit = {setUnit}
                 getUnit = {getUnit}
                 />;
+            props.setSafebg(false);
     }
     if(showpage == 'Tenant'){
         page = <Tenant 
+                 unit = {unit}
+                 cont={cont}
+                 setCont={setCont}
                  pop = {pop} 
                  showPop = {showPop}
                  card1 = {card1}
@@ -229,6 +236,8 @@ function Main(props){
                      reg2 = {reg2}
                      id1 = {id1}
                      id2 = {id2}
+                    // fetch 
+                    setCurrentVisitors = {setCurrentVisitors}
                      />;                 
              }
 
@@ -240,7 +249,7 @@ function Main(props){
         // when the app loads
         // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
         // Fetch('getHistory',{unit_num:101},'Data for History');
-        // Fetch('getSpots',null,'Spots left');
+        Fetch('getSpots',null,'Spots left');
         getUnit();
         
         // update every second
@@ -249,9 +258,10 @@ function Main(props){
                 console.log("timer");
                 //auto remove 
                 Fetch('autoRemove',null,null);
-                setCurrentVisitors(unit);
-                getSpots();
-                setHistory(unit);
+                // console.log(unit);
+                // setCurrentVisitors(unit);
+                // getSpots();
+                // setHistory(unit);
             }, 1000)
         }
         return ()=>{
@@ -271,6 +281,7 @@ return (
            {mpopup} 
            {page}
         </View>
+
     )
 }
 

@@ -91,6 +91,8 @@ function Popup(props){
                 plate: props.plate1, 
                 duration: props.dur1
               },'Added a visitor');
+              // set Current visitor
+              props.setCurrentVisitors(props.unit);
               // Show card 1
               props.setCard1(true);
               // Close popup
