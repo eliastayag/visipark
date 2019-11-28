@@ -645,7 +645,7 @@ function Popup(props){
 
   // Building Manager Reports Popup
   if (props.pop == 'Reports'){
-    title = 'Overtime Parking!!';
+    title = ' Parking Sideways!!';
     btnTxt = 'Close';
 
     button = (
@@ -660,39 +660,19 @@ function Popup(props){
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
       )
-    content = (
+    content = ( 
       <View>
-  <Text style={[Texts.Body,{marginBottom: 30}]}>somone has been parked in the visitor lot for 4 DAYS NOW!! OMG... o__o</Text>
+  <Text style={[Texts.Body]}>Date: August 23, 2019</Text>
+  <Text style={[Texts.Body,{marginBottom: 30}]}>Reported By: Unit 201</Text>
+  <Text style={[Texts.BodyBold]}>Message:</Text>
+  <Text style={[Texts.Body]}>omg someone is parking in the visitor parkign lot bad guy ohh noo stranger dangerrrrOMG... o__o</Text>
       </View>
     );
   }
 
 
 
-  // Building Manager Reports Popup
-  if (props.pop == 'Reports'){
-    title = 'Subject Here';
-    btnTxt = 'Close';
-
-    button = (
-      <TouchableOpacity 
-              style={styles.button}
-              onPress={()=>{
-
-                // always turns off the second card slot (card2)
-                props.showPop('');
-
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
-      )
-    content = (
-      <View>
-  <Text style={[Texts.Body,{marginBottom: 30}]}>Body Here</Text>
-      </View>
-    );
-  }
-
+ 
 
   if (props.pop == 'UnitProfile'){
     title = 'Edit License Plate';
