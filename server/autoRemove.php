@@ -26,6 +26,6 @@ function autoremove(){
     runQuery($sql);
 }
 
-autoremove();
-// $json = json_encode($free);
-// echo $json;
+$ar=autoremove();
+$json = json_encode($ar);
+echo $json;

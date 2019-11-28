@@ -34,8 +34,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 // WHERE unit_num = $unit_num and removed = 0
 // ORDER BY id
 
-$visitors = $_POST['data'];
-$unit_num = $visitors['unit_num'];
+$unit_num = $_POST['unit_num'];
 
 function getCurrentVisitors($unit_num){
     $sql = "

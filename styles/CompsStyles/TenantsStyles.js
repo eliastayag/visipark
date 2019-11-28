@@ -5,22 +5,22 @@ import Texts from '../Texts'
 var styles = StyleSheet.create({
     container:{
         flex:1,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 60,
     },
 
-    content:{
-        paddingTop: 0,
-        flex:5
-    },
 
     headerDesc:{
+        paddingLeft: 20,
+        paddingRight: 20,
         marginBottom: 20
     },
 
+    header: {
+        paddingTop: 60,
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+
     input:{
-        width:"100%",
         height: 45,
         paddingLeft: 15,
         paddingRight: 15,
@@ -28,7 +28,9 @@ var styles = StyleSheet.create({
         borderRadius: 25,
         marginBottom: 10,
         borderColor: Colors.Purple,
-        borderWidth: 2
+        borderWidth: 2,
+        marginRight: 20,
+        marginLeft: 20,
     },
 
     subHeader:{
@@ -40,51 +42,57 @@ var styles = StyleSheet.create({
 
     card:{
         backgroundColor: '#fff',
-
-        paddingTop:20,
-        paddingBottom:20,
-        shadowColor: Colors.Purple,
-        shadowOffset: {width:0, height: 0},
-        shadowOpacity: 0.13,
-        borderRadius: 23,
+        paddingLeft: 30,
+        paddingRight: 30,
+        marginLeft:20,
+        marginRight:20,
         marginTop: 10,
+        paddingTop:10,
+        paddingBottom:10,
         flexDirection: "row",
-        justifyContent: "center"
-        
+        alignItems:"center",
+        justifyContent: "space-between"
     },
 
     subUnit:{
         position: "absolute",
-        left: 30
-
+        left: 50
     },
+
     subActive:{
         position: "absolute",
-        right: 30
-
+        right: 50
     },
 
-    tenantUnit:{
-        position: "absolute",
-        paddingTop:20,
-        paddingBottom:20,
-        left: 30
+    ImageStyle: {
+        paddingRight: 30,
+        margin: 10,
+        width: 28,
+    },
 
+    SectionStyle:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth:2, 
+        borderColor:Colors.Purple,
+        height: 45,
+        borderRadius: 25 ,
+        marginBottom: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 20,
+    },
+    searchBar:{
+        flex:1,
+        alignItems: 'flex-start',
+        paddingLeft: 20
 
     },
-    tenantSwitch:{
-        marginTop:15,
-        position: "absolute",
-        right: 30
-
-    },
-    
-
-
-
-
-
-    
+    plateEmpty:{
+        color: Colors.Purple
+    }     
     
 });
 

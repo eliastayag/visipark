@@ -30,12 +30,12 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 // front end shouldn't allow tenant to put in same plate number with different names for current visitors
         
-$visitor = $_POST['data'];
 
-$unit_num = $visitor['unit_num'];
-$name = $visitor['name'];
-$plate = $visitor['plate'];
-$duration = $visitor['duration'];
+
+$unit_num = $_POST['unit_num'];
+$name = $_POST['name'];
+$plate = $_POST['plate'];
+$duration = $_POST['duration'];
 
 
 

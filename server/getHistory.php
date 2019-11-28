@@ -32,8 +32,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 // select distinct plate, name, pin, id, date(end_time) as date,pin_time from visitors where unit_num = 101 and pin = 1 order by pin_time desc;
 // select plate, name, pin, id from visitors where removed=1 and pin<>1 and (plate not in (select plate from visitors where pin=1) or name not in (select name from visitors where pin=1))
 
-$visitors = $_POST['data'];
-$unit_num = $visitors['unit_num'];
+$unit_num = $_POST['unit_num'];
 
 function getPinned($unit_num){
     $sql = "
@@ -62,12 +61,8 @@ function getNotPinned($unit_num){
 $Pinned = getPinned($unit_num);
 $notPinned = getNotPinned($unit_num);
 
-    
-$data = array(
-    "pinned"=> $Pinned,
-    "notpinned"=> $notPinned
-);
+
         
 // $json = json_encode(["data"=>$data]);
-$json = json_encode($data);
+$json = json_encode(["pinned"=> $Pinned,"notpinned"=> $notPinned]);
 echo $json;
