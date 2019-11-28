@@ -61,5 +61,5 @@ function addVisitor($unit_num, $name, $plate, $duration){
 
 addVisitor($unit_num, $name, $plate, $duration);
 
-$json = json_encode($visitor);
+$json = json_encode($_POST);
 echo $json;
