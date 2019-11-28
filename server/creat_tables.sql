@@ -17,7 +17,7 @@ unit_num INT(3),
     ON UPDATE CASCADE ON DELETE RESTRICT,
 name VARCHAR(255),
 plate VARCHAR(7),
-start_time TIMESTAMP,
+start_time VARCHAR(255),
 end_time VARCHAR(255),
 removed BOOLEAN,
 pin BOOLEAN,
@@ -27,13 +27,15 @@ PRIMARY KEY (id)
 
 
 CREATE TABLE reports (
+id INT NOT NULL AUTO_INCREMENT,
 unit_num INT(3),
     FOREIGN KEY (unit_num) 
     REFERENCES units(num)
     ON UPDATE CASCADE ON DELETE RESTRICT,
-created TIMESTAMP,
+created TIMESTAMP DEFAULT NOW(),
 subject VARCHAR(255),
 message TEXT,
-deleted BOOLEAN
+deleted BOOLEAN DEFAULT 0,
+PRIMARY KEY (id)
 );
 
