@@ -46,6 +46,7 @@ function Main(props){
     // Show all tables 
             // Fetch('getData',null,'get all tables');
 
+    // ------------- Tenants -------------
     // Auto-remove expired visitors 
             // Fetch('autoRemove',null,null);
 
@@ -73,6 +74,26 @@ function Main(props){
     // Unpin a visitor 
             // Fetch('unpinVisitor',{unit_num:unit,id:id},'Unpinned a visitor');
 
+    // Send a report 
+            // Fetch('createReport',{unit_num: unit, subject: subject, message: message},'Report sent');
+
+    // ------------ Manager ------------
+    // Get all tenants
+            // Fetch('getTenants',null,'Tenants');
+    
+    // Add tenant's plate
+            // Fetch('addTenantPlate',{unit_num: num, plate: plate},'add tenant plate');
+
+    // Get all current visitor plates and all tenant plates
+            // Fetch('getCurrentPlate', null, 'Manager searching result');
+
+    // Get all reports
+            // Fetch('getReports', null, 'All reports');
+
+    // Delete a report 
+            // Fetch('deleteReport',{id: id}, 'deleted a report');
+
+
     const getSpots = async()=>{
         var spotnum = await Fetch('getSpots',null,null);
         setSpots(spotnum);
@@ -94,7 +115,7 @@ function Main(props){
             console.log('lalala unit');
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
-            console.log('Unit has not logged in');
+            console.log('Login Page');
         }
     }
 
@@ -251,18 +272,18 @@ function Main(props){
         // when the app loads
         // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
         // Fetch('getHistory',{unit_num:101},'Data for History');
-        Fetch('getSpots',null,'Spots left');
+        // Fetch('getSpots',null,'Spots left');
         getUnit();
         
         // update every second
         if(timer === null){
             timer = setInterval(()=>{
-                console.log("timer");
+                // console.log("timer");
                 //auto remove 
-                Fetch('autoRemove',null,null);
-                setCurrentVisitors(unit);
-                getSpots();
-                setHistory(unit);
+                // Fetch('autoRemove',null,null);
+                // setCurrentVisitors(unit);
+                // getSpots();
+                // setHistory(unit);
 
             }, 1000)
         }
