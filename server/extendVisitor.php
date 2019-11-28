@@ -43,5 +43,5 @@ function extendVisitor($id, $extendhour){
 
 extendVisitor($id, $extendhour);
 
-$json = json_encode($visitor);
+$json = json_encode($_POST);
 echo $json;

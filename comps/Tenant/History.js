@@ -20,13 +20,11 @@ import Fetch from '../Fetch';
 
 function History(props) {
 
-
   const [searchKey, setSearchKey] = useState('');
   //const [searchResult, setSearchResult] = useState('');
-  let PinnedVisitors = props;
-  console.log("passed" + PinnedVisitors);
+  // let PinnedVisitors = props;
+  // console.log("passed" + PinnedVisitors);
   var data = [...props.PinnedVisitors, ...props.UnpinnedVisitors];
-
 
   const filteredData = data.filter((obj) => {
     return obj.name.toLowerCase().indexOf(searchKey) >= 0 ||
@@ -35,9 +33,6 @@ function History(props) {
       obj.plate.indexOf(searchKey) >= 0 ||
       obj.date.indexOf(searchKey) >= 0
   })
-
-
-
 
   return (
     // <TouchableWithoutFeedback onPress = 
@@ -71,7 +66,6 @@ function History(props) {
 
           {/* history Card  */}
 
-
           {filteredData.length > 0 ?
             (filteredData.map((obj, index) => {
               var pin = parseInt(obj.pin);
@@ -82,6 +76,8 @@ function History(props) {
                   pin={pin}
                   obj={obj}
                   i={index}
+                  setHistory = {props.setHistory}
+                  unit = {props.unit}
                 />       
                   )
 
