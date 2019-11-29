@@ -19,7 +19,7 @@ function Main(props){
     const [pop, showPop] = useState(''); 
     const [cont, setCont] = useState('Visitors');
     // Tenant - Visitors
-    const [unit, setUnit] = useState();
+    const [unit, setUnit] = useState(0);
     const [spots,setSpots] = useState();
     const [card1, setCard1] = useState(false);     
     const [card2, setCard2] = useState(false);
@@ -81,8 +81,14 @@ function Main(props){
     // Get all tenants
             // Fetch('getTenants',null,'Tenants');
     
+    // Activate a Unit
+            // Fetch('activateTenant',{num: unit},'activate unit');
+
     // Add tenant's plate
-            // Fetch('addTenantPlate',{unit_num: num, plate: plate},'add tenant plate');
+            // Fetch('addTenantPlate',{num: unit, plate: plate},'add tenant plate');
+    
+    // Deactivate a unit and delete the tenant's plate
+            // Fetch('deactivateTenant',{num: unit},'deactivate unit');
 
     // Get all current visitor plates and all tenant plates
             // Fetch('getCurrentPlates', null, 'Manager searching result');
@@ -104,15 +110,26 @@ function Main(props){
         if(localunit !== null && localunit !==''){
             // if there IS unit number stored in local storage
             // run get current visitor 
-            console.log('You are in unit',localunit);
             setUnit(localunit);
             getSpots();
             setCurrentVisitors(localunit);
             setHistory(localunit);
             setShowpage('Tenant');
             console.log('Logged in unit', localunit);
+            // start setting timer
+            if(timer === null){
+                timer = setInterval(()=>{
+                    console.log("timer");
+                    // // auto remove 
+                    Fetch('autoRemove',null,null);
+                    // console.log('interval', unit);
+                    setCurrentVisitors(localunit);
+                    getSpots();
+                    setHistory(localunit);
+    
+                }, 1000)
+            }
         } else {
-            console.log('lalala unit');
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
             console.log('Login Page');
@@ -120,6 +137,7 @@ function Main(props){
     }
 
     const setCurrentVisitors = async(unit)=>{
+        //console.log("unit", unit);
         var currentVisitors = await Fetch('getCurrentVisitors',{unit_num:unit},null);
         // set visitor1 and visitor2 with current visitors info
         if (currentVisitors.length == 1){
@@ -268,33 +286,19 @@ function Main(props){
 // Fetch data when the app loads and update every second
              
 
-    // useEffect(()=>{
-    //     // when the app loads
-    //     // Fetch('getCurrentVisitors',{unit_num:101},'Current Visitors');
-    //     // Fetch('getHistory',{unit_num:101},'Data for History');
-    //     // Fetch('getSpots',null,'Spots left');
-    //     getUnit();
+    useEffect(()=>{
+        // when the app loads
+        getUnit();
+        // update every second
         
-    //     // update every second
-    //     if(timer === null){
-    //         timer = setInterval(()=>{
-    //             console.log("timer");
-    //             // auto remove 
-    //             Fetch('autoRemove',null,null);
-    //             setCurrentVisitors(unit);
-    //             getSpots();
-    //             setHistory(unit);
-
-    //         }, 1000)
-    //     }
-    //     return ()=>{
-    //         if(timer){
-    //             clearInterval(timer);
-    //             timer = null;
-    //         }
-    //     }
+        return ()=>{
+            if(timer){
+                clearInterval(timer);
+                timer = null;
+            }
+        }
         
-    // },[]);
+    },[]);
       
 
 

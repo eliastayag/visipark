@@ -11,7 +11,7 @@ var Texts = StyleSheet.create({
     // Section Heading
     SecHead:{
         fontFamily:'Poppins-Medium',
-        fontSize:40,
+        fontSize:38,
         letterSpacing: 0.2,
         color: Colors.Black
     },
@@ -19,17 +19,16 @@ var Texts = StyleSheet.create({
     // Heading L 
     HeadL:{
         fontFamily:'Poppins-SemiBold',
-        fontSize:25,
+        fontSize:23,
         color: Colors.Black
     },
 
     // Heading S 
     HeadS:{
-        fontFamily:'Poppins-SemiBold',
-        fontSize:20,
+        fontFamily:'Poppins-Medium',
+        fontSize:18,
         color: Colors.Black,
-        letterSpacing: 1
-
+        letterSpacing: 0.7
     },
 
     // Link
@@ -37,7 +36,7 @@ var Texts = StyleSheet.create({
         fontFamily:'OpenSans-SemiBold',
         fontSize:16,
         color: Colors.Purple,
-        letterSpacing: 0.3
+        letterSpacing: 0.1
 
     },
 
@@ -46,7 +45,7 @@ var Texts = StyleSheet.create({
         fontFamily:'OpenSans-Regular',
         fontSize:16,
         color: Colors.Black,
-        letterSpacing: 0.3,
+        // letterSpacing: 0.1,
         lineHeight: 23
     },
 
@@ -55,7 +54,7 @@ var Texts = StyleSheet.create({
         fontFamily:'OpenSans-Bold',
         fontSize:16,
         color: Colors.Black,
-        letterSpacing: 0.3,
+        letterSpacing: 0.2,
         lineHeight: 23
     },
 
@@ -64,13 +63,13 @@ var Texts = StyleSheet.create({
         fontFamily:'OpenSans-Semibold',
         fontSize:16,
         color: Colors.Darkgrey,
-        letterSpacing: 0.4,
+        letterSpacing: 0.2,
         lineHeight: 23
     },
     // history date
     HistoryDate:{
         fontFamily:'OpenSans-Regular',
-        fontSize:12,
+        fontSize:14,
         color: Colors.Darkgrey,
         letterSpacing: 0.3,
         lineHeight: 23
@@ -79,9 +78,9 @@ var Texts = StyleSheet.create({
     // Form Text
     FormText:{
         fontFamily:'OpenSans-SemiBold',
-        fontSize:18,
+        fontSize:16,
         color: Colors.Black,
-        letterSpacing: 0.3
+        letterSpacing: 0.2
     }
 });
 

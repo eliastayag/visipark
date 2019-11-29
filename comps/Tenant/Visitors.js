@@ -51,7 +51,7 @@ function Visitors(props){
     cardbot2 = 
          <TouchableOpacity style={styles.Box} onPress={() => {props.showPop('AddVisitor'); }} >
        <Image resizeMode='contain' source={require('../../img/add-visi.png')} style={styles.Img}/>
-       <Text style={Texts.BodyLight}>Add Visitor</Text>
+       <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
      </TouchableOpacity> 
   }
 
@@ -79,7 +79,7 @@ function Visitors(props){
     cardbot =
     <TouchableOpacity style={styles.Box2} onPress={() => {props.showPop('AddVisitor') }}>
       <Image resizeMode='contain' source={require('../../img/add-visi.png')} style={styles.Img}/>
-      <Text style={Texts.BodyLight}>Add Visitor</Text>
+      <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
     </TouchableOpacity> 
   } 
 
@@ -111,7 +111,7 @@ function Visitors(props){
             and remove them upon their departure.
           </Text>
           <TouchableOpacity onPress={() => {props.showPop('VisitorParkingPolicy')}}>
-            <Text style={Texts.Link}>
+            <Text style={[Texts.Link]}>
               Visitor Parking Policy >>
             </Text>
           </TouchableOpacity>
@@ -121,9 +121,11 @@ function Visitors(props){
     <View style={styles.Middle}>
           {/* Unit number */}
 
-          <Text style={Texts.HeadL}>Unit {props.unit}
-          </Text>
-          <Text style={Texts.BodyLight}>Parking Lot: {props.spots} spots left</Text>
+          <Text style={Texts.HeadL}>Unit {props.unit} </Text>
+          
+          <Text style={Texts.Body}>Visitor Parking: 
+          <Text style={[Texts.BodyBold]}> {props.spots} </Text> 
+           spots left</Text>
 
       <View style={{height:"100%", paddingTop:20}}>
         

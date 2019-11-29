@@ -21,6 +21,7 @@ var styles = StyleSheet.create({
     title:{
         alignItems:'center'
     },
+    
     input:{
         width:"100%",
         height: 45,
