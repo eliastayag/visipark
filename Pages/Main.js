@@ -116,9 +116,10 @@ function Main(props){
                     console.log("timer");
                     // // auto remove 
                     Fetch('autoRemove',null,null);
+                    // console.log('interval', unit);
                     setCurrentVisitors(localunit);
                     getSpots();
-                    setHistory(unit);
+                    setHistory(localunit);
     
                 }, 1000)
             }
