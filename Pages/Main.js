@@ -81,8 +81,14 @@ function Main(props){
     // Get all tenants
             // Fetch('getTenants',null,'Tenants');
     
+    // Activate a Unit
+            // Fetch('activateTenant',{num: unit},'activate unit');
+
     // Add tenant's plate
-            // Fetch('addTenantPlate',{unit_num: num, plate: plate},'add tenant plate');
+            // Fetch('addTenantPlate',{num: unit, plate: plate},'add tenant plate');
+    
+    // Deactivate a unit and delete the tenant's plate
+            // Fetch('deactivateTenant',{num: unit},'deactivate unit');
 
     // Get all current visitor plates and all tenant plates
             // Fetch('getCurrentPlates', null, 'Manager searching result');
