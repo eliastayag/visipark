@@ -12,6 +12,7 @@ import {
 import Texts from '../../styles/Texts';
 import DropShadows from '../../styles/DropShadows';
 import styles from '../../styles/CompsStyles/ReportStyles';
+import Fetch from '../Fetch';
 
 
 
@@ -21,7 +22,10 @@ const [strk1, setStrk1] = useState(0);
 const [strk2, setStrk2] = useState(0);
 const [sub,setSub] = useState('');
 const [msg, setMsg] = useState('');
+
+
 var sendButton = null;
+
 
 
 if (sub == '' || msg == ''){
@@ -41,6 +45,7 @@ onPress = {()=>{
   <TouchableOpacity
   style={styles.button}
   onPress = {()=>{
+    Fetch('createReport',{unit_num: props.unit, subject: sub, message: msg},'Report sent');
     props.showPop('ReportedSuccessfully');
     setSub('');
     setMsg('');

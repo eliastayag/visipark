@@ -77,7 +77,10 @@ function Tenant(props){
     reportimg = require('../img/report-grey.png');
   }
   if(props.cont == 'Report'){
-    Content = <Report pop={props.pop} showPop={props.showPop}/>
+    Content = <Report 
+                pop={props.pop} 
+                showPop={props.showPop}
+                unit = {props.unit}/>
     visitorimg = require('../img/ppl-grey.png');
     historyimg = require('../img/history-grey.png');
     reportimg = require('../img/report-purp.png');

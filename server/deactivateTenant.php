@@ -13,23 +13,21 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 // data from client 
 
         // {
-        //     num: 101,
-        //     plate: ABCDEF
+        //     num: 101
         // }
 
     $num = $_POST['num'];
-    $plate = $_POST['plate'];
 
-    function addTenantPlate($num, $plate){
+    function deactivateTenant($num){
         $sql=
         "UPDATE units 
-        SET plate = '$plate'
+        SET activated = 0, plate = NULL
         WHERE num = $num
         ";
         runQuery($sql);
     }
 
-    addTenantPlate($num, $plate);
+    deactivateTenant($num);
     
     $json = json_encode($_POST);
     echo $json;

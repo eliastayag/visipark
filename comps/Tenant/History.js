@@ -100,8 +100,21 @@ function History(props) {
 
 const HistoryCard = (props) => {
   const {pin, obj, i} = props;
+  const [cardOp] = useState(new Animated.Value(0));
+
+  useEffect(()=>{
+    Animated.timing(
+      cardOp,
+      {
+        toValue: 1,
+        duration: 200,
+        delay: props.i*100
+      }
+    ).start();
+  },[]);
+  
   return (
-    <View style={[styles.card, DropShadows.shadow]}>
+    <Animated.View style={[styles.card, DropShadows.shadow,{opacity: cardOp}]}>
       <TouchableOpacity onPress={() => {
         console.log('pin/unpin a visitor unit', props.unit, 'id', obj.id);
         
@@ -109,6 +122,7 @@ const HistoryCard = (props) => {
         pin === 0 ?
           Fetch('pinVisitor', { unit_num: props.unit, id: obj.id }, 'Pinned a visitor')
           : Fetch('unpinVisitor', { unit_num: props.unit, id: obj.id }, 'Pinned a visitor');
+          
            // set History
           props.setHistory(props.unit);
       }}>
@@ -152,7 +166,7 @@ const HistoryCard = (props) => {
       </TouchableOpacity>
 
 
-    </View>
+    </Animated.View>
   )
 }
 

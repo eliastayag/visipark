@@ -28,8 +28,7 @@ var Texts = StyleSheet.create({
         fontFamily:'Poppins-Medium',
         fontSize:18,
         color: Colors.Black,
-        letterSpacing: 0.2
-
+        letterSpacing: 0.7
     },
 
     // Link
@@ -70,7 +69,7 @@ var Texts = StyleSheet.create({
     // history date
     HistoryDate:{
         fontFamily:'OpenSans-Regular',
-        fontSize:12,
+        fontSize:14,
         color: Colors.Darkgrey,
         letterSpacing: 0.3,
         lineHeight: 23

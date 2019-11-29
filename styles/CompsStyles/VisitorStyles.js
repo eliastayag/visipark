@@ -6,7 +6,7 @@ var styles = StyleSheet.create({
     Bottom:{
         paddingTop: 15,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
     },
 
     Middle:{
@@ -73,14 +73,14 @@ var styles = StyleSheet.create({
     },
 
     Img:{
-        width: 75,
+        width: 70,
         height: "55%",
         justifyContent: "center",
         alignItems: "center"
         
     },
     add:{
-        //borderWidth:1,
+        // borderWidth:1,
         marginTop:-10
     },
     carIcon:{
