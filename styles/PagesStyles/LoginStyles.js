@@ -57,9 +57,10 @@ var styles = StyleSheet.create({
     },
     BMText: {
       //color: "white",
-      fontSize:20,
-      fontFamily:"Poppins-SemiBold",
-      color:"white"
+      fontSize:18,
+      fontFamily:"Poppins-Regular",
+      color:"white",
+      letterSpacing: 0.2
 
     },
     TenantBtn: {
@@ -74,8 +75,9 @@ var styles = StyleSheet.create({
     },
     TenantText: {
       color: "white",
-      fontSize:20,
-      fontFamily:"Poppins-SemiBold"
+      fontSize:18,
+      fontFamily:"Poppins-Regular",
+      letterSpacing: 0.2
 
 
     },
