@@ -78,6 +78,9 @@ function History(props) {
                   i={index}
                   setHistory = {props.setHistory}
                   unit = {props.unit}
+                  showPop = {props.showPop}
+                  setVisitorName = {props.setVisitorName}
+                  setVisitorPlate = {props.setVisitorPlate}
                 />       
                   )
 
@@ -122,7 +125,6 @@ const HistoryCard = (props) => {
         pin === 0 ?
           Fetch('pinVisitor', { unit_num: props.unit, id: obj.id }, 'Pinned a visitor')
           : Fetch('unpinVisitor', { unit_num: props.unit, id: obj.id }, 'Pinned a visitor');
-          
            // set History
           props.setHistory(props.unit);
       }}>
@@ -143,22 +145,14 @@ const HistoryCard = (props) => {
       <TouchableOpacity
         style={styles.visiBtn}
         onPress={() => {
-          props.showPop('AddVisitor');
-          // if there no visitor
-          if (props.card1 == false) {
-            props.setName1(obj.name);
-            props.setPlate1(obj.plate);
-          }
-          // if there's 1 visitor already
-          if (props.card1 == true && props.card2 == false) {
-            props.setName2(obj.name);
-            props.setPlate2(obj.plate);
-          }
-          // if there's 2 visitors already
-          if (props.card1 == true && props.card2 == true) {
+          // check f there're 2 visitors already
+          if (props.visitorNum >=2) {
             props.showPop('Full');
+          } else {
+            props.setVisitorName(obj.name);
+            props.setVisitorPlate(obj.plate);
+            props.showPop('AddVisitor');
           }
-
         }}>
         <Text style={[Texts.BodyBold, { color: Colors.Purple }]}>
           Revisit

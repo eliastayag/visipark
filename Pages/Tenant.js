@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import Visitors from '../comps/Tenant/Visitors';
+import Visitors from '../comps/Tenant/Visitors2';
 import History from '../comps/Tenant/History';
 import Report from '../comps/Tenant/Report';
 import styles from '../styles/PagesStyles/TenantStyles';
@@ -25,30 +25,21 @@ function Tenant(props){
           // popup
           pop={props.pop} 
           showPop={props.showPop}
-          // cards
-          card1 = {props.card1}
-          setCard1 = {props.setCard1}
-          card2 = {props.card2}
-          setCard2 = {props.setCard2}
           // unit info
           unit = {props.unit}
           // spots
           spots = {props.spots}
           // visitors info
-          name1 = {props.name1}
-          setName1 ={props.setName1}
-          name2 = {props.name2}
-          setName2 ={props.setName2}
-          plate1 = {props.plate1}
-          setPlate1 ={props.setPlate1}
-          plate2 = {props.plate2}
-          setPlate2 ={props.setPlate2}
-          dur1 = {props.dur1}
-          setDur1 ={props.setDur1}
-          dur2 = {props.dur2}
-          setDur2 ={props.setDur2}
-          reg1 = {props.reg1}
-          reg2 = {props.reg2}
+          visitorNum = {props.visitorNum}
+          currentVisitors = {props.currentVisitors}
+          visitorName = {props.VisitorName}
+          setVisitorName = {props.setVisitorName}
+          visitorId = {props.visitorId}
+          setVisitorId = {props.setVisitorId}
+          visitorPlate = {props.visitorPlate}
+          setVisitorPlate = {props.setVisitorPlate}
+          visitorRegtime = {props.visitorRegtime}
+          setVisitorRegtime = {props.setVisitorRegtime}
           />  
     visitorimg = require('../img/ppl-purp.png');
     historyimg = require('../img/history-grey.png');
@@ -59,12 +50,16 @@ function Tenant(props){
             unit = {props.unit}
             pop={props.pop} 
             showPop={props.showPop}
-            card1 = {props.card1}
-            card2 = {props.card2}
-            setName1 ={props.setName1}
-            setName2 ={props.setName2}
-            setPlate1 ={props.setPlate1}
-            setPlate2 ={props.setPlate2}
+            // visitor info 
+            visitorNum = {props.visitorNum}
+            visitorName = {props.VisitorName}
+            setVisitorPlate = {props.setVisitorName}
+            visitorId = {props.visitorId}
+            setVisitorId = {props.setVisitorId}
+            visitorPlate = {props.visitorPlate}
+            setVisitorPlate = {props.setVisitorPlate}
+            visitorRegtime = {props.visitorRegtime}
+            setVisitorRegtime = {props.setVisitorRegtime}
             // pass value //
             PinnedVisitors={props.PinnedVisitors}
             UnpinnedVisitors={props.UnpinnedVisitors}
