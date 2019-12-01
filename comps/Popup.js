@@ -112,7 +112,7 @@ function Popup(props){
             props.setVisitorPlate('');
             setDur(1);
             // if a second visitor was added, show that limit's reached 
-            if(props.visitorNum >= 2){
+            if(props.visitorNum >1){
                 props.showPop('Max');
             }
           }

@@ -18,16 +18,16 @@ function VisitorCard({obj, index, setVisitorId, showPop, setVisitorRegtime, visi
     // id, plate, name, time_left, regtime
 
 return(    
-    <View style={[styles.activeBox, DropShadows.shadow]}>
+    <View style={[styles.visitorCard, DropShadows.shadow]}>
         {/* Visitor Name */}
-        <Text style={Texts.HeadS} numberOfLines={1}>{obj.name}</Text>
+        <Text style={[styles.visitorName,Texts.HeadS]} numberOfLines={1}>{obj.name}</Text>
         {/* Visitor Plate */}
-        <Text style={Texts.BodyLight}>{obj.plate}</Text>
+        <Text style={[styles.plateText,Texts.BodyLight]}>{obj.plate}</Text>
         {/* Car icon */}
         <Image resizeMode='contain' source={require('../../img/car.png')} style={styles.carIcon} />
         {/* Time left */}
-        <Text style={[Texts.HeadS,{color:Colors.Purple}]}>{obj.time_left}</Text>
-        <Text style={Texts.BodyLight}>hr left</Text>
+        <Text style={[styles.time,Texts.HeadS,{color:Colors.Purple}]}>{obj.time_left}</Text>
+        <Text style={[styles.leftText,Texts.BodyLight]}>hr left</Text>
         {/* Extend Button (disabled when registered time reach 24hr) */}
         <TouchableOpacity 
             style={ obj.regtime < 24? styles.extendButton : styles.extendButtonGrey } 
@@ -37,7 +37,7 @@ return(
                 [setVisitorId(obj.id),setVisitorRegtime(obj.regtime),showPop('ExtendParking')]: null;      
             }}
         >
-            <Text style={[Texts.HeadS,{color: obj.regtime < 24? Colors.Purple : Colors.Lightgrey}]}>Extend</Text>
+            <Text style={[Texts.HeadS,{color: obj.regtime < 24? Colors.Purple : Colors.Darkgrey}]}>Extend</Text>
         </TouchableOpacity>
         {/* Remove Button */}
         <TouchableOpacity 
@@ -59,7 +59,7 @@ return(
 function AddButton(props){
 return(
     <TouchableOpacity 
-        style={styles.Box2} 
+        style={styles.addBut} 
         onPress={() => {
             props.showPop('AddVisitor'); 
             }}>

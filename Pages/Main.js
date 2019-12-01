@@ -103,8 +103,9 @@ function Main(props){
     const getCurrentVisitors = async(unit)=>{
         var visitors = await Fetch('getCurrentVisitors',{unit_num: unit},null);
         setCurrentVisitors(visitors);
-        setVisitorNum(visitors.length);   
+        setVisitorNum(visitors.length);  
     }
+    
     const setHistory = async(unit)=>{
         
         var History = await Fetch('getHistory',{unit_num:unit},null);
