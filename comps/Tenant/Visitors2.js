@@ -76,7 +76,7 @@ return(
 
 
 function Visitors(props){
-
+    
 return(
     <View style={{flex:1, marginBottom: 70}}>
       {/* ScrollView Starts here, wraps around everything */}

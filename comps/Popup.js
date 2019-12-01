@@ -69,38 +69,52 @@ function Popup(props){
   if (props.pop == 'AddVisitor'){
     title  = 'Add Visitor';
     btnTxt = 'Add';
-    // console.log('name n plate', props.visitorName, props.VisitorPlate);
+    console.log('visitorName',props.visitorName,'visitorPlate', props.visitorPlate,'visitorId',props.visitorId,'visitorRegtime', props.visitorRegtime);
     button = (
       <TouchableOpacity 
         style={styles.button}
         onPress={()=>{
           // check if all fields are filled
-          if(name !== '' && plate !== ''){
-              // add visitor to database
-              Fetch('addVisitor',{
-                unit_num: props.unit, 
-                name: name, 
-                plate: plate, 
-                duration: dur
-              },'Added a visitor');
-              // get Current visitor from the database
-              props.getCurrentVisitors(props.unit);
-              props.showPop('');
-              // go back to Visitor page if on History page
-              props.setCont('Visitors');
-              // clear variables
-              setName('');
-              setPlate('');
-              props.setVisitorName('');
-              props.setVisitorPlate('');
-              setDur(1);
-              // if a second visitor was added, show that limit's reached 
-              if(props.visitorNum >= 2){
-                  props.showPop('Max');
-              }
+          if(
+            ((name == '' || plate == '') && props.visitorName == '' && props.visitorPlate == '') ||
+            (name == '' && plate == '' && (props.visitorName == '' || props.visitorPlate == ''))
+            ){
+            // if a field is empty
+            props.showPop('MissingFields');  
           } else {
-          // if a field is empty
-            props.showPop('MissingFields');
+            // if visitor is added organically
+            if (name !== '' && plate !== '' && props.visitorName == '' && props.visitorPlate == ''){
+              Fetch('addVisitor',{
+              unit_num: props.unit, 
+              name: name, 
+              plate: plate, 
+              duration: dur
+              },'Added a visitor');
+            }
+            // if visitor is added thru 'revisit'
+            if (name == '' && plate == '' && props.visitorName !== '' && props.visitorPlate !== ''){
+              Fetch('addVisitor',{
+              unit_num: props.unit, 
+              name: props.visitorName, 
+              plate: props.visitorPlate, 
+              duration: dur
+              },'Added a visitor');
+            }
+            // get Current visitor from the database
+            props.getCurrentVisitors(props.unit);
+            props.showPop('');
+            // go back to Visitor page if on History page
+            props.setCont('Visitors');
+            // clear variables
+            setName('');
+            setPlate('');
+            props.setVisitorName('');
+            props.setVisitorPlate('');
+            setDur(1);
+            // if a second visitor was added, show that limit's reached 
+            if(props.visitorNum >= 2){
+                props.showPop('Max');
+            }
           }
           
         }}>
@@ -118,20 +132,19 @@ function Popup(props){
             maxLength = {40}
             onFocus = {()=>{setStrk1(2)}}
             onBlur = {()=>{setStrk1(0)}}
-            onChangeText = {(txt)=>{setName(txt)}}
+            onChangeText = {(txt)=>{props.visitorName !==''? props.setVisitorName(txt):setName(txt)}}
           />
         <Text style={Texts.Body}>Visitor's plate number:</Text>
         <TextInput 
             placeholder = "Plate number"
-            value = {props.visitorPlate !==''? props.visitorPlate : plate}
+            value = {props.visitorPlate !==''? props.visitorPlate: plate}
             style={[styles.input,Texts.FormText,{borderWidth: strk2}]}
             clearButtonMode = 'always'
             maxLength = {6}
-            value={plate}
             autoCapitalize = "characters"
             onFocus = {()=>{setStrk2(2)}}
             onBlur = {()=>{setStrk2(0)}}
-            onChangeText = {(txt)=>{setPlate(txt)}}
+            onChangeText = {(txt)=>{props.visitorPlate !==''? props.setVisitorPlate(txt):setPlate(txt)}}
           />
           <Text style={Texts.Body}>Parking duration (max 24hr):</Text>
           <View style={{flexDirection:'row',alignItems:'center', justifyContent: 'center'}}>  
@@ -224,6 +237,7 @@ function Popup(props){
                 // Show removed successfully
                 props.showPop('RemovedSuccessfully');  
                 // clear variable
+                props.setVisitorName('');
                 props.setVisitorId(0);        
               }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
@@ -333,14 +347,16 @@ function Popup(props){
               style={styles.button}
               onPress={()=>{
                 props.showPop('');
-                props.showPop('AddVisitor');
+                if (props.cont=='History'){
+                  props.showPop('AddVisitor');
+                }       
               }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
       </TouchableOpacity>
       )
     content = (
-      <View>
-        <Text style={[Texts.Body,{paddingBottom: 20}]}>Please fill in both Visitor name and Visitor Plate Number.
+      <View style={{alignItems:'center'}}>
+        <Text style={[Texts.Body,{paddingBottom:10}]}>Please fill out all the fields.
         </Text>
       </View>
     );

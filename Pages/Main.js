@@ -19,7 +19,7 @@ function Main(props){
     const [pop, showPop] = useState(''); 
     const [cont, setCont] = useState('Visitors');
     // Tenant - Visitors
-    var visitorNum = null;
+    const [visitorNum, setVisitorNum] = useState(0);
     const [unit, setUnit] = useState(0);
     const [spots,setSpots] = useState();
     const [currentVisitors, setCurrentVisitors] = useState([]);
@@ -93,7 +93,7 @@ function Main(props){
 
     // Delete a report 
             // Fetch('deleteReport',{id: id}, 'deleted a report');
-
+        console.log('visitorNum', visitorNum, 'visitorName',visitorName,'visitorPlate', visitorPlate,'visitorId',visitorId,'visitorRegtime', visitorRegtime);
 
     const getSpots = async()=>{
         var spotnum = await Fetch('getSpots',null,null);
@@ -103,9 +103,8 @@ function Main(props){
     const getCurrentVisitors = async(unit)=>{
         var visitors = await Fetch('getCurrentVisitors',{unit_num: unit},null);
         setCurrentVisitors(visitors);
-        visitorNum = visitors.length;
+        setVisitorNum(visitors.length);   
     }
-
     const setHistory = async(unit)=>{
         
         var History = await Fetch('getHistory',{unit_num:unit},null);

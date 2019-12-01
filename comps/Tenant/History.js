@@ -19,7 +19,7 @@ import Fetch from '../Fetch';
 
 
 function History(props) {
-
+  // console.log('visitor name & plate', props.visitorName, props.visitorPlate);
   const [searchKey, setSearchKey] = useState('');
   //const [searchResult, setSearchResult] = useState('');
   // let PinnedVisitors = props;
@@ -79,7 +79,9 @@ function History(props) {
                   setHistory = {props.setHistory}
                   unit = {props.unit}
                   showPop = {props.showPop}
+                  visitorName = {props.visitorName}
                   setVisitorName = {props.setVisitorName}
+                  visitorPlate = {props.visitorPlate}
                   setVisitorPlate = {props.setVisitorPlate}
                 />       
                   )
@@ -102,7 +104,6 @@ function History(props) {
 }
 
 const HistoryCard = (props) => {
-  const {pin, obj, i} = props;
   const [cardOp] = useState(new Animated.Value(0));
 
   useEffect(()=>{
@@ -119,28 +120,27 @@ const HistoryCard = (props) => {
   return (
     <Animated.View style={[styles.card, DropShadows.shadow,{opacity: cardOp}]}>
       <TouchableOpacity onPress={() => {
-        console.log('pin/unpin a visitor unit', props.unit, 'id', obj.id);
+        console.log('pin/unpin a visitor unit', props.unit, 'id', props.obj.id);
         
         // do if else statement to pin or unpined
-        pin === 0 ?
-          Fetch('pinVisitor', { unit_num: props.unit, id: obj.id }, 'Pinned a visitor')
-          : Fetch('unpinVisitor', { unit_num: props.unit, id: obj.id }, 'Pinned a visitor');
+        props.pin === 0 ?
+          Fetch('pinVisitor', { unit_num: props.unit, id: props.obj.id }, 'Pinned a visitor')
+          : Fetch('unpinVisitor', { unit_num: props.unit, id: props.obj.id }, 'Pinned a visitor');
            // set History
           props.setHistory(props.unit);
       }}>
 
         <Image
-          source={pin === 0 ? require('../../img/pin-grey.png') : require('../../img/pin-purp.png')}
+          source={props.pin === 0 ? require('../../img/pin-grey.png') : require('../../img/pin-purp.png')}
           style={styles.pinImg}
         />
       </TouchableOpacity>
 
       <View style={styles.List}>
-        <Text style={[Texts.BodyBold, styles.name]} numberOfLines={1}>{obj.name}</Text>
-        <Text style={Texts.BodyLight}>{obj.plate}</Text>
-        <Text style={[Texts.HistoryDate, { marginLeft: -4 }]}> {obj.date}</Text>
+        <Text style={[Texts.BodyBold, styles.name]} numberOfLines={1}>{props.obj.name}</Text>
+        <Text style={Texts.BodyLight}>{props.obj.plate}</Text>
+        <Text style={[Texts.HistoryDate, { marginLeft: -4 }]}> {props.obj.date}</Text>
       </View>
-
 
       <TouchableOpacity
         style={styles.visiBtn}
@@ -148,9 +148,9 @@ const HistoryCard = (props) => {
           // check f there're 2 visitors already
           if (props.visitorNum >=2) {
             props.showPop('Full');
-          } else {
-            props.setVisitorName(obj.name);
-            props.setVisitorPlate(obj.plate);
+          } else {      
+            props.setVisitorPlate(props.obj.plate);      
+            props.setVisitorName(props.obj.name);      
             props.showPop('AddVisitor');
           }
         }}>

@@ -52,8 +52,8 @@ function Tenant(props){
             showPop={props.showPop}
             // visitor info 
             visitorNum = {props.visitorNum}
-            visitorName = {props.VisitorName}
-            setVisitorPlate = {props.setVisitorName}
+            visitorName = {props.visitorName}
+            setVisitorName = {props.setVisitorName}
             visitorId = {props.visitorId}
             setVisitorId = {props.setVisitorId}
             visitorPlate = {props.visitorPlate}
@@ -64,8 +64,7 @@ function Tenant(props){
             PinnedVisitors={props.PinnedVisitors}
             UnpinnedVisitors={props.UnpinnedVisitors}
             setHistory = {props.setHistory}
-            setUnpinnedVisitors={props.setunpinnedVisitors}
-
+            setUnpinnedVisitors={props.setUnpinnedVisitors}
     />
     visitorimg = require('../img/ppl-grey.png');
     historyimg = require('../img/history-purp.png');
