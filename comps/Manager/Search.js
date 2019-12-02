@@ -18,12 +18,12 @@ function Search(props){
   const [visitors, setVisitors] = useState([]);
   
   const setData = async()=>{ 
-   var data = await Fetch('getCurrentPlates',null,'searchPage');
+   var data = await Fetch('getCurrentPlates',null,null);
     //  setTenant(data.tenant);
     setTenants(data.tenants);
     setVisitors(data.visitors);
-    console.log(data.tenants);
-    console.log(data);
+    // console.log(data.tenants);
+    // console.log(data);
  }
 
 // console.log('tenants',tenants);

@@ -148,7 +148,6 @@ function Main(props){
         } else {
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
-            console.log('Login Page');
         }
     }
 
