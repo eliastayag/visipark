@@ -21,7 +21,14 @@ const [cont, setCont] = useState ('Tenants');
 
 // conditions updating Content and tabbar
   if(cont == 'Tenants'){
-    Content = <Tenants pop={props.pop} showPop={props.showPop}/>
+    Content = <Tenants 
+                pop={props.pop} 
+                showPop={props.showPop}
+                tenantNum = {props.tenantNum}
+                setTenantNum = {props.setTenantNum}
+                tenantPlate = {props.tenantPlate}
+                setTenantPlate = {props.setTenantPlate}
+                />
 
     tenantimg = require('../img/ppl-purp.png')
     searchimg = require('../img/search-grey.png')
