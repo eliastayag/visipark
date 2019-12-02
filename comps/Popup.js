@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {
   View, 
   Text, 
@@ -8,15 +8,31 @@ import {
   Image, 
   TouchableWithoutFeedback,
   Keyboard, 
+  Animated,
+  InteractionManager,
   KeyboardAvoidingView
 } from 'react-native';
 import Texts from '../styles/Texts';
 import styles from '../styles/CompsStyles/PopupStyles';
 import Fetch from '../comps/Fetch';
 
+// Animation function 
+function aniOp(op,toVal){
+  Animated.timing(
+    op,
+    {
+      toValue: toVal,
+      duration: 100
+    }
+  ).start();
+}
 
 function Popup(props){
-
+  // Animation
+  const [op] = useState(new Animated.Value(0));
+  useEffect(()=>{
+      aniOp(op,1);
+  },[]);
   // variables for changing Popup content
   var title = '';
   var btnTxt = '';
@@ -39,7 +55,11 @@ function Popup(props){
      button = (
        <TouchableOpacity 
         style = {styles.button}
-        onPress = {()=>{props.showPop('');
+        onPress = {()=>{
+          aniOp(op,0);
+          InteractionManager.runAfterInteractions(()=>{
+            props.showPop('');   
+          }) 
         }}>
        <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
      </TouchableOpacity>
@@ -102,19 +122,23 @@ function Popup(props){
             }
             // get Current visitor from the database
             props.getCurrentVisitors(props.unit);
-            props.showPop('');
-            // go back to Visitor page if on History page
-            props.setCont('Visitors');
-            // clear variables
-            setName('');
-            setPlate('');
-            props.setVisitorName('');
-            props.setVisitorPlate('');
-            setDur(1);
-            // if a second visitor was added, show that limit's reached 
-            if(props.visitorNum >= 2){
-                props.showPop('Max');
-            }
+            // close popup
+            aniOp(op,0);
+            InteractionManager.runAfterInteractions(()=>{
+              props.showPop('');
+              // go back to Visitor page if on History page
+              props.setCont('Visitors');
+              // clear variables
+              setName('');
+              setPlate('');
+              props.setVisitorName('');
+              props.setVisitorPlate('');
+              setDur(1);
+              // if a second visitor was added, show that limit's reached 
+              if(props.visitorNum >1){
+                  props.showPop('Max');
+              }
+            })
           }
           
         }}>
@@ -189,10 +213,13 @@ function Popup(props){
         // get Current visitor info from the database
         props.getCurrentVisitors(props.unit);
         // Close popup
-        props.showPop('');
-        // clear variable
-        props.setVisitorId(0);
-        setExtendhr(1);
+        aniOp(op,0);
+        InteractionManager.runAfterInteractions(()=>{
+          props.showPop('');
+          // clear variable
+          props.setVisitorId(0);
+          setExtendhr(1);
+        })
       }}>
         <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
       </TouchableOpacity>
@@ -235,10 +262,13 @@ function Popup(props){
                 // get Current visitors from database
                 props.getCurrentVisitors(props.unit);
                 // Show removed successfully
-                props.showPop('RemovedSuccessfully');  
-                // clear variable
-                props.setVisitorName('');
-                props.setVisitorId(0);        
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('RemovedSuccessfully'); 
+                  // clear variable
+                  props.setVisitorName('');
+                  props.setVisitorId(0);   
+                })
               }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
       </TouchableOpacity>
@@ -261,7 +291,10 @@ function Popup(props){
         <TouchableOpacity 
                 style={styles.button}
                 onPress={()=>{
-                  props.showPop('');
+                  aniOp(op,0);
+                  InteractionManager.runAfterInteractions(()=>{
+                    props.showPop('');
+                  })
                 }}>
                 <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
               </TouchableOpacity>
@@ -281,7 +314,10 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
@@ -301,7 +337,10 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
        </TouchableOpacity>
@@ -324,7 +363,10 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
        </TouchableOpacity>
@@ -346,10 +388,13 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
-                if (props.cont=='History'){
-                  props.showPop('AddVisitor');
-                }       
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                  if (props.cont=='History'){
+                    props.showPop('AddVisitor');
+                  }
+                })       
               }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
       </TouchableOpacity>
@@ -426,7 +471,7 @@ function Popup(props){
 
   return(
     // This is dark background
-  <View style={styles.bg}>
+  <Animated.View style={[styles.bg,{opacity: op}]}>
   <View style={styles.darkbox1}></View>
   <View style={styles.darkbox2}></View>
       {/* This is popup area */}
@@ -438,17 +483,22 @@ function Popup(props){
         {/* Close Button */}
           <TouchableOpacity 
             onPress = {()=>{
-              // close popup 
-              props.showPop('');
-              // clear all variables
-              setName('');
-              setPlate('');
-              setDur(1);
-              setExtendhr(1);
-              props.setVisitorName('');
-              props.setVisitorPlate('');
-              props.setVisitorRegtime(0);
-              props.setVisitorId(0);
+              // run animation 
+              aniOp(op,0);
+              InteractionManager.runAfterInteractions(()=>{
+                // close popup 
+                props.showPop('');
+                // clear all variables
+                setName('');
+                setPlate('');
+                setDur(1);
+                setExtendhr(1);
+                props.setVisitorName('');
+                props.setVisitorPlate('');
+                props.setVisitorRegtime(0);
+                props.setVisitorId(0);
+              })
+              
             }}
             style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking'||props.pop=='Remove')?'flex':'none'}]} 
           >
@@ -470,7 +520,7 @@ function Popup(props){
 
         </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-  </View>
+  </Animated.View>
   )
 
 }

@@ -29,12 +29,12 @@ var styles = StyleSheet.create({
         overflow: "scroll"
 
     },
-    Box:{
-        marginTop: 10,
+    addBut:{
         // marginTop:"5%",
+        flex: 1,
+        width: "100%",
         alignItems: "center",
         justifyContent: "center",
-
         height: 180,
         borderRadius: 23,
         backgroundColor: "#fafafa",
