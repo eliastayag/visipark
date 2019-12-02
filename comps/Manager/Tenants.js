@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text,
         TextInput,
         ScrollView,
@@ -10,17 +10,17 @@ import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
 import styles from '../../styles/CompsStyles/TenantsStyles';
 import DropShadows from '../../styles/DropShadows';
+import Fetch from '../Fetch';
 
 function TenantCard(props){
-  const [val, setVal] = useState(props.item.active);
+  const [val, setVal] = useState(props.item.activated);
   var plate = null;
 
 if (val == false){
-  props.item.plate = "";
   plate = 
   <Text style={[Texts.BodyBold,styles.plateEmptyGrey]}>Add Plate</Text>
 } else{
-  if (props.item.plate == ""){
+  if (props.item.plate == null){
     plate = 
     <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
 
@@ -29,23 +29,34 @@ if (val == false){
   } else {
     plate = 
     <TouchableOpacity onPress={()=>props.showPop("UnitProfile")}>
-
     <Text style={styles.plateActive}>{props.item.plate}</Text>
     </TouchableOpacity>
+
   }
 }
 
   return(
 
     <View style={[styles.card, DropShadows.shadow]}>
-      <Text style={[Texts.BodyBold, styles.tenantUnit]}>{props.item.unit}</Text>
+      <Text style={[Texts.BodyBold, styles.tenantUnit]}>{props.item.num}</Text>
       {plate}
       <Switch style={styles.tenantSwitch} 
         onValueChange={(val, ind) => {
-        setVal(val);
+
+          if (val == 1){
+            setVal(val);
+          }
+
+
+        if (val == 0){
+          setVal(val);
+          props.showPop("DisableConfirm")
+        }
       }}
+
     trackColor={{true: Colors.Purple, false: 'grey'}}
-    value={val}>
+    
+    value={val==1}>
     </Switch>
     </View> 
   )
@@ -53,24 +64,24 @@ if (val == false){
 
 
 function Tenants(props){
+  const [units, setUnits] = useState([]);
+  
+  var setTenants = async()=>{
+    var tenants = await Fetch('getTenants',null,null);
+    setUnits(tenants);
+  }
 
-  var data = [
-    {plate:"", unit:"101", active: true},
-    {plate:"", unit:"102", active: false},
-    {plate:"cc789", unit:"103", active: true},
-    {plate:"dd456", unit:"104", active: false},
-    {plate:"ee789", unit:"105", active: true},
-    {plate:"ee789", unit:"106", active: true},
-    {plate:"ee789", unit:"107", active: true},
-    {plate:"ee789", unit:"108", active: true},
-    {plate:"ee789", unit:"109", active: false},
-  ];
-
-
-const [searchKey, setSearchKey] = useState('');
-const filteredData = data.filter((obj)=>{
-  return obj.unit.indexOf(searchKey) >= 0
+useEffect(()=>{
+    setTenants();
 })
+
+
+
+
+//  const [searchKey, setSearchKey] = useState('');
+//  const filteredData = data.filter((obj)=>{
+//    return obj.num.indexOf(searchKey) >= 0
+//  })
 
     return(
         <View style={styles.container}>
@@ -106,10 +117,14 @@ const filteredData = data.filter((obj)=>{
         {/* tenants list starts here */}
 
         <ScrollView style={{marginBottom:72, marginTop:5}}>
-        {filteredData.map((item, index)=>{
+        {units.map((item, index)=>{
 
         return (
-          <TenantCard item={item} pop={props.pop} showPop={props.showPop}/>
+          <TenantCard item={item} 
+                      pop={props.pop} 
+                      showPop={props.showPop}
+                      
+                      />
         )
       })}
           </ScrollView>            

@@ -36,6 +36,10 @@ function Main(props){
     // Tenant - History  
     const [PinnedVisitors, setPinnedVisitors] = useState([]);
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
+    // Building Manager - Units
+    const [TenantUnits, setTenantsUnits] = useState([]);
+    
+
 
     // --------------- Communicate with DB ----------------
     
@@ -172,7 +176,12 @@ function Main(props){
         setPinnedVisitors(History.pinned);
         setUnpinnedVisitors(History.notpinned);
     }
-  
+
+    const setUnits = async()=>{
+        var Tenants = await Fetch('getTenants',null,'Tenants');
+        setTenantUnits(Tenants.units);        
+    }
+
 
     // conditions to show and hide pages
     if(showpage == 'Login'){
@@ -222,6 +231,9 @@ function Main(props){
                  setHistory = {setHistory}
                  UnpinnedVisitors = {UnpinnedVisitors}
                  PinnedVisitors = {PinnedVisitors}
+
+
+
                 />;
         props.setSafebg(true);
     }
@@ -229,6 +241,9 @@ function Main(props){
         page = <Manager 
                  pop = {pop} 
                  showPop = {showPop}
+                //BM Units
+                setUnits = {setUnits}
+                TenantUnits = {TenantUnits}
                 //  visiName = {visiName}
                 //  setVisiName = {setVisiName}
                 //  visiPlate ={visiPlate} 

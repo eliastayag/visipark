@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {
   View, 
   Text, 
@@ -25,7 +25,10 @@ function Popup(props){
   // change stroke when Input is onFocuse
   const [strk1, setStrk1] = useState(0);
   const [strk2, setStrk2] = useState(0);
+
+  const [units, setUnits] = useState([]);
   
+
   // Conditions for deciding what to show in popup 
 
   // ---- Visitor Parking Policy ----
@@ -640,7 +643,33 @@ function Popup(props){
           onFocus = {()=>{setStrk1(2)}}
           onBlur = {()=>{setStrk1(0)}}
           onChangeText = {(txt)=>{(txt)}}
+
         />
+  
+      </View>
+    );
+  }
+
+  if (props.pop == 'DisableConfirm'){
+    title = "Confirmation";
+    btnTxt = 'Disable Unit';
+
+    button = (
+      <TouchableOpacity 
+              style={styles.button}
+              onPress={()=>{
+
+                // always turns off the second card slot (card2)
+                props.showPop('');
+
+              }}>
+              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
+            </TouchableOpacity>
+      )
+    content = (
+      <View>
+  <Text style={[Texts.Body]}>Are you sure you want to disable Visipark for this unit?</Text>
+
   
       </View>
     );
@@ -660,7 +689,8 @@ function Popup(props){
         {/* Close Button */}
           <TouchableOpacity 
             onPress = {()=>{props.showPop('')}}
-            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking1'||props.pop=='ExtendParking2'||props.pop=='Remove1'||props.pop=='Remove2')?'flex':'none'}]} 
+            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking1'||props.pop=='ExtendParking2'||props.pop=='Remove1'||
+            props.pop=='Remove2'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports')?'flex':'none'}]} 
           >
               <Image 
                   source={require('../img/cross.png')}
