@@ -152,6 +152,12 @@ function Main(props){
         }
     }
 
+
+    const setUnits = async()=>{
+        var Tenants = await Fetch('getTenants',null,'Tenants');
+        setTenantUnits(Tenants.units);        
+    }
+
     // conditions to show and hide pages
     if(showpage == 'Login'){
         page = <Login 
