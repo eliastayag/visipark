@@ -19,20 +19,15 @@ function Main(props){
     const [pop, showPop] = useState(''); 
     const [cont, setCont] = useState('Visitors');
     // Tenant - Visitors
+    const [visitorNum, setVisitorNum] = useState(0);
     const [unit, setUnit] = useState(0);
     const [spots,setSpots] = useState();
-    const [card1, setCard1] = useState(false);     
-    const [card2, setCard2] = useState(false);
-    const [name1, setName1] = useState('');
-    const [name2, setName2] = useState('');
-    const [plate1, setPlate1] = useState('');
-    const [plate2, setPlate2] = useState('');
-    const [dur1, setDur1] = useState(1); // time left in UI
-    const [dur2, setDur2] = useState(1);
-    const [reg1, setReg1] = useState();
-    const [reg2, setReg2] = useState();
-    const [id1,setId1] = useState();
-    const [id2,setId2] = useState();
+    const [currentVisitors, setCurrentVisitors] = useState([]);
+    const [visitorName, setVisitorName] = useState('');
+    const [visitorPlate, setVisitorPlate] = useState('');
+    const [visitorId, setVisitorId] = useState(0);
+    const [visitorRegtime, setVisitorRegtime] = useState(0);
+    
     // Tenant - History  
     const [PinnedVisitors, setPinnedVisitors] = useState([]);
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
@@ -40,6 +35,8 @@ function Main(props){
     const [TenantUnits, setTenantsUnits] = useState([]);
     
 
+
+    
 
     // --------------- Communicate with DB ----------------
     
@@ -95,7 +92,7 @@ function Main(props){
             // Fetch('deactivateTenant',{num: unit},'deactivate unit');
 
     // Get all current visitor plates and all tenant plates
-            // Fetch('getCurrentPlates', null, 'Manager searching result');
+            // Fetch('getCurrentPlates', null (pass data), 'Manager searching result');
 
     // Get all reports
             // Fetch('getReports', null, 'All reports');
@@ -103,23 +100,38 @@ function Main(props){
     // Delete a report 
             // Fetch('deleteReport',{id: id}, 'deleted a report');
 
+// console.log('visitorNum', visitorNum, 'visitorName',visitorName,'visitorPlate', visitorPlate,'visitorId',visitorId,'visitorRegtime', visitorRegtime);
 
     const getSpots = async()=>{
         var spotnum = await Fetch('getSpots',null,null);
         setSpots(spotnum);
     }
 
+    const getCurrentVisitors = async(unit)=>{
+        var visitors = await Fetch('getCurrentVisitors',{unit_num: unit},null);
+        setCurrentVisitors(visitors);
+        setVisitorNum(visitors.length);  
+    }
+
+    const setHistory = async(unit)=>{
+        
+        var History = await Fetch('getHistory',{unit_num:unit},null);
+        setPinnedVisitors(History.pinned);
+        setUnpinnedVisitors(History.notpinned);
+    }
+
     const getUnit = async()=>{ 
         var localunit = await AsyncStorage.getItem('unit');
         if(localunit !== null && localunit !==''){
             // if there IS unit number stored in local storage
+            console.log('Logged in unit', localunit);
             // run get current visitor 
             setUnit(localunit);
             getSpots();
-            setCurrentVisitors(localunit);
+            getCurrentVisitors(localunit);
             setHistory(localunit);
             setShowpage('Tenant');
-            console.log('Logged in unit', localunit);
+            
             // start setting timer
             if(timer === null){
                 timer = setInterval(()=>{
@@ -127,7 +139,7 @@ function Main(props){
                     // // auto remove 
                     Fetch('autoRemove',null,null);
                     // console.log('interval', unit);
-                    setCurrentVisitors(localunit);
+                    getCurrentVisitors(localunit);
                     getSpots();
                     setHistory(localunit);
     
@@ -139,49 +151,6 @@ function Main(props){
             console.log('Login Page');
         }
     }
-
-    const setCurrentVisitors = async(unit)=>{
-        //console.log("unit", unit);
-        var currentVisitors = await Fetch('getCurrentVisitors',{unit_num:unit},null);
-        // set visitor1 and visitor2 with current visitors info
-        if (currentVisitors.length == 1){
-            // console.log('there is 1 current visitor');
-            setName1(currentVisitors[0].name);
-            setPlate1(currentVisitors[0].plate);
-            setDur1(currentVisitors[0].time_left);
-            setReg1(currentVisitors[0].regtime);
-            setId1(currentVisitors[0].id);
-            setCard1(true);
-        }
-        if (currentVisitors.length == 2){
-            // console.log('there are 2 current visitors');
-            setName1(currentVisitors[0].name);
-            setPlate1(currentVisitors[0].plate);
-            setDur1(currentVisitors[0].time_left);
-            setReg1(currentVisitors[0].regtime);
-            setId1(currentVisitors[0].id);
-            setCard1(true);
-            setName2(currentVisitors[1].name);
-            setPlate2(currentVisitors[1].plate);
-            setDur2(currentVisitors[1].time_left);
-            setReg2(currentVisitors[1].regtime);
-            setId2(currentVisitors[1].id);
-            setCard2(true);
-        }
-    }
-
-    const setHistory = async(unit)=>{
-        
-        var History = await Fetch('getHistory',{unit_num:unit},null);
-        setPinnedVisitors(History.pinned);
-        setUnpinnedVisitors(History.notpinned);
-    }
-
-    const setUnits = async()=>{
-        var Tenants = await Fetch('getTenants',null,'Tenants');
-        setTenantUnits(Tenants.units);        
-    }
-
 
     // conditions to show and hide pages
     if(showpage == 'Login'){
@@ -203,30 +172,21 @@ function Main(props){
                  setCont={setCont}
                  pop = {pop} 
                  showPop = {showPop}
-                 card1 = {card1}
-                 setCard1 = {setCard1}
-                 card2 = {card2}
-                 setCard2 = {setCard2}
-                 name1 = {name1}
-                 setName1 ={setName1}
-                 name2 = {name2}
-                 setName2 ={setName2}
-                 plate1 = {plate1}
-                 setPlate1 ={setPlate1}
-                 plate2 = {plate2}
-                 setPlate2 ={setPlate2}
-                 dur1 = {dur1}
-                 setDur1 ={setDur1}
-                 dur2 = {dur2}
-                 setDur2 ={setDur2}
-                 reg1 = {reg1}
-                 reg2 = {reg2}
-                 id1 = {id1}
-                 id2 = {id2}
                  // spots
                  spots = {spots}
                  // async function 
                  getUnit = {getUnit}
+                 // Visitors Page
+                 visitorNum = {visitorNum}
+                 currentVisitors = {currentVisitors}
+                 visitorName = {visitorName}
+                 setVisitorName = {setVisitorName}
+                 visitorPlate = {visitorPlate}
+                 setVisitorPlate = {setVisitorPlate}
+                 visitorId = {visitorId}
+                 setVisitorId = {setVisitorId}
+                 visitorRegtime = {visitorRegtime}
+                 setVisitorRegtime = {setVisitorRegtime}
                  // History Page
                  setHistory = {setHistory}
                  UnpinnedVisitors = {UnpinnedVisitors}
@@ -267,32 +227,20 @@ function Main(props){
                      // set content on Tenant page
                      cont = {cont}
                      setCont = {setCont}
-                     // cards
-                     card1 = {card1}
-                     setCard1 = {setCard1}
-                     card2 = {card2}
-                     setCard2 = {setCard2}
                      // unit
                      unit = {unit}
                      // visitors info
-                     name1 = {name1}
-                     setName1 ={setName1}
-                     name2 = {name2}
-                     setName2 ={setName2}
-                     plate1 = {plate1}
-                     setPlate1 ={setPlate1}
-                     plate2 = {plate2}
-                     setPlate2 ={setPlate2}
-                     dur1 = {dur1}
-                     setDur1 ={setDur1}
-                     dur2 = {dur2}
-                     setDur2 ={setDur2}
-                     reg1 = {reg1}
-                     reg2 = {reg2}
-                     id1 = {id1}
-                     id2 = {id2}
+                     visitorNum = {visitorNum}
+                     visitorName = {visitorName}
+                     setVisitorName = {setVisitorName}
+                     visitorPlate = {visitorPlate}
+                     setVisitorPlate = {setVisitorPlate}
+                     visitorId = {visitorId}
+                     setVisitorId = {setVisitorId}
+                     visitorRegtime = {visitorRegtime}
+                     setVisitorRegtime = {setVisitorRegtime}
                     // fetch 
-                    setCurrentVisitors = {setCurrentVisitors}
+                    getCurrentVisitors = {getCurrentVisitors}
                      />;                 
              }
 

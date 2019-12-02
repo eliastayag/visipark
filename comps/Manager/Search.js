@@ -4,31 +4,47 @@ import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
 import DropShadows from '../../styles/DropShadows';
 import styles from '../../styles/CompsStyles/SearchStyles';
+import Fetch from '../Fetch';
 
 
-var data = [
-  {plate:"kk123", unit:"101", },
-  {plate:"aa234", unit:"102"},
-  {plate:"cc789", unit:"103"},
-  {plate:"dd456", unit:"104"},
-  {plate:"ee789", unit:"105"}
-
-];
+// data = Fetch();
+//  setTenant(data.tenant);
+// map, filter tenant,
 
 
-function Search(){
-  const [searchKey, setSearchKey] = useState('');
-  const filteredData = data.filter((obj)=>{
+function Search(props){
+  const [searchKey, setSearchKey] = useState('');  
+  const [tenants, setTenants] = useState([]);
+  const [visitors, setVisitors] = useState([]);
+  
+  const setData = async()=>{ 
+   var data = await Fetch('getCurrentPlates',null,'searchPage');
+    //  setTenant(data.tenant);
+    setTenants(data.tenants);
+    setVisitors(data.visitors);
+    console.log(data.tenants);
+    console.log(data);
+ }
+
+// console.log('tenants',tenants);
+  const filteredData = tenants.filter((obj)=>{
     return obj.plate.indexOf(searchKey) >= 0 ||
-            obj.unit.indexOf(searchKey) >= 0 
-  })
+            obj.num.indexOf(searchKey) >= 0 
+  });
+  const filteredData1 = visitors.filter((obj)=>{
+    return obj.plate.indexOf(searchKey) >= 0 ||
+            obj.num.indexOf(searchKey) >= 0 
+  });
+  
+setData();
 
+ //console.log('filetered',filteredData);
 
     return(
         <View style={styles.container}> 
         {/*  Header */}
         <ScrollView>
-            <View>
+            <View style = {styles.content}>
               <Text style={Texts.SecHead}>Search</Text>
               <Text style={Texts.Body}>
                   Search for plate number to see if the vehicle belongs to a tenant, a current visitors or a stranger.
@@ -49,52 +65,81 @@ function Search(){
                 />  
               </View>       
             </View>
-{/* history Card tenant */}
-<View style={[styles.card, DropShadows.shadow]}>
 
-    <View style={styles.List}>
-      <Text style={Texts.HeadS}>DT359J</Text>
-      <Text style={Texts.BodyLight}>unit 202</Text>
-    </View>
-
-    <View> 
-      <Text style={[Texts.BodyBold,styles.Status]}>tenant
-      </Text>
-    </View> 
-
-</View>
-            
-                {filteredData.map((item, index)=>{
-                  return (
+       {/* search card   */}
+                {filteredData1.map((obj, index)=>{
+                  return (                
+                    <SearchCardV 
+                    setData={props.setData}
+                    obj={obj}
+                    i={index}                               
+                    />
+                  )
+                })
                 
-                  <View style={[styles.card, DropShadows.shadow]}>
+                }
+
+                {filteredData.map((obj, index)=>{
+                  return (                
+                    <SearchCard 
+                    setData={props.setData}
+                    obj={obj}
+                    i={index}                               
+                    />
+                  )
+                })
+                
+                }
+                
+                 
+            
+         </ScrollView>
+        </View>
+    
+   ) 
+  }
+      
+
+const SearchCard = (props) => {
+        //const {num, obj, i} = props; 
+      return(
+         <View style={[styles.card, DropShadows.shadow]}>
 
                     <View style={styles.List}>
-                      <Text style={Texts.HeadS}>{item.plate}</Text>
-                      <Text style={Texts.BodyLight}>unit{item.unit}</Text>
+                      <Text style={Texts.HeadS}>{props.obj.plate}</Text>
+                      <Text style={Texts.BodyLight}>unit{props.obj.num}</Text>
                     </View>
                     
-
                     <View> 
-                      <Text style={[Texts.BodyBold,styles.Status]}>visitor
+                      <Text style={[Texts.BodyBold,styles.Status]}>Tenant
                       </Text>
                     </View> 
 
-                  </View>
+        </View>
                   
 
-                                
-                  )
+  )       
+}
+
+const SearchCardV = (props) => {
+  //const {num, obj, i} = props; 
+return(
+   <View style={[styles.card, DropShadows.shadow]}>
+
+              <View style={styles.List}>
+                <Text style={Texts.HeadS}>{props.obj.plate}</Text>
+                <Text style={Texts.BodyLight}>unit{props.obj.unit_num}</Text>
+              </View>
               
-                })}
-             </ScrollView>  
+              <View> 
+                <Text style={[Texts.BodyBold,styles.Status]}>Visitor
+                </Text>
+              </View> 
 
+  </View>
+            
 
-
-        </View>
-    )
-
-
+)       
 }
 
 

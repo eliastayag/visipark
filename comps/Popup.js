@@ -8,20 +8,40 @@ import {
   Image, 
   TouchableWithoutFeedback,
   Keyboard, 
+  Animated,
+  InteractionManager,
   KeyboardAvoidingView
 } from 'react-native';
 import Texts from '../styles/Texts';
 import styles from '../styles/CompsStyles/PopupStyles';
 import Fetch from '../comps/Fetch';
 
+// Animation function 
+function aniOp(op,toVal){
+  Animated.timing(
+    op,
+    {
+      toValue: toVal,
+      duration: 100
+    }
+  ).start();
+}
 
 function Popup(props){
-
+  // Animation
+  const [op] = useState(new Animated.Value(0));
+  useEffect(()=>{
+      aniOp(op,1);
+  },[]);
   // variables for changing Popup content
   var title = '';
-  var content = null;
   var btnTxt = '';
+  var content = null;
   var button = null;
+  // Input Field 
+  const [name, setName] = useState('');
+  const [plate, setPlate] = useState('');
+  const [dur, setDur] = useState(1);
   // change stroke when Input is onFocuse
   const [strk1, setStrk1] = useState(0);
   const [strk2, setStrk2] = useState(0);
@@ -35,16 +55,18 @@ function Popup(props){
   if (props.pop == 'VisitorParkingPolicy'){
     title = 'Visitor Parking Policy';
     btnTxt = 'I Agree';
-    
      button = (
        <TouchableOpacity 
-       style = {styles.button}
-       onPress = {()=>{props.showPop('');
-       }}>
+        style = {styles.button}
+        onPress = {()=>{
+          aniOp(op,0);
+          InteractionManager.runAfterInteractions(()=>{
+            props.showPop('');   
+          }) 
+        }}>
        <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
      </TouchableOpacity>
      )
-
     content = (
       <View>
         <Text style={[Texts.Body,{marginBottom:20}]}>
@@ -59,8 +81,7 @@ function Popup(props){
     );
   }
 
-  // ------- Card 1 Add Visitor --------
-  
+  // ------- Add Visitor --------
   // generating picker item
   var addhr = [];
   for(var i=1;i<=24;i++){
@@ -68,239 +89,161 @@ function Popup(props){
     <Picker.Item key={i} label={i.toString()} value={i} />
     );
   }
- 
-  //Card slot 1 AddVisitor function
-  if (props.pop == 'AddVisitor' && props.card1 == false){
+  if (props.pop == 'AddVisitor'){
     title  = 'Add Visitor';
     btnTxt = 'Add';
-    
-    if (props.name1 == '' || props.plate1 == ''){
+    console.log('visitorName',props.visitorName,'visitorPlate', props.visitorPlate,'visitorId',props.visitorId,'visitorRegtime', props.visitorRegtime);
     button = (
-    <TouchableOpacity style={styles.button}
-            onPress={()=>{
-              props.showPop('MissingFields')
-            }}>
-            <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>      
-      </TouchableOpacity>
-    )
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={()=>{
+          // check if all fields are filled
+          if(
+            ((name == '' || plate == '') && props.visitorName == '' && props.visitorPlate == '') ||
+            (name == '' && plate == '' && (props.visitorName == '' || props.visitorPlate == ''))
+            ){
+            // if a field is empty
+            props.showPop('MissingFields');  
           } else {
-            button = (
-            <TouchableOpacity style={styles.button}
-            onPress={()=>{
-              // add visitor to database
+            // if visitor is added organically
+            if (name !== '' && plate !== '' && props.visitorName == '' && props.visitorPlate == ''){
               Fetch('addVisitor',{
-                unit_num: props.unit, 
-                name: props.name1, 
-                plate: props.plate1, 
-                duration: props.dur1
+              unit_num: props.unit, 
+              name: name, 
+              plate: plate, 
+              duration: dur
               },'Added a visitor');
-              // set Current visitor
-              props.setCurrentVisitors(props.unit);
-              // Show card 1
-              props.setCard1(true);
-              // Close popup
-              props.showPop('');
-              // go back to Visitor page if on History page
-              props.setCont('Visitors');
-              // after adding a second visitor show limit reached 
-              if(props.card1 == true && props.card2==true){
-                props.showPop('Max');
-              }
-            }}>
-            <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>      
-      </TouchableOpacity>
-            )
-          }
-    
-    content = (
-      <View>
-        <Text style={Texts.Body}>Visitor's name:</Text>
-
-        <TextInput 
-          placeholder = "Name"
-          value = {props.name1}
-          style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
-          clearButtonMode = 'always'
-          maxLength = {40}
-          value={props.name1}
-          onFocus = {()=>{setStrk1(2)}}
-          onBlur = {()=>{setStrk1(0)}}
-          onChangeText = {(txt)=>{props.setName1(txt)}}
-        />
-
-        <Text style={Texts.Body}>Visitor's plate number:</Text>
-
-        <TextInput 
-          placeholder = "Plate number"
-          value = {props.plate1}
-          style={[styles.input,Texts.FormText,{borderWidth: strk2}]}
-          clearButtonMode = 'always'
-          maxLength = {6}
-          value={props.plate1}
-          autoCapitalize = "characters"
-          onFocus = {()=>{setStrk2(2)}}
-          onBlur = {()=>{setStrk2(0)}}
-          onChangeText = {(txt)=>{props.setPlate1(txt)}}
-        />
-
-        <Text style={Texts.Body}>Parking duration (max 24hr):</Text>
-
-        <View style={{flexDirection:'row',alignItems:'center', justifyContent: 'center'}}>
-          
-          <Picker 
-            style={{width: 130, marginRight: 20}}
-            selectedValue = {props.dur1}
-            value={props.dur1}
-            itemStyle={{height:125}}
-            onValueChange = {(val, ind)=>{
-              props.setDur1(val);
-            }}
-          >
-            {addhr}
-          </Picker>
-          <Text style={Texts.Body}>hr</Text>
-        </View>
-      </View>
-    );
-   } 
-
-
-   // -------- Card 2 AddVisitor function --------
-   if (props.pop == 'AddVisitor' && props.card1 == true){
-    title = 'Add Visitor';
-    btnTxt = 'Add';
-
-    if (props.name2 == '' || props.plate2 == ''){
-      button = (
-      <TouchableOpacity style={styles.button}
-              onPress={()=>{
-                props.showPop('MissingFields')
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-              
-        </TouchableOpacity>
-      )
-      } else {
-              button = (
-              <TouchableOpacity style={styles.button}
-              onPress={()=>{
-                // add visitor to database
-              Fetch('addVisitor',{
-                unit_num: props.unit, 
-                name: props.name2, 
-                plate: props.plate2, 
-                duration: props.dur2
-              },'Added a visitor');
-              // Show card 2
-              props.setCard2(true);
-              // Close popup
-              props.showPop('');
-              // go back to Visitor page if on History page
-              props.setCont('Visitors');
-              // after adding a second visitor show limit reached 
-                if(props.card1 == true && props.card2==true){
-                  props.showPop('Max');
-                }
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-              
-        </TouchableOpacity>
-              )
             }
-
+            // if visitor is added thru 'revisit'
+            if (name == '' && plate == '' && props.visitorName !== '' && props.visitorPlate !== ''){
+              Fetch('addVisitor',{
+              unit_num: props.unit, 
+              name: props.visitorName, 
+              plate: props.visitorPlate, 
+              duration: dur
+              },'Added a visitor');
+            }
+            // get Current visitor from the database
+            props.getCurrentVisitors(props.unit);
+            // close popup
+            aniOp(op,0);
+            InteractionManager.runAfterInteractions(()=>{
+              props.showPop('');
+              // go back to Visitor page if on History page
+              props.setCont('Visitors');
+              // clear variables
+              setName('');
+              setPlate('');
+              props.setVisitorName('');
+              props.setVisitorPlate('');
+              setDur(1);
+              // if a second visitor was added, show that limit's reached 
+              if(props.visitorNum >1){
+                  props.showPop('Max');
+              }
+            })
+          }
+          
+        }}>
+        <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>      
+      </TouchableOpacity>
+    )   
     content = (
       <View>
         <Text style={Texts.Body}>Visitor's name:</Text>
         <TextInput 
-          placeholder = "Name"
-          value = {props.name2}
-          style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
-          clearButtonMode = 'always'
-          maxLength = {40}
-          onFocus = {()=>{setStrk1(2)}}
-          onBlur = {()=>{setStrk1(0)}}
-          onChangeText = {(txt)=>{props.setName2(txt)}}
+            placeholder = "Name"
+            value = {props.visitorName !==''? props.visitorName: name}
+            style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
+            clearButtonMode = 'always'
+            maxLength = {40}
+            onFocus = {()=>{setStrk1(2)}}
+            onBlur = {()=>{setStrk1(0)}}
+            onChangeText = {(txt)=>{props.visitorName !==''? props.setVisitorName(txt):setName(txt)}}
           />
         <Text style={Texts.Body}>Visitor's plate number:</Text>
         <TextInput 
-          placeholder = "Plate number"
-          value = {props.plate2}
-          style={[styles.input,Texts.FormText,{borderWidth: strk2}]}
-          clearButtonMode = 'always'
-          maxLength = {6}
-          autoCapitalize = "characters"
-          onFocus = {()=>{setStrk2(2)}}
-          onBlur = {()=>{setStrk2(0)}}
-          onChangeText = {(txt)=>{props.setPlate2(txt)}}
-
+            placeholder = "Plate number"
+            value = {props.visitorPlate !==''? props.visitorPlate: plate}
+            style={[styles.input,Texts.FormText,{borderWidth: strk2}]}
+            clearButtonMode = 'always'
+            maxLength = {6}
+            autoCapitalize = "characters"
+            onFocus = {()=>{setStrk2(2)}}
+            onBlur = {()=>{setStrk2(0)}}
+            onChangeText = {(txt)=>{props.visitorPlate !==''? props.setVisitorPlate(txt):setPlate(txt)}}
           />
-        <Text style={Texts.Body}>Parking duration (max 24hr):</Text>
+          <Text style={Texts.Body}>Parking duration (max 24hr):</Text>
+          <View style={{flexDirection:'row',alignItems:'center', justifyContent: 'center'}}>  
+            <Picker 
+                style={{width: 130, marginRight: 20}}
+                selectedValue = {dur}
+                value={dur}
+                itemStyle={{height:125}}
+                onValueChange = {(val, ind)=>{
+                  setDur(val);
+                }}
+              >
+              {addhr}
+            </Picker>
+            <Text style={Texts.Body}>hr</Text>
+          </View>
+        </View>
+      )
+    } 
 
+  // ------- Extend Parking ---------
+  //Generating picker
+  var exthr = [];
+  for(var i=1;i<=(24-props.visitorRegtime);i++){
+    exthr.push(
+    <Picker.Item key={i} label={i.toString()} value={i} />
+    );
+  }
+  const [extendhr, setExtendhr] = useState(1);  
+  if (props.pop == 'ExtendParking'){
+    title = 'Extend Parking';
+    btnTxt = 'Extend';
+    button = (
+      <TouchableOpacity 
+      style = {styles.button}
+      onPress = {()=>{
+        // Extend a visitor in database
+        Fetch('extendVisitor',{
+            id: props.visitorId, 
+            extendhour: extendhr},
+            'Extended a visitor');
+        // get Current visitor info from the database
+        props.getCurrentVisitors(props.unit);
+        // Close popup
+        aniOp(op,0);
+        InteractionManager.runAfterInteractions(()=>{
+          props.showPop('');
+          // clear variable
+          props.setVisitorId(0);
+          setExtendhr(1);
+        })
+      }}>
+        <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
+      </TouchableOpacity>
+    )
+    content = (
+      <View>
+        <Text style={Texts.Body}>Max parking time allowed: 24hr</Text>
+        <Text style={Texts.Body}>You've registered: 
+        <Text style={{fontWeight:"bold"}}> {props.visitorRegtime}hr</Text>
+        </Text>
+
+        <Text style={[Texts.BodyBold,{marginTop: 20}]}>You would like to extend:</Text>
         <View style={{flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
           <Picker 
             style={{width: 130, marginRight: 20}}
-            selectedValue = {props.dur2}
+            selectedValue = {extendhr}
             itemStyle={{height:125}}
-            onValueChange = {(val, ind)=>{
-            props.setDur2(val);
+            onValueChange = {(val,ind)=>{
+              setExtendhr(val);
             }}
           >
-            {addhr}
-          </Picker>
-          <Text style={Texts.Body}>hr</Text>
-        </View>
-      </View>
-    );
-   } 
-
-
-  //Extend Parking 
-
-  // Generate Picker
-  var exthr = [];
-  for(var i=1;i<=(24-props.reg1);i++){
-    exthr.push(
-    <Picker.Item key={i} label={i.toString()} value={i} />
-    );
-  }
-
-  // Extend Parking Card 1
-  const [extendhr1, setExtendhr1] = useState(1);  
-  if (props.pop == 'ExtendParking1'){
-    title = 'Extend Parking';
-    btnTxt = 'Extend';
-
-    button = (
-      <TouchableOpacity 
-      style = {styles.button}
-      onPress = {()=>{
-        // Extend a visitor in database
-        Fetch('extendVisitor',{id: props.id1, extendhour: extendhr1},'Extended a visitor');
-        // Close popup
-        props.showPop('');
-      }}>
-      <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
-    </TouchableOpacity>
-
-    )
-
-    content = (
-      <View>
-        <Text style={Texts.Body}>Max parking time allowed: 24hr</Text>
-        <Text style={Texts.Body}>You've registered: 
-        <Text style={{fontWeight:"bold"}}> {props.reg1}hr</Text>
-        </Text>
-
-        <Text style={[Texts.BodyBold,{marginTop: 20}]}>You would like to extend:</Text>
-        <View style={{flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
-          <Picker 
-            style={{width: 130, marginRight: 20}}
-            selectedValue = {extendhr1}
-            itemStyle={{height:125}}
-            onValueChange = {(val,ind)=>{
-              setExtendhr1(val);
-          }}
-          >
             {exthr}
           </Picker>
           <Text style={Texts.Body}>hr</Text>
@@ -309,162 +252,56 @@ function Popup(props){
     );
   }
 
-  // Extend Parking Card 2
-  var exthr = [];
-  for(var i=1;i<=(24-props.reg2);i++){
-    exthr.push(
-    <Picker.Item key={i} label={i.toString()} value={i} />
-    );
-  }
-  const [extendhr2, setExtendhr2] = useState(1);
-  if (props.pop == 'ExtendParking2'){
-    title = 'Extend Parking';
-    btnTxt = 'Extend';
-
-    button = (
-      <TouchableOpacity 
-      style = {styles.button}
-      onPress = {()=>{
-        // Extend a visitor in database
-        Fetch('extendVisitor',{id: props.id2, extendhour: extendhr2},'Extended a visitor');
-        // Close popup
-        props.showPop('');
-      }}>
-      <Text style={[Texts.HeadS,{color:'#fff'}]}>{btnTxt}</Text>
-    </TouchableOpacity>
-    )
-    
-    content = (
-      <View>
-        <Text style={Texts.Body}>Max parking time allowed: 24hr</Text>
-        <Text style={Texts.Body}>You've registered: 
-        <Text style={{fontWeight:"bold"}}> {props.reg2}hr</Text>
-        </Text>
-        {/* <Text style={Texts.Body}>You've registered: {Hours2}:{minutes2}hr(s)</Text> */}
-
-        <Text style={[Texts.BodyBold,{marginTop: 20}]}>You would like to extend:</Text>
-        <View style={{flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
-          <Picker 
-            style={{width: 130, marginRight: 20}}
-            selectedValue = {extendhr2}
-            itemStyle={{height:125}}
-            onValueChange = {(val,ind)=>{
-              setExtendhr2(val);
-              }}
-          >
-            {exthr}
-          </Picker>
-          <Text style={Texts.Body}>hr</Text>
-        </View>
-      </View>
-    );
-  }
-  
   // ---- Remove ---- 
-  //if card2 is false (if theres no 2nd visitor it will remove card1 which is the first slot)
-
-  // Remove card 1
-  if (props.pop == 'Remove1'){
+  if (props.pop == 'Remove'){
     title = 'Remove';
-    btnTxt = 'Yes';
-    
+    btnTxt = 'Yes';  
     button = (
       <TouchableOpacity 
               style={styles.button}
-              // here are the functions called when the button is pressed. 
               onPress={()=>{
-                // this is for adding ONE visitor
-                // this is for closing the popup
-                props.showPop('RemovedSuccessfully1');
-                props.setCard1(false);
-                props.setName1('');
-                props.setPlate1('');
-                props.setDur1(1);  
-                Fetch('removeVisitor',{id: props.id1},'Removed a visitor');          
+                // mark visitor as removed in database
+                Fetch('removeVisitor',{id: props.visitorId},'Removed a visitor');
+                // get Current visitors from database
+                props.getCurrentVisitors(props.unit);
+                // Show removed successfully
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('RemovedSuccessfully'); 
+                  // clear variable
+                  props.setVisitorName('');
+                  props.setVisitorId(0);   
+                })
               }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
+          <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
+      </TouchableOpacity>
       )
     content = (
       <View>
-
         <Text style={[Texts.Body,{marginBottom: 30}]}>Are you sure you want to remove
-        <Text style={{fontWeight:"bold"}}> {props.name1}</Text>
+        <Text style={{fontWeight:"bold"}}> {props.visitorName}</Text>
         ?</Text>
-
       </View>
     );
   }
 
-  //Remove card 2
-  if (props.pop == 'Remove2'){
-    title = 'Remove';
-    btnTxt = 'Yes';
-
-    button = (
-      <TouchableOpacity 
-              style={styles.button}
-              onPress={()=>{
-
-                // always turns off the second card slot (card2)
-                props.showPop('RemovedSuccessfully2');
-                props.setCard2(false);
-                props.setName2('');
-                props.setPlate2('');
-                props.setDur2(1)
-                Fetch('removeVisitor',{id: props.id2},'Removed a visitor');
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
-      )
-      content = (
-        <View>
   
-          <Text style={[Texts.Body,{marginBottom: 30}]}>Are you sure you want to remove
-          <Text style={{fontWeight:"bold"}}> {props.name2}</Text>
-          ?</Text>
-  
-        </View>
-      );
-    }
-
-  //----- Removed Successfully ---- 1
-  if (props.pop == 'RemovedSuccessfully1'){
-    title = 'Removed Successfully';
-    btnTxt = 'Okay';
-
-    button = (
-      <TouchableOpacity 
-              style={styles.button}
-              onPress={()=>{
-                props.showPop('');
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
-      )
-
-    content = (
-      <View>
-        <Text style={[Texts.Body,{paddingBottom: 20}]}>You have removed {props.name1} successfully!</Text>
-      </View>
-    );
-  }
-
-  //----- Removed Successfully ---- 2
-    if (props.pop == 'RemovedSuccessfully2'){
+  //----- Removed Successfully ---- 
+    if (props.pop == 'RemovedSuccessfully'){
       title = 'Removed Successfully';
       btnTxt = 'Okay';
-  
       button = (
         <TouchableOpacity 
                 style={styles.button}
                 onPress={()=>{
-                  props.showPop('');
+                  aniOp(op,0);
+                  InteractionManager.runAfterInteractions(()=>{
+                    props.showPop('');
+                  })
                 }}>
                 <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
               </TouchableOpacity>
         )
-  
       content = (
         <View>
           <Text style={[Texts.Body,{paddingBottom: 20}]}>Your visitor has been successfully removed.</Text>
@@ -480,7 +317,10 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
@@ -500,7 +340,10 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
        </TouchableOpacity>
@@ -523,12 +366,14 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
        </TouchableOpacity>
       )
-
     content = (
       <View>
         <Text style={[Texts.Body,{paddingBottom: 20}]}> 
@@ -538,6 +383,7 @@ function Popup(props){
     );
   }
     
+  // ------- Missing Fields ---------
   if(props.pop == 'MissingFields'){
     title = "Missing Fields";
     btnTxt = 'Okay';
@@ -545,38 +391,20 @@ function Popup(props){
       <TouchableOpacity 
               style={styles.button}
               onPress={()=>{
-                props.showPop('');
-                props.showPop('AddVisitor');
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  props.showPop('');
+                  if (props.cont=='History'){
+                    props.showPop('AddVisitor');
+                  }
+                })       
               }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
       </TouchableOpacity>
       )
-
     content = (
-      <View>
-        <Text style={[Texts.Body,{paddingBottom: 20}]}>Please fill in both Visitor name and Visitor Plate Number.
-        </Text>
-      </View>
-    );
-  }
-
-  if(props.pop == 'MissingFields1'){
-    title = "Missing Fields";
-    btnTxt = 'Okay';
-
-    button = (
-      <TouchableOpacity 
-              style={styles.button}
-              onPress={()=>{
-                props.showPop('');
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
-      )
-
-    content = (
-      <View>
-        <Text style={[Texts.Body,{paddingBottom: 20}]}>Please fill in both Subject and Message fields.
+      <View style={{alignItems:'center'}}>
+        <Text style={[Texts.Body,{paddingBottom:10}]}>Please fill out all the fields.
         </Text>
       </View>
     );
@@ -584,11 +412,10 @@ function Popup(props){
 
 
 
-  // Building Manager Reports Popup
+  // ------  Building Manager Reports Popup --------
   if (props.pop == 'Reports'){
-    title = ' Parking Sideways!!';
+    title = 'Parking Sideways!!';
     btnTxt = 'Close';
-
     button = (
       <TouchableOpacity 
               style={styles.button}
@@ -610,10 +437,6 @@ function Popup(props){
       </View>
     );
   }
-
-
-
- 
 
   if (props.pop == 'UnitProfile'){
     title = 'Edit License Plate';
@@ -677,7 +500,7 @@ function Popup(props){
 
   return(
     // This is dark background
-  <View style={styles.bg}>
+  <Animated.View style={[styles.bg,{opacity: op}]}>
   <View style={styles.darkbox1}></View>
   <View style={styles.darkbox2}></View>
       {/* This is popup area */}
@@ -688,9 +511,26 @@ function Popup(props){
         <View style={styles.poparea}>
         {/* Close Button */}
           <TouchableOpacity 
-            onPress = {()=>{props.showPop('')}}
-            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking1'||props.pop=='ExtendParking2'||props.pop=='Remove1'||
-            props.pop=='Remove2'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports')?'flex':'none'}]} 
+
+            onPress = {()=>{
+              // run animation 
+              aniOp(op,0);
+              InteractionManager.runAfterInteractions(()=>{
+                // close popup 
+                props.showPop('');
+                // clear all variables
+                setName('');
+                setPlate('');
+                setDur(1);
+                setExtendhr(1);
+                props.setVisitorName('');
+                props.setVisitorPlate('');
+                props.setVisitorRegtime(0);
+                props.setVisitorId(0);
+              })
+              
+            }}
+            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking'||props.pop=='Remove'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports')?'flex':'none'}]} 
           >
               <Image 
                   source={require('../img/cross.png')}
@@ -710,7 +550,7 @@ function Popup(props){
 
         </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-  </View>
+  </Animated.View>
   )
 
 }

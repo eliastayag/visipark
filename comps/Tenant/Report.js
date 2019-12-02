@@ -24,40 +24,6 @@ const [sub,setSub] = useState('');
 const [msg, setMsg] = useState('');
 
 
-var sendButton = null;
-
-
-
-if (sub == '' || msg == ''){
-sendButton = (
-<TouchableOpacity
-style={styles.button}
-onPress = {()=>{
-  props.showPop('MissingFields1');
-
-}}
->
-<Text style={[Texts.HeadS,{color:'#fff'}]}>Send</Text>
-</TouchableOpacity>
-)  
-} else {
-  sendButton = (
-  <TouchableOpacity
-  style={styles.button}
-  onPress = {()=>{
-    Fetch('createReport',{unit_num: props.unit, subject: sub, message: msg},'Report sent');
-    props.showPop('ReportedSuccessfully');
-    setSub('');
-    setMsg('');
-  }}
->
-  <Text style={[Texts.HeadS,{color:'#fff'}]}>Send</Text>
-</TouchableOpacity> 
-  )  
-} 
-
-
-
   return(
 
 <ScrollView style={styles.container}>
@@ -99,7 +65,22 @@ onPress = {()=>{
             multiline = {true}
           />
           {/* Send Button */}
-        {sendButton}
+          <TouchableOpacity
+            style={styles.button}
+            onPress = {()=>{
+              if(sub == '' || msg == ''){
+                props.showPop('MissingFields');
+              } else {
+                Fetch('createReport',{unit_num: props.unit, subject: sub, message: msg},'Report sent');
+                props.showPop('ReportedSuccessfully');
+                setSub('');
+                setMsg('');
+              }
+              
+  }}
+>
+  <Text style={[Texts.HeadS,{color:'#fff'}]}>Send</Text>
+</TouchableOpacity> 
       </View>
 
 
