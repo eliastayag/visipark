@@ -31,6 +31,10 @@ function Main(props){
     // Tenant - History  
     const [PinnedVisitors, setPinnedVisitors] = useState([]);
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
+    // Building Manager - Units
+    const [TenantUnits, setTenantsUnits] = useState([]);
+    
+
 
     
 
@@ -187,6 +191,9 @@ function Main(props){
                  setHistory = {setHistory}
                  UnpinnedVisitors = {UnpinnedVisitors}
                  PinnedVisitors = {PinnedVisitors}
+
+
+
                 />;
         props.setSafebg(true);
     }
@@ -194,6 +201,9 @@ function Main(props){
         page = <Manager 
                  pop = {pop} 
                  showPop = {showPop}
+                //BM Units
+                setUnits = {setUnits}
+                TenantUnits = {TenantUnits}
                 //  visiName = {visiName}
                 //  setVisiName = {setVisiName}
                 //  visiPlate ={visiPlate} 
