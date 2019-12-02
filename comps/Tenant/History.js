@@ -44,7 +44,7 @@ function History(props) {
           <Text style={Texts.SecHead}>History</Text>
           <Text style={Texts.Body}>
             Your recent visitors. You can pin a visitor to keep the profile on the top.
-              </Text>
+          </Text>
 
 
 
