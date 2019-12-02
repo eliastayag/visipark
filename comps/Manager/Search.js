@@ -11,7 +11,6 @@ import Fetch from '../Fetch';
 //  setTenant(data.tenant);
 // map, filter tenant,
 
-
 function Search(props){
   const [searchKey, setSearchKey] = useState('');  
   const [tenants, setTenants] = useState([]);
