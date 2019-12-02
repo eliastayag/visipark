@@ -112,7 +112,7 @@ const HistoryCard = (props) => {
       {
         toValue: 1,
         duration: 200,
-        delay: props.i*100
+        delay: props.i*50
       }
     ).start();
   },[]);

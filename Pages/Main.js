@@ -93,7 +93,8 @@ function Main(props){
 
     // Delete a report 
             // Fetch('deleteReport',{id: id}, 'deleted a report');
-        console.log('visitorNum', visitorNum, 'visitorName',visitorName,'visitorPlate', visitorPlate,'visitorId',visitorId,'visitorRegtime', visitorRegtime);
+
+// console.log('visitorNum', visitorNum, 'visitorName',visitorName,'visitorPlate', visitorPlate,'visitorId',visitorId,'visitorRegtime', visitorRegtime);
 
     const getSpots = async()=>{
         var spotnum = await Fetch('getSpots',null,null);
@@ -105,7 +106,7 @@ function Main(props){
         setCurrentVisitors(visitors);
         setVisitorNum(visitors.length);  
     }
-    
+
     const setHistory = async(unit)=>{
         
         var History = await Fetch('getHistory',{unit_num:unit},null);

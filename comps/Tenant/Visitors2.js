@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View, 
     Text, 
     TouchableOpacity, 
     ScrollView, 
-    Image
+    Image,
+    Animated
 }from 'react-native';
 import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
@@ -16,9 +17,19 @@ import styles from '../../styles/CompsStyles/VisitorStyles';
 function VisitorCard({obj, index, setVisitorId, showPop, setVisitorRegtime, visitorId, setVisitorName,visitorRegtime}){
     // data from database 
     // id, plate, name, time_left, regtime
+    const [cardOp] = useState(new Animated.Value(0));
+    useEffect(()=>{
+        Animated.timing(
+        cardOp,
+        {
+            toValue: 1,
+            duration: 200
+        }
+        ).start();
+    },[]);
 
 return(    
-    <View style={[styles.visitorCard, DropShadows.shadow]}>
+    <Animated.View style={[styles.visitorCard, DropShadows.shadow, {opacity: cardOp}]}>
         {/* Visitor Name */}
         <Text style={[styles.visitorName,Texts.HeadS]} numberOfLines={1}>{obj.name}</Text>
         {/* Visitor Plate */}
@@ -50,26 +61,39 @@ return(
         }}>
             <Text style={[Texts.HeadS,{color:'#fff'}]}>Remove</Text>
         </TouchableOpacity>
-    </View> 
+    </Animated.View> 
 )
 }
 
 
 
 function AddButton(props){
+    const [addOp] = useState(new Animated.Value(0));
+    useEffect(()=>{
+        Animated.timing(
+        addOp,
+        {
+            toValue: 1,
+            duration: 200
+        }
+        ).start();
+    },[props.visitorNum]);
+
 return(
-    <TouchableOpacity 
-        style={styles.addBut} 
-        onPress={() => {
-            props.showPop('AddVisitor'); 
-            }}>
-        <Image 
-            resizeMode='contain' 
-            source={require('../../img/add-visi.png')} 
-            style={styles.Img}
-        />
-        <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
-  </TouchableOpacity> 
+    <Animated.View style={{opacity: addOp}}>
+      <TouchableOpacity
+            style={styles.addBut} 
+            onPress={() => {
+                props.showPop('AddVisitor'); 
+                }}>
+            <Image 
+                resizeMode='contain' 
+                source={require('../../img/add-visi.png')} 
+                style={styles.Img}
+            />
+            <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
+    </TouchableOpacity> 
+  </Animated.View>
 )
 }
 
@@ -124,7 +148,7 @@ return(
                     })
                 }
                 {/* Add Button only shows when there are less then 2 visitors */}
-                { props.visitorNum < 2 ? <AddButton showPop = {props.showPop}/> : null }
+                { props.visitorNum < 2 ? <AddButton showPop = {props.showPop} visitorNum = {props.visitorNum}/> : null }
             </View>
 
         </View>
