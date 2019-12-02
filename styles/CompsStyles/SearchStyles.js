@@ -13,6 +13,14 @@ var styles = StyleSheet.create({
         marginBottom: 70
 
     }, 
+    content:{
+        paddingTop: 60,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingBottom: 40,
+
+    },  
+    
     SectionStyle:{
         flexDirection: 'row',
         justifyContent: 'center',

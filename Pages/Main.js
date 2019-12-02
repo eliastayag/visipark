@@ -37,6 +37,8 @@ function Main(props){
     const [PinnedVisitors, setPinnedVisitors] = useState([]);
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
 
+    
+
     // --------------- Communicate with DB ----------------
     
     // Fetch() for getting and posting
@@ -91,7 +93,7 @@ function Main(props){
             // Fetch('deactivateTenant',{num: unit},'deactivate unit');
 
     // Get all current visitor plates and all tenant plates
-            // Fetch('getCurrentPlates', null, 'Manager searching result');
+            // Fetch('getCurrentPlates', null (pass data), 'Manager searching result');
 
     // Get all reports
             // Fetch('getReports', null, 'All reports');
