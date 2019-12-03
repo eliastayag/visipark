@@ -17,12 +17,12 @@ function Search(props){
   const [visitors, setVisitors] = useState([]);
   
   const setData = async()=>{ 
-   var data = await Fetch('getCurrentPlates',null,'searchPage');
-    //  setTenant(data.tenant);
+   var data = await Fetch('getCurrentPlates',null,null);
+    
     setTenants(data.tenants);
     setVisitors(data.visitors);
-    console.log(data.tenants);
-    console.log(data);
+    // console.log(data.tenants);
+    // console.log(data);
  }
 
 // console.log('tenants',tenants);
@@ -62,7 +62,7 @@ setData();
                 resizeMode = "contain"
                 style={styles.ImageStyle}
                 />  
-              </View>       
+                     
             </View>
 
        {/* search card   */}
@@ -91,7 +91,7 @@ setData();
                 }
                 
                  
-            
+                </View>
          </ScrollView>
         </View>
     
