@@ -47,6 +47,7 @@ var styles = StyleSheet.create({
     },
     card:{
         backgroundColor: '#fff',
+        marginTop: 10,
         marginLeft:1,
         marginRight:1,
         paddingTop:20,
@@ -56,7 +57,6 @@ var styles = StyleSheet.create({
         // shadowOpacity: 0.13,
         // shadowRadius: 3,
         // borderRadius: 23,
-        marginTop: 10,
         flexDirection: 'row',
         justifyContent:"space-between",
         alignItems:"center",
@@ -87,8 +87,6 @@ var styles = StyleSheet.create({
         
     },
     List:{
-       
-       //borderWidth:1,
        position:"absolute",
        width: "60%",
        marginLeft: 70,

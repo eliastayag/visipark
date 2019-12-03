@@ -11,7 +11,6 @@ import Fetch from '../Fetch';
 //  setTenant(data.tenant);
 // map, filter tenant,
 
-
 function Search(props){
   const [searchKey, setSearchKey] = useState('');  
   const [tenants, setTenants] = useState([]);
@@ -19,7 +18,6 @@ function Search(props){
   
   const setData = async()=>{ 
    var data = await Fetch('getCurrentPlates',null,null);
-    //  setTenant(data.tenant);
     setTenants(data.tenants);
     setVisitors(data.visitors);
     // console.log(data.tenants);
@@ -53,7 +51,7 @@ setData();
             {/*  SearchBar */}
               <View style={styles.SectionStyle}>
                 <TextInput 
-                  placeholder="Search plate number"
+                  placeholder="Search Plate Number"
                   style={[styles.searchBar,Texts.FormText]}
                   onChangeText={(value)=>{setSearchKey(value)}}
                   
@@ -63,7 +61,7 @@ setData();
                 resizeMode = "contain"
                 style={styles.ImageStyle}
                 />  
-              </View>       
+                     
             </View>
 
        {/* search card   */}
@@ -92,7 +90,7 @@ setData();
                 }
                 
                  
-            
+                </View>
          </ScrollView>
         </View>
     
