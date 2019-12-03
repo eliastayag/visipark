@@ -4,10 +4,10 @@ import Texts from '../Texts';
 
 var styles = StyleSheet.create({
     container:{
-        paddingTop: 60,
-        paddingLeft: 20,
-        paddingRight: 20,
-        width:"100%",
+        //paddingTop: 60,
+        //paddingLeft: 20,
+        //paddingRight: 20,
+        //width:"100%",
         //height: "90%"
         flex: 1,
         marginBottom: 70
@@ -49,6 +49,7 @@ var styles = StyleSheet.create({
     },
     card:{
         backgroundColor: '#fff',
+        marginTop: 10,
         marginLeft:1,
         marginRight:1,
         paddingTop:20,
@@ -58,7 +59,6 @@ var styles = StyleSheet.create({
         // shadowOpacity: 0.13,
         // shadowRadius: 3,
         // borderRadius: 23,
-        marginTop: 10,
         flexDirection: 'row',
         justifyContent:"space-between",
         alignItems:"center",
@@ -71,7 +71,7 @@ var styles = StyleSheet.create({
         //borderWidth:1,
         position:"absolute",
         width: "60%",
-        marginLeft: 45,
+        marginLeft: 70,
         marginTop: 18,
         alignItems:"flex-start"
      },
