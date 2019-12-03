@@ -420,7 +420,10 @@ function Popup(props){
       <TouchableOpacity 
         style={styles.button}
         onPress={()=>{
-          props.showPop('');
+          aniOp(op,0);
+          InteractionManager.runAfterInteractions(()=>{
+            props.showPop('');
+          })
         }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
       </TouchableOpacity>
@@ -446,12 +449,16 @@ function Popup(props){
                 // update plate in database
                 Fetch('addTenantPlate',{num: props.tenantNum, plate: props.tenantPlate},'edited tenant plate');
                 // get update info from database
-                
-                // close popup
-                props.showPop('');
-                // clear variables
-                props.setTenantNum(0);
-                props.setTenantPlate('');
+                props.getTenantUnits();
+                // run animation
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  // close popup
+                  props.showPop('');
+                  // clear variables
+                  props.setTenantNum(0);
+                  props.setTenantPlate('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
@@ -460,7 +467,8 @@ function Popup(props){
       <View>
         <Text style={[Texts.Body,{marginBottom: 10}]}>Unit {props.tenantNum} plate number:</Text>
         <TextInput 
-          placeholder = "Plate Number"    
+          placeholder = "Plate Number" 
+          autoCapitalize = "characters"   
           style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
           clearButtonMode = 'always'
           maxLength = {6}
@@ -483,17 +491,23 @@ function Popup(props){
           onPress={()=>{
             // deactivate unit in database
             Fetch('deactivateTenant',{num: props.tenantNum},'deactivate unit');
-            // close popup
-            props.showPop('');
-            // clear variables
-            props.setTenantNum(0);
+            // get update info from database
+            props.getTenantUnits();
+            // run animation
+            aniOp(op,0);
+            InteractionManager.runAfterInteractions(()=>{
+              // close popup
+              props.showPop('');
+              // clear variables
+              props.setTenantNum(0);
+            })
           }}>
           <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
       </TouchableOpacity>
     )
     content = (
       <View>
-        <Text style={[Texts.Body]}>Disabling the unit will forbid the unit from logging in VisiPark. Are you sure you want to disable Visipark for unit <Text style={Text.BodyBold}>{props.tenantNum}</Text></Text>
+        <Text style={[Texts.Body]}>Disabling the unit will forbid the unit from logging in VisiPark. Are you sure you want to disable Visipark for unit <Text style={Texts.BodyBold}>{props.tenantNum}</Text> ?</Text>
       </View>
     );
   }
@@ -512,6 +526,8 @@ function Popup(props){
         {/* Close Button */}
           <TouchableOpacity 
             onPress = {()=>{
+              // get Data from database
+              props.getTenantUnits();
               // run animation 
               aniOp(op,0);
               InteractionManager.runAfterInteractions(()=>{

@@ -104,7 +104,7 @@ function Main(props){
 
 // console.log('visitorNum', visitorNum, 'visitorName',visitorName,'visitorPlate', visitorPlate,'visitorId',visitorId,'visitorRegtime', visitorRegtime);
 
-    // Tenant Login (Auto-login)
+    // BM and Tenant Login (Auto-login for tenant)
     const getUnit = async()=>{ 
         var localunit = await AsyncStorage.getItem('unit');
         if(localunit !== null && localunit !==''){
@@ -134,6 +134,14 @@ function Main(props){
         } else {
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
+            if(timer === null){
+                timer = setInterval(()=>{
+                    console.log("timer");
+                    // Get data for BM
+                    getTenantUnits();
+    
+                }, 1000)
+            }
         }
     }
 
@@ -157,7 +165,7 @@ function Main(props){
 
     // BM - Tenants
     const getTenantUnits = async()=>{
-        var Tenants = await Fetch('getTenants',null,'Tenants');
+        var Tenants = await Fetch('getTenants',null,null);
         setTenantUnits(Tenants);        
     }
 
@@ -210,7 +218,7 @@ function Main(props){
         page = <Manager 
                  pop = {pop} 
                  showPop = {showPop}
-                //BM Units
+                //BM - Tenants
                 tenantUnits = {tenantUnits}
                 setTenantUnits = {setTenantUnits}
                 getTenantUnits = {getTenantUnits}
@@ -218,6 +226,8 @@ function Main(props){
                 setTenantNum = {setTenantNum}
                 tenantPlate = {tenantPlate}
                 setTenantPlate = {setTenantPlate}
+                // BM - Search
+                // BM - Report
                 />;
         props.setSafebg(true);
     }

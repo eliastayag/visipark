@@ -68,6 +68,8 @@ if (swval == 0){
             console.log('unit', props.item.num, 'turned on');
             // activate unit in database
             Fetch('activateTenant',{num: props.item.num},'activate unit');
+            // update tenants data
+            props.getTenantUnits();
           }
           // switch being turned off - disable unit
           if (value == false){
@@ -85,18 +87,13 @@ if (swval == 0){
 
 
 function Tenants(props){
-  const [units, setUnits] = useState([]);
   // get data from database for UI
-  var setTenants = async()=>{
-    var tenants = await Fetch('getTenants',null,null);
-    setUnits(tenants);
-  }
   useEffect(()=>{
-      setTenants();
-  })
+      props.getTenantUnits();
+  },[]);
   //search function 
  const [searchKey, setSearchKey] = useState('');
- const filteredData = units.filter((obj)=>{
+ const filteredData = props.tenantUnits.filter((obj)=>{
    return obj.num.indexOf(searchKey) >= 0
  })
 
@@ -138,6 +135,9 @@ function Tenants(props){
                       index = {index}
                       pop={props.pop} 
                       showPop={props.showPop}  
+                      setTenantNum = {props.setTenantNum}
+                      setTenantPlate = {props.setTenantPlate}
+                      getTenantUnits = {props.getTenantUnits}
                       />
         )
       })}
