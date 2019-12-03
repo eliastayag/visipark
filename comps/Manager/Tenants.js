@@ -14,11 +14,10 @@ import Fetch from '../Fetch';
 
 function TenantCard(props){
   // data from database: num(int), plate(varchar), activated(boolean)
-  const [swval, setSwval] = useState(props.item.activated); //  it is 0 or 1
   var plate = null;
 
 // if a unit is not active
-if (swval == 0){
+if (props.item.activated == 0){
   // display greyed out 'add plate'
   plate = 
     <Text style={[Texts.BodyBold,styles.plateEmptyGrey]}>Add Plate</Text>
@@ -60,20 +59,18 @@ if (swval == 0){
       <Switch 
         style={styles.tenantSwitch} 
         trackColor={{true: Colors.Purple, false: 'grey'}}
-        value={swval==1}
-        onValueChange={(value, index) => {
+        value={props.item.activated==1}
+        onValueChange={async(value, index) => {
           // switch being turned on - activate unit
           if (value == true){
-            setSwval(1);
             console.log('unit', props.item.num, 'turned on');
             // activate unit in database
-            Fetch('activateTenant',{num: props.item.num},'activate unit');
+            await Fetch('activateTenant',{num: props.item.num},'activate unit');
             // update tenants data
             props.getTenantUnits();
           }
           // switch being turned off - disable unit
           if (value == false){
-            setSwval(0);
             console.log('unit', props.item.num, 'turned off');
             props.setTenantNum(props.item.num);
             // show comfirmation popup
