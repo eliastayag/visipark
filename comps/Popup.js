@@ -96,7 +96,7 @@ function Popup(props){
     button = (
       <TouchableOpacity 
         style={styles.button}
-        onPress={()=>{
+        onPress={async()=>{
           // check if all fields are filled
           if(
             ((name == '' || plate == '') && props.visitorName == '' && props.visitorPlate == '') ||
@@ -107,7 +107,7 @@ function Popup(props){
           } else {
             // if visitor is added organically
             if (name !== '' && plate !== '' && props.visitorName == '' && props.visitorPlate == ''){
-              Fetch('addVisitor',{
+              await Fetch('addVisitor',{
               unit_num: props.unit, 
               name: name, 
               plate: plate, 
@@ -116,7 +116,7 @@ function Popup(props){
             }
             // if visitor is added thru 'revisit'
             if (name == '' && plate == '' && props.visitorName !== '' && props.visitorPlate !== ''){
-              Fetch('addVisitor',{
+              await Fetch('addVisitor',{
               unit_num: props.unit, 
               name: props.visitorName, 
               plate: props.visitorPlate, 
@@ -207,9 +207,9 @@ function Popup(props){
     button = (
       <TouchableOpacity 
       style = {styles.button}
-      onPress = {()=>{
+      onPress = {async()=>{
         // Extend a visitor in database
-        Fetch('extendVisitor',{
+        await Fetch('extendVisitor',{
             id: props.visitorId, 
             extendhour: extendhr},
             'Extended a visitor');
@@ -259,9 +259,9 @@ function Popup(props){
     button = (
       <TouchableOpacity 
               style={styles.button}
-              onPress={()=>{
+              onPress={async()=>{
                 // mark visitor as removed in database
-                Fetch('removeVisitor',{id: props.visitorId},'Removed a visitor');
+                await Fetch('removeVisitor',{id: props.visitorId},'Removed a visitor');
                 // get Current visitors from database
                 props.getCurrentVisitors(props.unit);
                 // Show removed successfully
@@ -418,82 +418,96 @@ function Popup(props){
     btnTxt = 'Close';
     button = (
       <TouchableOpacity 
-              style={styles.button}
-              onPress={()=>{
-
-                // always turns off the second card slot (card2)
-                props.showPop('');
-
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
+        style={styles.button}
+        onPress={()=>{
+          aniOp(op,0);
+          InteractionManager.runAfterInteractions(()=>{
+            props.showPop('');
+          })
+        }}>
+          <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
+      </TouchableOpacity>
       )
     content = ( 
       <View>
-  <Text style={[Texts.Body]}>Date: August 23, 2019</Text>
-  <Text style={[Texts.Body,{marginBottom: 30}]}>Reported By: Unit 201</Text>
-  <Text style={[Texts.BodyBold]}>Message:</Text>
-  <Text style={[Texts.Body]}>omg someone is parking in the visitor parkign lot bad guy ohh noo stranger dangerrrrOMG... o__o</Text>
+        <Text style={[Texts.Body]}>Date: August 23, 2019</Text>
+        <Text style={[Texts.Body,{marginBottom: 30}]}>Reported By: Unit 201</Text>
+        <Text style={[Texts.BodyBold]}>Message:</Text>
+        <Text style={[Texts.Body]}>omg someone is parking in the visitor parkign lot bad guy ohh noo stranger dangerrrrOMG... o__o</Text>
       </View>
     );
   }
 
+  // -------- Unit Profile ---------
   if (props.pop == 'UnitProfile'){
     title = 'Edit License Plate';
     btnTxt = 'Set Plate';
-
     button = (
       <TouchableOpacity 
               style={styles.button}
-              onPress={()=>{
-
-                // always turns off the second card slot (card2)
-                props.showPop('');
-
+              onPress={async()=>{
+                // update plate in database
+                await Fetch('addTenantPlate',{num: props.tenantNum, plate: props.tenantPlate},'edited tenant plate');
+                // get update info from database
+                props.getTenantUnits();
+                // run animation
+                aniOp(op,0);
+                InteractionManager.runAfterInteractions(()=>{
+                  // close popup
+                  props.showPop('');
+                  // clear variables
+                  props.setTenantNum(0);
+                  props.setTenantPlate('');
+                })
               }}>
               <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
             </TouchableOpacity>
       )
     content = (
       <View>
-  <Text style={[Texts.Body,{marginBottom: 10}]}>Tenants plate number:</Text>
-  <TextInput 
-          placeholder = "Plate Number"
-          
+        <Text style={[Texts.Body,{marginBottom: 10}]}>Unit <Text style={Texts.BodyBold}>{props.tenantNum}</Text> plate number:</Text>
+        <TextInput 
+          placeholder = "Plate Number" 
+          autoCapitalize = "characters"   
           style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
           clearButtonMode = 'always'
           maxLength = {6}
           onFocus = {()=>{setStrk1(2)}}
           onBlur = {()=>{setStrk1(0)}}
-          onChangeText = {(txt)=>{(txt)}}
-
+          value = {props.tenantPlate}
+          onChangeText = {(txt)=>{props.setTenantPlate(txt)}}
         />
-  
       </View>
     );
   }
 
+  // --------- Disable Confirm -----------
   if (props.pop == 'DisableConfirm'){
-    title = "Confirmation";
+    title = "Disable Confirm";
     btnTxt = 'Disable Unit';
-
     button = (
       <TouchableOpacity 
-              style={styles.button}
-              onPress={()=>{
-
-                // always turns off the second card slot (card2)
-                props.showPop('');
-
-              }}>
-              <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
-            </TouchableOpacity>
-      )
+          style={styles.button}
+          onPress={async()=>{
+            // deactivate unit in database
+            await Fetch('deactivateTenant',{num: props.tenantNum},'deactivate unit');
+            // get update info from database
+            await props.getTenantUnits();
+            // run animation
+            aniOp(op,0);
+            InteractionManager.runAfterInteractions(()=>{
+              // close popup
+              props.showPop('');
+              // clear variables
+              props.setTenantNum(0);
+            })
+          }}>
+          <Text style={[Texts.HeadS,{color: "#fff"}]}>{btnTxt}</Text>
+      </TouchableOpacity>
+    )
     content = (
       <View>
-  <Text style={[Texts.Body]}>Are you sure you want to disable Visipark for this unit?</Text>
-
-  
+        <Text style={[Texts.Body]}>Disabling the unit will forbid the unit from logging in VisiPark. Are you sure you want to disable Visipark for unit <Text style={Texts.BodyBold}>{props.tenantNum}</Text> ?</Text>
       </View>
     );
   }
@@ -511,8 +525,10 @@ function Popup(props){
         <View style={styles.poparea}>
         {/* Close Button */}
           <TouchableOpacity 
-
             onPress = {()=>{
+              // get Data from database
+              console.log('close popup');
+              props.getTenantUnits();
               // run animation 
               aniOp(op,0);
               InteractionManager.runAfterInteractions(()=>{
@@ -527,10 +543,12 @@ function Popup(props){
                 props.setVisitorPlate('');
                 props.setVisitorRegtime(0);
                 props.setVisitorId(0);
-              })
-              
+                props.setTenantNum(0);
+                props.setTenantPlate('');
+              })  
             }}
-            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking'||props.pop=='Remove'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports')?'flex':'none'}]} 
+            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking'||props.pop=='Remove'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports')?
+            'flex':'none'}]} 
           >
               <Image 
                   source={require('../img/cross.png')}

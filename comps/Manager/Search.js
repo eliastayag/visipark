@@ -18,7 +18,6 @@ function Search(props){
   
   const setData = async()=>{ 
    var data = await Fetch('getCurrentPlates',null,null);
-    
     setTenants(data.tenants);
     setVisitors(data.visitors);
     // console.log(data.tenants);

@@ -32,7 +32,9 @@ function Main(props){
     const [PinnedVisitors, setPinnedVisitors] = useState([]);
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
     // Building Manager - Units
-    const [TenantUnits, setTenantsUnits] = useState([]);
+    const [tenantNum, setTenantNum] = useState(0);
+    const [tenantPlate,setTenantPlate] = useState('');
+    const [tenantUnits, setTenantUnits] = useState([]);
     
 
 
@@ -102,24 +104,7 @@ function Main(props){
 
 // console.log('visitorNum', visitorNum, 'visitorName',visitorName,'visitorPlate', visitorPlate,'visitorId',visitorId,'visitorRegtime', visitorRegtime);
 
-    const getSpots = async()=>{
-        var spotnum = await Fetch('getSpots',null,null);
-        setSpots(spotnum);
-    }
-
-    const getCurrentVisitors = async(unit)=>{
-        var visitors = await Fetch('getCurrentVisitors',{unit_num: unit},null);
-        setCurrentVisitors(visitors);
-        setVisitorNum(visitors.length);  
-    }
-
-    const setHistory = async(unit)=>{
-        
-        var History = await Fetch('getHistory',{unit_num:unit},null);
-        setPinnedVisitors(History.pinned);
-        setUnpinnedVisitors(History.notpinned);
-    }
-
+    // BM and Tenant Login (Auto-login for tenant)
     const getUnit = async()=>{ 
         var localunit = await AsyncStorage.getItem('unit');
         if(localunit !== null && localunit !==''){
@@ -136,26 +121,52 @@ function Main(props){
             if(timer === null){
                 timer = setInterval(()=>{
                     console.log("timer");
-                    // // auto remove 
+                    // Get data for Tenant
                     Fetch('autoRemove',null,null);
-                    // console.log('interval', unit);
                     getCurrentVisitors(localunit);
                     getSpots();
                     setHistory(localunit);
+                    // Get data for BM
+                    getTenantUnits();
     
-                }, 1000)
+                }, 10000)
             }
         } else {
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
-            console.log('Login Page');
+            if(timer === null){
+                timer = setInterval(()=>{
+                    console.log("timer1");
+                    // Get data for BM
+                    getTenantUnits();
+    
+                }, 10000)
+            }
         }
     }
 
+    // Tenant - Visitors
+    const getSpots = async()=>{
+        var spotnum = await Fetch('getSpots',null,null);
+        setSpots(spotnum);
+    }
+    const getCurrentVisitors = async(unit)=>{
+        var visitors = await Fetch('getCurrentVisitors',{unit_num: unit},null);
+        setCurrentVisitors(visitors);
+        setVisitorNum(visitors.length);  
+    }
+    // Tenant - History
+    const setHistory = async(unit)=>{
+        
+        var History = await Fetch('getHistory',{unit_num:unit},null);
+        setPinnedVisitors(History.pinned);
+        setUnpinnedVisitors(History.notpinned);
+    }
 
-    const setUnits = async()=>{
-        var Tenants = await Fetch('getTenants',null,'Tenants');
-        setTenantUnits(Tenants.units);        
+    // BM - Tenants
+    const getTenantUnits = async()=>{
+        var Tenants = await Fetch('getTenants',null,null);
+        setTenantUnits(Tenants);        
     }
 
     // conditions to show and hide pages
@@ -207,15 +218,16 @@ function Main(props){
         page = <Manager 
                  pop = {pop} 
                  showPop = {showPop}
-                //BM Units
-                setUnits = {setUnits}
-                TenantUnits = {TenantUnits}
-                //  visiName = {visiName}
-                //  setVisiName = {setVisiName}
-                //  visiPlate ={visiPlate} 
-                //  setVisiPlate = {setVisiPlate}
-                //  visiDur = {visiDur} 
-                //  setVisiDur = {setVisiDur}
+                //BM - Tenants
+                tenantUnits = {tenantUnits}
+                setTenantUnits = {setTenantUnits}
+                getTenantUnits = {getTenantUnits}
+                tenantNum = {tenantNum}
+                setTenantNum = {setTenantNum}
+                tenantPlate = {tenantPlate}
+                setTenantPlate = {setTenantPlate}
+                // BM - Search
+                // BM - Report
                 />;
         props.setSafebg(true);
     }
@@ -247,6 +259,12 @@ function Main(props){
                      setVisitorRegtime = {setVisitorRegtime}
                     // fetch 
                     getCurrentVisitors = {getCurrentVisitors}
+                    // BM - Units
+                    getTenantUnits = {getTenantUnits}
+                    tenantNum = {tenantNum}
+                    setTenantNum = {setTenantNum}
+                    tenantPlate = {tenantPlate}
+                    setTenantPlate = {setTenantPlate}
                      />;                 
              }
 
@@ -258,7 +276,6 @@ function Main(props){
     useEffect(()=>{
         // when the app loads
         getUnit();
-        // update every second
         
         return ()=>{
             if(timer){
