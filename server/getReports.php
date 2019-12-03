@@ -16,7 +16,7 @@ header("Content-type:application/json");
 // get all reports that aren't deleted
 function getReports(){
     $sql = "
-    SELECT id, unit_num, DATE(created) as date, subject, message 
+    SELECT id, unit_num, DATE(created), subject, message 
     FROM reports
     WHERE deleted = 0
     ";
