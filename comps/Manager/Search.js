@@ -52,7 +52,7 @@ setData();
             {/*  SearchBar */}
               <View style={styles.SectionStyle}>
                 <TextInput 
-                  placeholder="Search plate number"
+                  placeholder="Search Plate Number"
                   style={[styles.searchBar,Texts.FormText]}
                   onChangeText={(value)=>{setSearchKey(value)}}
                   
