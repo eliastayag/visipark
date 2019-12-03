@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity, TouchableHighlight} from 'react-native';
 import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
 import styles from '../../styles/CompsStyles/ReportsStyles';
 import DropShadows from '../../styles/DropShadows';
 import Fetch from '../Fetch';
+import Swipeout from 'react-native-swipeout';
 
 function ReportCard(props){
 
+  const leftContent = <Text>Delete</Text>;
+ 
+
+
   return(
+    
      <TouchableOpacity onPress={() => {props.showPop('Reports')}}>
           <View style={[styles.card, DropShadows.shadow]}>
           <Text style={[Texts.HeadS,]}>{props.item.subject}</Text>
@@ -17,6 +23,7 @@ function ReportCard(props){
           <Text style={Texts.Link}>Read More >>></Text>
           </View>  
           </TouchableOpacity> 
+          
   )
 }
 
