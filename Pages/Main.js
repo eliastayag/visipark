@@ -33,6 +33,7 @@ function Main(props){
     const [UnpinnedVisitors, setUnpinnedVisitors] = useState([]);
     // Building Manager - Units
     const [TenantUnits, setTenantsUnits] = useState([]);
+    const [TenantReports, setTenantsReports] = useState([]);
     
 
 
@@ -158,6 +159,14 @@ function Main(props){
         setTenantUnits(Tenants.units);        
     }
 
+    const setReports = async()=>{
+        var Reports = await Fetch('getReports', null, 'All reports');
+        setTenantReports(Reports.reports);        
+    }
+
+
+
+
     // conditions to show and hide pages
     if(showpage == 'Login'){
         page = <Login 
@@ -210,6 +219,8 @@ function Main(props){
                 //BM Units
                 setUnits = {setUnits}
                 TenantUnits = {TenantUnits}
+                TenantReports = {TenantReports}
+                setReports = {setReports}
                 //  visiName = {visiName}
                 //  setVisiName = {setVisiName}
                 //  visiPlate ={visiPlate} 
