@@ -71,18 +71,20 @@ var styles = StyleSheet.create({
         //borderWidth:1,
         position:"absolute",
         width: "60%",
-        marginLeft: 70,
+        marginLeft: 30,
         marginTop: 18,
-        alignItems:"flex-start"
+        alignItems:"flex-start",
+        justifyContent:"space-between"
      },
      Status:{
         color:Colors.Purple,
-        marginRight: 25,
+        marginRight: 30,
         alignItems: 'center',
         justifyContent:"center",
-        paddingLeft: 250,
+        paddingLeft: 280,
         //paddingRight: 15,
-     },
+     }
+     
      
     
 });

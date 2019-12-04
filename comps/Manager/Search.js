@@ -21,23 +21,31 @@ function Search(props){
     setTenants(data.tenants);
     setVisitors(data.visitors);
     // console.log(data.tenants);
+    //console.log(data.visitors);
     // console.log(data);
  }
 
 // console.log('tenants',tenants);
   const filteredData = tenants.filter((obj)=>{
     return obj.plate.indexOf(searchKey) >= 0 ||
-            obj.num.indexOf(searchKey) >= 0 
-  });
-  const filteredData1 = visitors.filter((obj)=>{
-    return obj.plate.indexOf(searchKey) >= 0 ||
-            obj.num.indexOf(searchKey) >= 0 
+            obj.num.indexOf(searchKey) >= 0 ||
+            obj.plate.toLowerCase().indexOf(searchKey) >= 0 ||
+            obj.num.toLowerCase().indexOf(searchKey) >= 0 
   });
 
-  useEffect(()=>{
-    setData();
+  const filteredData1 = visitors.filter((obj)=>{
+    return obj.plate.indexOf(searchKey) >= 0 ||
+            obj.unit_num.indexOf(searchKey) >= 0 ||
+            obj.plate.toLowerCase().indexOf(searchKey) >= 0 ||
+            obj.unit_num.toLowerCase().indexOf(searchKey) >= 0 
+    
+  });
+
+
+//setData();
+useEffect(()=>{
+  setData();
 },[]);
-  
 
 
  //console.log('filetered',filteredData);
@@ -69,29 +77,30 @@ function Search(props){
             </View>
 
        {/* search card   */}
-                {filteredData1.map((obj, index)=>{
+              {filteredData1.length > 0  ?
+
+                (filteredData1.map((obj, index)=>{
                   return (                
                     <SearchCardV 
                     setData={props.setData}
                     obj={obj}
                     i={index}                               
                     />
-                  )
-                })
-                
-                }
+                  )              
+                  })) :
 
-                {filteredData.map((obj, index)=>{
+                (filteredData.map((obj, index)=>{
                   return (                
                     <SearchCard 
                     setData={props.setData}
                     obj={obj}
                     i={index}                               
                     />
-                  )
-                })
+                  )}
+                ))
                 
                 }
+              
                 
                  
                 </View>
@@ -107,15 +116,16 @@ const SearchCard = (props) => {
       return(
          <View style={[styles.card, DropShadows.shadow]}>
 
-                    <View style={styles.List}>
-                      <Text style={Texts.HeadS}>{props.obj.plate}</Text>
-                      <Text style={Texts.BodyLight}>unit{props.obj.num}</Text>
-                    </View>
-                    
-                    <View> 
-                      <Text style={[Texts.BodyBold,styles.Status]}>Tenant
+              <View style={styles.List}>
+                <Text style={Texts.HeadS}>{props.obj.plate}</Text>
+                 <Text style={Texts.BodyLight}>unit{' '}
+                  <Text style={Texts.BodyBold}>{props.obj.num}</Text>    
+                 </Text>
+              </View>       
+               <View> 
+                  <Text style={[Texts.BodyBold,styles.Status]}>Tenant
                       </Text>
-                    </View> 
+               </View> 
 
         </View>
                   
@@ -130,7 +140,11 @@ return(
 
               <View style={styles.List}>
                 <Text style={Texts.HeadS}>{props.obj.plate}</Text>
-                <Text style={Texts.BodyLight}>unit{props.obj.unit_num}</Text>
+                <Text style={Texts.BodyLight}>unit {' '}
+                
+                  <Text style={Texts.BodyBold}>{props.obj.unit_num}</Text>
+               
+                </Text>
               </View>
               
               <View> 
