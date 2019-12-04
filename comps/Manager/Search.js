@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity, ScrollView} from 'react-native';
 import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
@@ -33,8 +33,12 @@ function Search(props){
     return obj.plate.indexOf(searchKey) >= 0 ||
             obj.num.indexOf(searchKey) >= 0 
   });
+
+  useEffect(()=>{
+    setData();
+},[]);
   
-setData();
+
 
  //console.log('filetered',filteredData);
 
