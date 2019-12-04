@@ -41,12 +41,14 @@ var styles = StyleSheet.create({
     },
 
     card:{
+        // borderWidth: 1,
         backgroundColor: '#fff',
         paddingLeft: 30,
         paddingRight: 30,
         marginLeft:20,
         marginRight:20,
-        marginTop: 10,
+        // marginTop: 10,
+        marginTop: 15,
         paddingTop:10,
         paddingBottom:10,
         flexDirection: "row",

@@ -49,7 +49,8 @@ var styles = StyleSheet.create({
     },
     card:{
         backgroundColor: '#fff',
-        marginTop: 10,
+        // marginTop: 10,
+        marginTop: 15,
         marginLeft:1,
         marginRight:1,
         paddingTop:20,

@@ -18,6 +18,7 @@ import {
 import styles from './styles/PagesStyles/AppStyles';
 import Main from './Pages/Main';
 import {Colors} from './styles/Colors';
+console.disableYellowBox = true;
 
 function App(){
   const [safebg, setSafebg] = useState(true)

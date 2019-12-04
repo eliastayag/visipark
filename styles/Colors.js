@@ -5,9 +5,9 @@ export const Colors = {
   // Darkgrey: '#bcbcbc',
   // Lightgrey: '#fafafa',
   // Black: '#151515'
-  Purple:'#9d3ae8',
+  Purple:'#f542e9',
   Darkgrey: '#878787',
-  Lightgrey: '#ebebeb',
+  Lightgrey: '#D9D9D9',
   Black: '#151515'
 };
 

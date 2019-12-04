@@ -128,7 +128,7 @@ function Tenants(props){
         <Text style={[Texts.Body, styles.subActive]}>Active</Text>
       </View>
       {/* tenants list starts here */}
-      <ScrollView 
+      <ScrollView
         style={{marginBottom:72, marginTop:5}}>
         
         {filteredData.map((item, index)=>{
