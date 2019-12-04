@@ -105,8 +105,8 @@ function History(props) {
 
 const HistoryCard = (props) => {
   const [cardOp] = useState(new Animated.Value(0));
-
-  useEffect(()=>{
+  
+  const runAnim = ()=>{
     Animated.timing(
       cardOp,
       {
@@ -115,17 +115,30 @@ const HistoryCard = (props) => {
         delay: props.i*50
       }
     ).start();
+  }
+
+  // var curFunc = runAnim;
+  // if(props.status === 1){
+  //   curFunc = stopAnim;
+  // }
+
+  // curFunc();
+
+  useEffect(()=>{
+    runAnim();
   },[]);
   
   return (
     <Animated.View style={[styles.card, DropShadows.shadow,{opacity: cardOp}]}>
-      <TouchableOpacity onPress={() => {
+      <TouchableOpacity onPress={async() => {
         console.log('pin/unpin a visitor unit', props.unit, 'id', props.obj.id);
         
         // do if else statement to pin or unpined
         props.pin === 0 ?
-          Fetch('pinVisitor', { unit_num: props.unit, id: props.obj.id }, 'Pinned a visitor')
-          : Fetch('unpinVisitor', { unit_num: props.unit, id: props.obj.id }, 'Pinned a visitor');
+          await Fetch('pinVisitor', { unit_num: props.unit, id: props.obj.id }, 'Pinned a visitor')
+          : await Fetch('unpinVisitor', { unit_num: props.unit, id: props.obj.id }, 'Pinned a visitor');
+          cardOp.setValue(0);
+          runAnim();
            // set History
           props.setHistory(props.unit);
       }}>

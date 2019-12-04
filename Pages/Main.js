@@ -120,7 +120,7 @@ function Main(props){
             // start setting timer
             if(timer === null){
                 timer = setInterval(()=>{
-                    //console.log("timer");
+                    console.log("timer");
                     // Get data for Tenant
                     Fetch('autoRemove',null,null);
                     getCurrentVisitors(localunit);
@@ -129,18 +129,18 @@ function Main(props){
                     // Get data for BM
                     getTenantUnits();
     
-                }, 1000)
+                }, 10000)
             }
         } else {
             // if there ISN'T unit number stored in local storage
             setShowpage('Login');
             if(timer === null){
                 timer = setInterval(()=>{
-                    //console.log("timer");
+                    console.log("timer1");
                     // Get data for BM
                     getTenantUnits();
     
-                }, 1000)
+                }, 10000)
             }
         }
     }

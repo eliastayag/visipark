@@ -96,7 +96,7 @@ function Popup(props){
     button = (
       <TouchableOpacity 
         style={styles.button}
-        onPress={()=>{
+        onPress={async()=>{
           // check if all fields are filled
           if(
             ((name == '' || plate == '') && props.visitorName == '' && props.visitorPlate == '') ||
@@ -107,7 +107,7 @@ function Popup(props){
           } else {
             // if visitor is added organically
             if (name !== '' && plate !== '' && props.visitorName == '' && props.visitorPlate == ''){
-              Fetch('addVisitor',{
+              await Fetch('addVisitor',{
               unit_num: props.unit, 
               name: name, 
               plate: plate, 
@@ -116,7 +116,7 @@ function Popup(props){
             }
             // if visitor is added thru 'revisit'
             if (name == '' && plate == '' && props.visitorName !== '' && props.visitorPlate !== ''){
-              Fetch('addVisitor',{
+              await Fetch('addVisitor',{
               unit_num: props.unit, 
               name: props.visitorName, 
               plate: props.visitorPlate, 
@@ -207,9 +207,9 @@ function Popup(props){
     button = (
       <TouchableOpacity 
       style = {styles.button}
-      onPress = {()=>{
+      onPress = {async()=>{
         // Extend a visitor in database
-        Fetch('extendVisitor',{
+        await Fetch('extendVisitor',{
             id: props.visitorId, 
             extendhour: extendhr},
             'Extended a visitor');
@@ -259,9 +259,9 @@ function Popup(props){
     button = (
       <TouchableOpacity 
               style={styles.button}
-              onPress={()=>{
+              onPress={async()=>{
                 // mark visitor as removed in database
-                Fetch('removeVisitor',{id: props.visitorId},'Removed a visitor');
+                await Fetch('removeVisitor',{id: props.visitorId},'Removed a visitor');
                 // get Current visitors from database
                 props.getCurrentVisitors(props.unit);
                 // Show removed successfully
@@ -445,9 +445,9 @@ function Popup(props){
     button = (
       <TouchableOpacity 
               style={styles.button}
-              onPress={()=>{
+              onPress={async()=>{
                 // update plate in database
-                Fetch('addTenantPlate',{num: props.tenantNum, plate: props.tenantPlate},'edited tenant plate');
+                await Fetch('addTenantPlate',{num: props.tenantNum, plate: props.tenantPlate},'edited tenant plate');
                 // get update info from database
                 props.getTenantUnits();
                 // run animation
@@ -465,7 +465,7 @@ function Popup(props){
       )
     content = (
       <View>
-        <Text style={[Texts.Body,{marginBottom: 10}]}>Unit {props.tenantNum} plate number:</Text>
+        <Text style={[Texts.Body,{marginBottom: 10}]}>Unit <Text style={Texts.BodyBold}>{props.tenantNum}</Text> plate number:</Text>
         <TextInput 
           placeholder = "Plate Number" 
           autoCapitalize = "characters"   
@@ -488,11 +488,11 @@ function Popup(props){
     button = (
       <TouchableOpacity 
           style={styles.button}
-          onPress={()=>{
+          onPress={async()=>{
             // deactivate unit in database
-            Fetch('deactivateTenant',{num: props.tenantNum},'deactivate unit');
+            await Fetch('deactivateTenant',{num: props.tenantNum},'deactivate unit');
             // get update info from database
-            props.getTenantUnits();
+            await props.getTenantUnits();
             // run animation
             aniOp(op,0);
             InteractionManager.runAfterInteractions(()=>{
@@ -527,6 +527,7 @@ function Popup(props){
           <TouchableOpacity 
             onPress = {()=>{
               // get Data from database
+              console.log('close popup');
               props.getTenantUnits();
               // run animation 
               aniOp(op,0);
@@ -546,9 +547,7 @@ function Popup(props){
                 props.setTenantPlate('');
               })  
             }}
-            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking'||props.pop=='Remove'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports'|| 
-            props.pop=='UnitProfile'||
-            props.pop=='DisableConfirm')?
+            style={[styles.closeBut,{display:(props.pop=='AddVisitor'||props.pop=='ExtendParking'||props.pop=='Remove'||props.pop=='DisableConfirm'||props.pop=='UnitProfile'||props.pop=='Reports')?
             'flex':'none'}]} 
           >
               <Image 
