@@ -3,6 +3,8 @@ import {View, Text,
         TextInput,
         ScrollView,
         TouchableOpacity,
+        TouchableWithoutFeedback,
+        Keyboard,
         Image,
         Switch
     } from 'react-native';
@@ -95,6 +97,7 @@ function Tenants(props){
  })
 
   return(
+  <TouchableWithoutFeedback onPress = {Keyboard.dissmiss}>
     <View style={styles.container}>
       {/* Header */}
       <Text style={[Texts.SecHead, styles.header]}>Tenants</Text>
@@ -138,8 +141,10 @@ function Tenants(props){
                       />
         )
       })}
-      </ScrollView>            
+      </ScrollView>  
+              
     </View>
-    )
+  </TouchableWithoutFeedback>
+  )
 }
 export default Tenants;
