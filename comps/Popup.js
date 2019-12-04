@@ -411,10 +411,9 @@ function Popup(props){
   }
 
 
-
   // ------  Building Manager Reports Popup --------
   if (props.pop == 'Reports'){
-    title = 'Parking Sideways!!';
+    title = "Tenant Report";
     btnTxt = 'Close';
     button = (
       <TouchableOpacity 
@@ -429,11 +428,20 @@ function Popup(props){
       </TouchableOpacity>
       )
     content = ( 
+      
       <View>
-        <Text style={[Texts.Body]}>Date: August 23, 2019</Text>
-        <Text style={[Texts.Body,{marginBottom: 30}]}>Reported By: Unit 201</Text>
+  <Text style={[Texts.Body]}>Subject: Someone parked sideways</Text>
+
+        <Text style={[Texts.Body]}>Date: 2019-12-03</Text>
+        <Text style={[Texts.Body,{marginBottom: 30}]}>From: Unit 101</Text>
         <Text style={[Texts.BodyBold]}>Message:</Text>
-        <Text style={[Texts.Body]}>omg someone is parking in the visitor parkign lot bad guy ohh noo stranger dangerrrrOMG... o__o</Text>
+        <Text style={[Texts.Body]}>A grew truck parked sideways and took up 3 parking spots... his plate is 123 ADC. please fix this issue.</Text>
+  {/* <Text style={[Texts.Body]}>Subject: {props.reportSubject}</Text>
+
+        <Text style={[Texts.Body]}>Date: {props.reportDate}</Text>
+        <Text style={[Texts.Body,{marginBottom: 30}]}>From: Unit {props.tenantNum}</Text>
+        <Text style={[Texts.BodyBold]}>Message:</Text>
+        <Text style={[Texts.Body]}>{props.reportBody}</Text> */}
       </View>
     );
   }

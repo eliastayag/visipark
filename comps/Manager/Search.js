@@ -40,11 +40,13 @@ function Search(props){
             obj.unit_num.toLowerCase().indexOf(searchKey) >= 0 
     
   });
-  
+
+
 //setData();
 useEffect(()=>{
   setData();
 },[]);
+
 
  //console.log('filetered',filteredData);
 

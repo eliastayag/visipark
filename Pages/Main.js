@@ -35,6 +35,11 @@ function Main(props){
     const [tenantNum, setTenantNum] = useState(0);
     const [tenantPlate,setTenantPlate] = useState('');
     const [tenantUnits, setTenantUnits] = useState([]);
+    // Building Manager - Reports
+    const [tenantReports, setTenantReports] = useState([]);
+    const [reportSubject, setReportSubject] = useState('');
+    const [reportDate, setReportDate] = useState('');
+    const [reportBody, setReportBody] = useState('');
     
 
 
@@ -169,6 +174,12 @@ function Main(props){
         setTenantUnits(Tenants);        
     }
 
+    // BM - Reports
+    var getTenantReports = async()=>{
+        var Reports = await Fetch('getReports', null, null);
+        setTenantReports(Reports);
+      }
+
     // conditions to show and hide pages
     if(showpage == 'Login'){
         page = <Login 
@@ -228,6 +239,12 @@ function Main(props){
                 setTenantPlate = {setTenantPlate}
                 // BM - Search
                 // BM - Report
+                tenantReports = {tenantReports}
+                reportSubject = {reportSubject}
+                reportDate = {reportDate}
+                reportBody = {reportBody}
+                getTenantReports = {getTenantReports}
+                setTenantReports = {setTenantReports}
                 />;
         props.setSafebg(true);
     }
@@ -265,6 +282,14 @@ function Main(props){
                     setTenantNum = {setTenantNum}
                     tenantPlate = {tenantPlate}
                     setTenantPlate = {setTenantPlate}
+                    // BM - Reports
+                    tenantReports = {tenantReports}
+                    reportSubject = {reportSubject}
+                    reportDate = {reportDate}
+                    reportBody = {reportBody}
+                    getTenantReports = {getTenantReports}
+                    setTenantReports = {setTenantReports}
+
                      />;                 
              }
 
