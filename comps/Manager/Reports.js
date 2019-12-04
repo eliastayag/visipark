@@ -5,7 +5,7 @@ import Texts from '../../styles/Texts';
 import styles from '../../styles/CompsStyles/ReportsStyles';
 import DropShadows from '../../styles/DropShadows';
 import Fetch from '../Fetch';
-import Swipeout from 'react-native-swipeout';
+
 
 function ReportCard(props){
 
