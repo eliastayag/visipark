@@ -97,7 +97,9 @@ function Tenants(props){
  })
 
   return(
+
   <TouchableWithoutFeedback onPress = {Keyboard.dissmiss}>
+
     <View style={styles.container}>
       {/* Header */}
       <Text style={[Texts.SecHead, styles.header]}>Tenants</Text>
@@ -141,8 +143,10 @@ function Tenants(props){
                       />
         )
       })}
+
       </ScrollView>  
               
+
     </View>
   </TouchableWithoutFeedback>
   )
