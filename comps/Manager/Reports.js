@@ -9,7 +9,6 @@ import Fetch from '../Fetch';
 
 function ReportCard(props){
 
-  const leftContent = <Text>Delete</Text>;
  
 
 
@@ -52,7 +51,14 @@ useEffect(()=>{
 <ScrollView style={{marginBottom:72}}>
                 {Tenantreports.map((item, index)=>{
                   return (
-                <ReportCard item={item} pop={props.pop} showPop={props.showPop} item={item}/>
+                <ReportCard item={item} pop={props.pop} showPop={props.showPop} item={item}
+                            tenantReports = {props.tenantReports}
+                            reportSubject = {props.reportSubject}
+                            reportDate = {props.reportDate}
+                            reportBody = {props.reportBody}
+                            getTenantReports = {props.getTenantReports}
+                            setTenantReports = {props.setTenantReports}
+                />
                   )
                 })}
              </ScrollView>  

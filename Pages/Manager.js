@@ -31,6 +31,7 @@ const [cont, setCont] = useState ('Tenants');
                 setTenantNum = {props.setTenantNum}
                 tenantPlate = {props.tenantPlate}
                 setTenantPlate = {props.setTenantPlate}
+                
                 />
 
     tenantimg = require('../img/ppl-purp.png')
@@ -45,7 +46,14 @@ const [cont, setCont] = useState ('Tenants');
     reportsimg = require('../img/report-grey.png')
   }
   if(cont == 'Reports'){
-    Content = <Reports pop={props.pop} showPop={props.showPop}/>
+    Content = <Reports pop={props.pop} showPop={props.showPop} 
+                        tenantReports = {props.tenantReports}
+                        reportSubject = {props.reportSubject}
+                        reportDate = {props.reportDate}
+                        reportBody = {props.reportBody}
+                        getTenantReports = {props.getTenantReports}
+                        setTenantReports = {props.setTenantReports}
+    />
 
     tenantimg = require('../img/ppl-grey.png')
     searchimg = require('../img/search-grey.png')
