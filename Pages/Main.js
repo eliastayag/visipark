@@ -114,7 +114,7 @@ function Main(props){
         var localunit = await AsyncStorage.getItem('unit');
         if(localunit !== null && localunit !==''){
             // if there IS unit number stored in local storage
-            console.log('Logged in unit', localunit);
+           // console.log('Logged in unit', localunit);
             // run get current visitor 
             setUnit(localunit);
             getSpots();
@@ -125,7 +125,7 @@ function Main(props){
             // start setting timer
             if(timer === null){
                 timer = setInterval(()=>{
-                    console.log("timer");
+                   // console.log("timer");
                     // Get data for Tenant
                     Fetch('autoRemove',null,null);
                     getCurrentVisitors(localunit);
@@ -141,7 +141,7 @@ function Main(props){
             setShowpage('Login');
             if(timer === null){
                 timer = setInterval(()=>{
-                    console.log("timer1");
+                    //console.log("timer1");
                     // Get data for BM
                     getTenantUnits();
     
