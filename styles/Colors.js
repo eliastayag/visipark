@@ -1,9 +1,13 @@
 
 
 export const Colors = {
-  Purple: '#863AE8',
-  Darkgrey: '#bcbcbc',
-  Lightgrey: '#fafafa',
+  // Purple: '#863AE8', adjusting colours for presentation projector
+  // Darkgrey: '#bcbcbc',
+  // Lightgrey: '#fafafa',
+  // Black: '#151515'
+  Purple:'#9d3ae8',
+  Darkgrey: '#878787',
+  Lightgrey: '#ebebeb',
   Black: '#151515'
 };
 

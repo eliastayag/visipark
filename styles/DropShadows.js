@@ -6,7 +6,7 @@ var DropShadows  = StyleSheet.create({
     shadow:{
         shadowColor: Colors.Purple,
         shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 0.13,
+        shadowOpacity: 0.6,
         shadowRadius: 13,
         borderRadius: 23
 
