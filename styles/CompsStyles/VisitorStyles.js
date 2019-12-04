@@ -28,8 +28,7 @@ var styles = StyleSheet.create({
         overflow: "scroll"
     },
 
-    Box:{
-        marginTop:10,
+    addBut:{
         alignItems: "center",
         justifyContent: "center",
         height: 180,
@@ -39,18 +38,7 @@ var styles = StyleSheet.create({
         borderWidth: 3.1,
     },
 
-    Box2:{
-        marginTop: 15,
-        alignItems: "center",
-        justifyContent: "center",
-        height: 180,
-        borderRadius: 23,  
-        borderStyle: "dashed",
-        borderColor: "#CAB2E8",
-        borderWidth: 3.1,
-    },
-
-    activeBox:{
+    visitorCard:{
         alignItems: "center",
         justifyContent: "center",
         height: 180,
@@ -58,18 +46,7 @@ var styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderColor: "#CAB2E8",
         borderWidth: .2,
-    },
-
-    activeBox2:{
-
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-        height: 180,
-        borderRadius: 23,
-        borderColor: "#CAB2E8",
-        borderWidth: .2,
-        marginTop: 20,
+        marginBottom: 20
     },
 
     Img:{
@@ -94,42 +71,23 @@ var styles = StyleSheet.create({
     time: {
         position: "absolute",
         top: "13%",
-        right: "9.5%",
-        fontFamily:'Poppins-SemiBold',
-        fontSize:20,
-        color: Colors.Purple,
-        letterSpacing: 1
+        right: "9.5%"
     },
 
     visitorName: {
         position: "absolute",
         top: "14%",
         left: "10%",
-        fontFamily:'Poppins-SemiBold',
-        fontSize:20,
-        color: Colors.Black,
-        letterSpacing: 1,
         width: 180,
         
     },
-
     leftText:{
-        fontFamily:'OpenSans-Regular',
-        fontSize:16,
-        color: Colors.Darkgrey,
-        letterSpacing: 0.3,
-        lineHeight: 23,
         position: "absolute",
         top: "29%",
         right: "10%",
     },
 
     plateText:{
-        fontFamily:'OpenSans-Regular',
-        fontSize:16,
-        color: Colors.Darkgrey,
-        letterSpacing: 0.3,
-        lineHeight: 23,
         position: "absolute",
         top: "29%",
         left: "10%",
@@ -172,7 +130,7 @@ var styles = StyleSheet.create({
         borderWidth: 2,
         justifyContent:'center',
         alignItems:'center',
-        borderColor: 'lightgrey',
+        borderColor:Colors.Darkgrey,
         borderRadius: 23,
     }
 })

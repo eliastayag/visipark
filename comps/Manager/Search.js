@@ -18,7 +18,6 @@ function Search(props){
   
   const setData = async()=>{ 
    var data = await Fetch('getCurrentPlates',null,null);
-    
     setTenants(data.tenants);
     setVisitors(data.visitors);
     // console.log(data.tenants);
@@ -59,7 +58,7 @@ setData();
             {/*  SearchBar */}
               <View style={styles.SectionStyle}>
                 <TextInput 
-                  placeholder="Search plate number"
+                  placeholder="Search Plate Number"
                   style={[styles.searchBar,Texts.FormText]}
                   onChangeText={(value)=>{setSearchKey(value)}}
                   

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View, 
     Text, 
     TouchableOpacity, 
     ScrollView, 
-    Image
+    Image,
+    Animated
 }from 'react-native';
 import {Colors} from '../../styles/Colors';
 import Texts from '../../styles/Texts';
@@ -16,18 +17,28 @@ import styles from '../../styles/CompsStyles/VisitorStyles';
 function VisitorCard({obj, index, setVisitorId, showPop, setVisitorRegtime, visitorId, setVisitorName,visitorRegtime}){
     // data from database 
     // id, plate, name, time_left, regtime
+    const [cardOp] = useState(new Animated.Value(0));
+    useEffect(()=>{
+        Animated.timing(
+        cardOp,
+        {
+            toValue: 1,
+            duration: 200
+        }
+        ).start();
+    },[]);
 
 return(    
-    <View style={[styles.activeBox, DropShadows.shadow]}>
+    <Animated.View style={[styles.visitorCard, DropShadows.shadow, {opacity: cardOp}]}>
         {/* Visitor Name */}
-        <Text style={Texts.HeadS} numberOfLines={1}>{obj.name}</Text>
+        <Text style={[styles.visitorName,Texts.HeadS]} numberOfLines={1}>{obj.name}</Text>
         {/* Visitor Plate */}
-        <Text style={Texts.BodyLight}>{obj.plate}</Text>
+        <Text style={[styles.plateText,Texts.BodyLight]}>{obj.plate}</Text>
         {/* Car icon */}
         <Image resizeMode='contain' source={require('../../img/car.png')} style={styles.carIcon} />
         {/* Time left */}
-        <Text style={[Texts.HeadS,{color:Colors.Purple}]}>{obj.time_left}</Text>
-        <Text style={Texts.BodyLight}>hr left</Text>
+        <Text style={[styles.time,Texts.HeadS,{color:Colors.Purple}]}>{obj.time_left}</Text>
+        <Text style={[styles.leftText,Texts.BodyLight]}>hr left</Text>
         {/* Extend Button (disabled when registered time reach 24hr) */}
         <TouchableOpacity 
             style={ obj.regtime < 24? styles.extendButton : styles.extendButtonGrey } 
@@ -37,7 +48,7 @@ return(
                 [setVisitorId(obj.id),setVisitorRegtime(obj.regtime),showPop('ExtendParking')]: null;      
             }}
         >
-            <Text style={[Texts.HeadS,{color: obj.regtime < 24? Colors.Purple : Colors.Lightgrey}]}>Extend</Text>
+            <Text style={[Texts.HeadS,{color: obj.regtime < 24? Colors.Purple : Colors.Darkgrey}]}>Extend</Text>
         </TouchableOpacity>
         {/* Remove Button */}
         <TouchableOpacity 
@@ -50,26 +61,39 @@ return(
         }}>
             <Text style={[Texts.HeadS,{color:'#fff'}]}>Remove</Text>
         </TouchableOpacity>
-    </View> 
+    </Animated.View> 
 )
 }
 
 
 
 function AddButton(props){
+    const [addOp] = useState(new Animated.Value(0));
+    useEffect(()=>{
+        Animated.timing(
+        addOp,
+        {
+            toValue: 1,
+            duration: 200
+        }
+        ).start();
+    },[props.visitorNum]);
+
 return(
-    <TouchableOpacity 
-        style={styles.Box2} 
-        onPress={() => {
-            props.showPop('AddVisitor'); 
-            }}>
-        <Image 
-            resizeMode='contain' 
-            source={require('../../img/add-visi.png')} 
-            style={styles.Img}
-        />
-        <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
-  </TouchableOpacity> 
+    <Animated.View style={{opacity: addOp}}>
+      <TouchableOpacity
+            style={styles.addBut} 
+            onPress={() => {
+                props.showPop('AddVisitor'); 
+                }}>
+            <Image 
+                resizeMode='contain' 
+                source={require('../../img/add-visi.png')} 
+                style={styles.Img}
+            />
+            <Text style={[Texts.BodyLight,styles.add,{color:Colors.Purple}]}>Add Visitor</Text>
+    </TouchableOpacity> 
+  </Animated.View>
 )
 }
 
@@ -124,7 +148,7 @@ return(
                     })
                 }
                 {/* Add Button only shows when there are less then 2 visitors */}
-                { props.visitorNum < 2 ? <AddButton showPop = {props.showPop}/> : null }
+                { props.visitorNum < 2 ? <AddButton showPop = {props.showPop} visitorNum = {props.visitorNum}/> : null }
             </View>
 
         </View>
