@@ -40,6 +40,8 @@ function Main(props){
     const [reportSubject, setReportSubject] = useState('');
     const [reportDate, setReportDate] = useState('');
     const [reportBody, setReportBody] = useState('');
+    const [reportUnit, setReportUnit] = useState('');
+    
     
 
 
@@ -245,6 +247,10 @@ function Main(props){
                 reportBody = {reportBody}
                 getTenantReports = {getTenantReports}
                 setTenantReports = {setTenantReports}
+                setReportSubject = {setReportSubject}
+                setReportDate = {setReportDate}
+                setReportBody = {setReportBody}
+                setReportUnit = {setReportUnit}
                 />;
         props.setSafebg(true);
     }
@@ -289,6 +295,8 @@ function Main(props){
                     reportBody = {reportBody}
                     getTenantReports = {getTenantReports}
                     setTenantReports = {setTenantReports}
+                    reportUnit = {reportUnit}
+                    setReportSubject = {setReportSubject}
 
                      />;                 
              }

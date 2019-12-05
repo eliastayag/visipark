@@ -411,6 +411,11 @@ function Popup(props){
   }
 
 
+  useEffect(()=>{
+    props.getTenantReports();
+  },[]);
+  
+
   // ------  Building Manager Reports Popup --------
   if (props.pop == 'Reports'){
     title = "Tenant Report";
@@ -430,18 +435,18 @@ function Popup(props){
     content = ( 
       
       <View>
-  <Text style={[Texts.Body]}>Subject: Someone parked sideways</Text>
+  {/* <Text style={[Texts.Body]}>Subject: Someone parked sideways</Text> */}
 
-        <Text style={[Texts.Body]}>Date: 2019-12-03</Text>
+        {/* <Text style={[Texts.Body]}>Date: 2019-12-03</Text>
         <Text style={[Texts.Body,{marginBottom: 30}]}>From: Unit 101</Text>
         <Text style={[Texts.BodyBold]}>Message:</Text>
-        <Text style={[Texts.Body]}>A grew truck parked sideways and took up 3 parking spots... his plate is 123 ADC. please fix this issue.</Text>
-  {/* <Text style={[Texts.Body]}>Subject: {props.reportSubject}</Text>
+        <Text style={[Texts.Body]}>A grew truck parked sideways and took up 3 parking spots... his plate is 123 ADC. please fix this issue.</Text> */}
+  <Text style={[Texts.Body]}>Subject: {props.reportSubject}</Text>
 
         <Text style={[Texts.Body]}>Date: {props.reportDate}</Text>
-        <Text style={[Texts.Body,{marginBottom: 30}]}>From: Unit {props.tenantNum}</Text>
+        <Text style={[Texts.Body,{marginBottom: 30}]}>From: Unit {props.reportUnit}</Text>
         <Text style={[Texts.BodyBold]}>Message:</Text>
-        <Text style={[Texts.Body]}>{props.reportBody}</Text> */}
+        <Text style={[Texts.Body]}>{props.reportBody}</Text>
       </View>
     );
   }

@@ -53,6 +53,10 @@ const [cont, setCont] = useState ('Tenants');
                         reportBody = {props.reportBody}
                         getTenantReports = {props.getTenantReports}
                         setTenantReports = {props.setTenantReports}
+                        setReportSubject = {props.setReportSubject}
+                        setReportDate = {props.setReportDate}
+                        setReportBody = {props.setReportBody}
+                        setReportUnit = {props.setReportUnit}
     />
 
     tenantimg = require('../img/ppl-grey.png')
