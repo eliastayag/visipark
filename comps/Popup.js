@@ -70,7 +70,7 @@ function Popup(props){
     content = (
       <View>
         <Text style={[Texts.Body,{marginBottom:20}]}>
-          1. Each apartment is allowed to have <Text style={Texts.BodyBold}>maximum 2 visitor vehicles </Text>parked in the visitor parking lot at the same time. 
+          1. Each apartment is allowed to have <Text style={[Texts.BodyBold]}>maximum 2 visitor vehicles </Text>parked in the visitor parking lot at the same time. 
         </Text>
         <Text style={[Texts.Body,{marginBottom:20}]}>
           2. Each visitor’s vehicle is allowed to park in visitor parking for a consecutive duration of <Text style={Texts.BodyBold}>24 hours.</Text></Text>
@@ -175,7 +175,7 @@ function Popup(props){
             onBlur = {()=>{setStrk2(0)}}
             onChangeText = {(txt)=>{props.visitorPlate !==''? props.setVisitorPlate(txt):setPlate(txt)}}
           />
-          <Text style={Texts.Body}>Parking duration (max 24hr):</Text>
+          <Text style={Texts.Body}>Parking duration <Text style={Texts.BodyBold}>(max 24hr)</Text>:</Text>
           <View style={{flexDirection:'row',alignItems:'center', justifyContent: 'center'}}>  
             <Picker 
                 style={{width: 130, marginRight: 20}}

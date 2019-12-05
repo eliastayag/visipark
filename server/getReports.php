@@ -19,6 +19,7 @@ function getReports(){
     SELECT id, unit_num, DATE(created), subject, message 
     FROM reports
     WHERE deleted = 0
+    ORDER BY id DESC
     ";
     return runQuery($sql);
 }
