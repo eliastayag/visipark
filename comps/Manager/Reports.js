@@ -14,7 +14,16 @@ function ReportCard(props){
 
   return(
     
-     <TouchableOpacity onPress={() => {props.showPop('Reports')}}>
+     <TouchableOpacity onPress={() => {
+       
+       props.setReportSubject(props.item.subject);
+       props.setReportDate(props.item.date);
+       props.setReportBody(props.item.message);
+       props.setReportUnit(props.item.unit_num);
+       props.showPop('Reports')
+       
+       
+       }}>
           <View style={[styles.card, DropShadows.shadow]}>
           <Text style={[Texts.HeadS,]}>{props.item.subject}</Text>
           <Text style={[Texts.Body,]}>{props.item.date}</Text>
@@ -28,16 +37,12 @@ function ReportCard(props){
 
 function Reports(props){
 
-   const [Tenantreports, setReports] = useState([]);
-  
-  var setTenantReports = async()=>{
-    var reports = await Fetch('getReports', null, null);
-    setReports(reports);
-  }
+
+
 
 useEffect(()=>{
-    setTenantReports();
-})
+  props.getTenantReports();
+},[]);
 
 
     return(
@@ -49,7 +54,7 @@ useEffect(()=>{
 {/* tenants reports starts here */}
 
 <ScrollView style={{marginBottom:72}}>
-                {Tenantreports.map((item, index)=>{
+                {props.tenantReports.map((item, index)=>{
                   return (
                 <ReportCard item={item} pop={props.pop} showPop={props.showPop} item={item}
                             tenantReports = {props.tenantReports}
@@ -58,6 +63,10 @@ useEffect(()=>{
                             reportBody = {props.reportBody}
                             getTenantReports = {props.getTenantReports}
                             setTenantReports = {props.setTenantReports}
+                            setReportSubject = {props.setReportSubject}
+                            setReportDate = {props.setReportDate}
+                            setReportBody = {props.setReportBody}
+                            setReportUnit = {props.setReportUnit}
                 />
                   )
                 })}
