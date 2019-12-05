@@ -34,7 +34,8 @@ var styles = StyleSheet.create({
         height: 180,
         borderRadius: 23,
         borderStyle: "dashed",
-        borderColor: "#CAB2E8",
+        // borderColor: "#CAB2E8",
+        borderColor:'#f542e9',
         borderWidth: 3.1,
     },
 
