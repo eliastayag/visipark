@@ -48,6 +48,7 @@ const [msg, setMsg] = useState('');
             value = {sub}
             onChangeText={text => setSub(text)}
             placeholder = "Subject"
+            placeholderTextColor = "#878787"
             style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
             onFocus = {()=>{setStrk1(2)}}
             onBlur = {()=>{setStrk1(0)}}

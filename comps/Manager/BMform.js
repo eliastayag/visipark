@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import styles from '../../styles/PagesStyles/LoginStyles';
 import Texts from '../../styles/Texts';
+import Colors from '../../styles/Colors';
 
 function BMform(props){
    // Animation 
@@ -37,7 +38,7 @@ function BMform(props){
       <TouchableOpacity
         style={styles.BMForm }
         onPress={()=>{props.setShowpage('Manager')}}>
-        <Text style={{color:"#863AE8", fontFamily:"Poppins-Regular", fontSize:18}}>
+        <Text style={{color:Colors.Purple, fontFamily:"Poppins-Regular", fontSize:18}}>
         Login as Manager
         </Text>
        </TouchableOpacity>

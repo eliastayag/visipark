@@ -1,11 +1,12 @@
 
 import {StyleSheet} from 'react-native';
+import {Colors} from '../Colors';
 
 var styles = StyleSheet.create({
     container: {
         width: "100%",
         height:'100%',
-        backgroundColor: "#863AE8",
+        backgroundColor: Colors.Purple,
         padding:20,
         justifyContent:"space-around"
 
@@ -47,7 +48,7 @@ var styles = StyleSheet.create({
     BMBtn: {
       alignItems: 'center',
       justifyContent:"center",
-      backgroundColor: '#863AE8',
+      backgroundColor: Colors.Purple,
       borderRadius: 25,
       borderWidth: 2,
       borderColor: 'white',
@@ -66,7 +67,7 @@ var styles = StyleSheet.create({
     TenantBtn: {
       alignItems: 'center',
       justifyContent:"center",
-      backgroundColor: '#863AE8',
+      backgroundColor: Colors.Purple,
       borderRadius: 25,
       borderWidth: 2,
       borderColor: 'white',

@@ -64,6 +64,7 @@ useEffect(()=>{
               <View style={styles.SectionStyle}>
                 <TextInput 
                   placeholder="Search Plate Number"
+                  placeholderTextColor = "#878787"
                   style={[styles.searchBar,Texts.FormText]}
                   onChangeText={(value)=>{setSearchKey(value)}}
                   

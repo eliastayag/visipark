@@ -68,7 +68,7 @@ var Texts = StyleSheet.create({
     },
     // history date
     HistoryDate:{
-        fontFamily:'OpenSans-Regular',
+        fontFamily:'OpenSans-Semibold',
         fontSize:14,
         color: Colors.Darkgrey,
         letterSpacing: 0.3,

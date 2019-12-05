@@ -94,10 +94,8 @@ var styles = StyleSheet.create({
     },
     plateEmpty:{
         color: Colors.Purple
-    }    ,  
-    plateEmptyGrey:{
-        color: 'lightgrey'
-    },
+    },  
+
     plateActive: {
         fontFamily:'OpenSans-Bold',
         fontSize:16,

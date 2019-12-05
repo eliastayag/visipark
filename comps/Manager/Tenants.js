@@ -22,7 +22,7 @@ function TenantCard(props){
 if (props.item.activated == 0){
   // display greyed out 'add plate'
   plate = 
-    <Text style={[Texts.BodyBold,styles.plateEmptyGrey]}>Add Plate</Text>
+    <Text style={[Texts.BodyBold, {color:Colors.Darkgrey}]}>Add Plate</Text>
 } else{
   // if a unit is active
   if (props.item.plate==null || props.item.plate==''){
@@ -34,7 +34,7 @@ if (props.item.activated == 0){
           props.setTenantNum(props.item.num);
           props.showPop("UnitProfile");
       }}>
-        <Text style={[Texts.BodyBold,styles.plateEmpty]}>Add Plate</Text>
+        <Text style={[Texts.BodyBold,styles.plateActive]}>Add Plate</Text>
       </TouchableOpacity>
   } else {
     // There is tenant plate
@@ -59,8 +59,8 @@ if (props.item.activated == 0){
       {plate}
       {/* swtich */}
       <Switch 
-        style={styles.tenantSwitch} 
-        trackColor={{true: Colors.Purple, false: 'grey'}}
+        style={{backgroundColor:Colors.Darkgrey, borderRadius: 16}} 
+        trackColor={{true: Colors.Purple, false: Colors.Darkgrey}}
         value={props.item.activated==1}
         onValueChange={async(value, index) => {
           // switch being turned on - activate unit
@@ -98,7 +98,7 @@ function Tenants(props){
 
   return(
 
-  <TouchableWithoutFeedback onPress = {Keyboard.dissmiss}>
+  // <TouchableWithoutFeedback onPress = {Keyboard.dissmiss}>
 
     <View style={styles.container}>
       {/* Header */}
@@ -110,6 +110,7 @@ function Tenants(props){
         <TextInput 
           style={[styles.searchBar, Texts.FormText]}
           placeholder = "Search Room Number"
+          placeholderTextColor = "#878787"
           clearButtonMode = 'always'
           keyboardType = 'numeric'
           maxLength = {3}
@@ -148,7 +149,7 @@ function Tenants(props){
               
 
     </View>
-  </TouchableWithoutFeedback>
+  // </TouchableWithoutFeedback>
   )
 }
 export default Tenants;

@@ -52,6 +52,7 @@ function History(props) {
           <View style={styles.SectionStyle}>
             <TextInput
               placeholder="search"
+              placeholderTextColor = "#878787"
               style={[styles.searchBar, Texts.FormText]}
               onChangeText={(value) => setSearchKey(value)}
               autoCapitalize='none'

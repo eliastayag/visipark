@@ -51,7 +51,7 @@ function Tform(props){
           storeunit(props.unit);
           props.getUnit();
           }}>
-        <Text style={{color:"#863AE8", fontFamily:"Poppins-Medium", fontSize:18}}>
+        <Text style={{color:Colors.Purple, fontFamily:"Poppins-Medium", fontSize:18}}>
         Login as Tenant
         </Text>
        </TouchableOpacity>

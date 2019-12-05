@@ -153,6 +153,7 @@ function Popup(props){
         <Text style={Texts.Body}>Visitor's name:</Text>
         <TextInput 
             placeholder = "Name"
+            placeholderTextColor = "#878787"
             value = {props.visitorName !==''? props.visitorName: name}
             style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
             clearButtonMode = 'always'
@@ -164,6 +165,7 @@ function Popup(props){
         <Text style={Texts.Body}>Visitor's plate number:</Text>
         <TextInput 
             placeholder = "Plate number"
+            placeholderTextColor = "#878787"
             value = {props.visitorPlate !==''? props.visitorPlate: plate}
             style={[styles.input,Texts.FormText,{borderWidth: strk2}]}
             clearButtonMode = 'always'
@@ -476,6 +478,7 @@ function Popup(props){
         <Text style={[Texts.Body,{marginBottom: 10}]}>Unit <Text style={Texts.BodyBold}>{props.tenantNum}</Text> plate number:</Text>
         <TextInput 
           placeholder = "Plate Number" 
+          placeholderTextColor = "#878787"
           autoCapitalize = "characters"   
           style={[styles.input,Texts.FormText,{borderWidth: strk1}]}
           clearButtonMode = 'always'
