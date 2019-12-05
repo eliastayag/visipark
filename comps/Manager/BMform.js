@@ -27,6 +27,7 @@ function BMform(props){
     <Animated.View style={{opacity: op, width: "90%", marginTop: 10, alignItems:"center"}}>
       <TextInput
       keyboardType = "numeric"
+      secureTextEntry={true}  
       maxLength = {6}
       style={[Texts.FormText,{ padding: 13, borderColor: 'white', borderWidth: 2, borderRadius: 25 , height: 45,  color:'white', margin:20,width:'90%',textAlign: 'center'}]}
       placeholder="Password"
