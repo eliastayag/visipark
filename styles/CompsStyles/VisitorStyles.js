@@ -45,7 +45,7 @@ var styles = StyleSheet.create({
         borderRadius: 23,
         backgroundColor: "#fff",
         borderColor: "#CAB2E8",
-        borderWidth: .2,
+        // borderWidth: .2,
         marginBottom: 20
     },
 
